@@ -121,7 +121,7 @@ class Import(models.TransientModel):
     _transient_max_hours = 12.0
 
     res_model = fields.Char('Model')
-    file = fields.Binary('File', help="File to check and/or import, raw binary (not base64)")
+    file = fields.Binary('File', help="File to check and/or import, raw binary (not base64)", attachment=False)
     file_name = fields.Char('File Name')
     file_type = fields.Char('File Type')
 
@@ -224,7 +224,6 @@ class Import(models.TransientModel):
         # TODO: cache on model?
         return importable_fields
 
-    @api.multi
     def _read_file(self, options):
         """ Dispatch to specific method to read file content, according to its mimetype or file type
             :param options : dict of reading options (quoting, separator, ...)
@@ -262,7 +261,6 @@ class Import(models.TransientModel):
             raise ImportError(_("Unable to load \"{extension}\" file: requires Python module \"{modname}\"").format(extension=file_extension, modname=req))
         raise ValueError(_("Unsupported file format \"{}\", import only supports CSV, ODS, XLS and XLSX").format(self.file_type))
 
-    @api.multi
     def _read_xls(self, options):
         """ Read file content, using xlrd lib """
         book = xlrd.open_workbook(file_contents=self.file or b'')
@@ -271,15 +269,15 @@ class Import(models.TransientModel):
     def _read_xls_book(self, book):
         sheet = book.sheet_by_index(0)
         # emulate Sheet.get_rows for pre-0.9.4
-        for row in pycompat.imap(sheet.row, range(sheet.nrows)):
+        for rowx, row in enumerate(map(sheet.row, range(sheet.nrows)), 1):
             values = []
-            for cell in row:
+            for colx, cell in enumerate(row, 1):
                 if cell.ctype is xlrd.XL_CELL_NUMBER:
                     is_float = cell.value % 1 != 0.0
                     values.append(
-                        pycompat.text_type(cell.value)
+                        str(cell.value)
                         if is_float
-                        else pycompat.text_type(int(cell.value))
+                        else str(int(cell.value))
                     )
                 elif cell.ctype is xlrd.XL_CELL_DATE:
                     is_datetime = cell.value % 1 != 0.0
@@ -294,9 +292,11 @@ class Import(models.TransientModel):
                     values.append(u'True' if cell.value else u'False')
                 elif cell.ctype is xlrd.XL_CELL_ERROR:
                     raise ValueError(
-                        _("Error cell found while reading XLS/XLSX file: %s") %
-                        xlrd.error_text_from_code.get(
-                            cell.value, "unknown error code %s" % cell.value)
+                        _("Invalid cell value at row %(row)s, column %(col)s: %(cell_value)s") % {
+                            'row': rowx,
+                            'col': colx,
+                            'cell_value': xlrd.error_text_from_code.get(cell.value, _("unknown error code %s") % cell.value)
+                        }
                     )
                 else:
                     values.append(cell.value)
@@ -306,7 +306,6 @@ class Import(models.TransientModel):
     # use the same method for xlsx and xls files
     _read_xlsx = _read_xls
 
-    @api.multi
     def _read_ods(self, options):
         """ Read file content using ODSReader custom lib """
         doc = odf_ods_reader.ODSReader(file=io.BytesIO(self.file or b''))
@@ -317,7 +316,6 @@ class Import(models.TransientModel):
             if any(x for x in row if x.strip())
         )
 
-    @api.multi
     def _read_csv(self, options):
         """ Returns a CSV-parsed iterator of all non-empty lines in the file
             :throws csv.Error: if an error is detected during CSV parsing
@@ -568,7 +566,6 @@ class Import(models.TransientModel):
             matches[index] = match_field or None
         return headers, matches
 
-    @api.multi
     def parse_preview(self, options, count=10):
         """ Generates a preview of the uploaded files, and performs
             fields-matching between the import's file data and the model's
@@ -609,6 +606,17 @@ class Import(models.TransientModel):
                 has_relational_match = any(len(match) > 1 for field, match in matches.items() if match)
                 advanced_mode = has_relational_header or has_relational_match
 
+            batch = False
+            batch_cutoff = options.get('limit')
+            if batch_cutoff:
+                if count > batch_cutoff:
+                    batch = len(preview) > batch_cutoff
+                else:
+                    batch = bool(next(
+                        itertools.islice(rows, batch_cutoff - count, None),
+                        None
+                    ))
+
             return {
                 'fields': fields,
                 'matches': matches or False,
@@ -618,6 +626,7 @@ class Import(models.TransientModel):
                 'options': options,
                 'advanced_mode': advanced_mode,
                 'debug': self.user_has_groups('base.group_no_one'),
+                'batch': batch,
             }
         except Exception as error:
             # Due to lazy generators, UnicodeDecodeError (for
@@ -665,13 +674,15 @@ class Import(models.TransientModel):
         if options.get('headers'):
             rows_to_import = itertools.islice(rows_to_import, 1, None)
         data = [
-            list(row) for row in pycompat.imap(mapper, rows_to_import)
+            list(row) for row in map(mapper, rows_to_import)
             # don't try inserting completely empty rows (e.g. from
             # filtering out o2m fields)
             if any(row)
         ]
 
-        return data, import_fields
+        # slicing needs to happen after filtering out empty rows as the
+        # data offsets from load are post-filtering
+        return data[options.get('skip'):], import_fields
 
     @api.model
     def _remove_currency_symbol(self, value):
@@ -709,6 +720,16 @@ class Import(models.TransientModel):
             if not line[index]:
                 continue
             thousand_separator, decimal_separator = self._infer_separators(line[index], options)
+
+            if 'E' in line[index] or 'e' in line[index]:
+                tmp_value = line[index].replace(thousand_separator, '.')
+                try:
+                    tmp_value = '{:f}'.format(float(tmp_value))
+                    line[index] = tmp_value
+                    thousand_separator = ' '
+                except Exception:
+                    pass
+
             line[index] = line[index].replace(thousand_separator, '').replace(decimal_separator, '.')
             old_value = line[index]
             line[index] = self._remove_currency_symbol(line[index])
@@ -744,7 +765,6 @@ class Import(models.TransientModel):
         decimal_separator = options.get('float_decimal_separator', '.')
         return thousand_separator, decimal_separator
 
-    @api.multi
     def _parse_import_data(self, data, import_fields, options):
         """ Lauch first call to _parse_import_data_recursive with an
         empty prefix. _parse_import_data_recursive will be run
@@ -752,7 +772,6 @@ class Import(models.TransientModel):
         """
         return self._parse_import_data_recursive(self.res_model, '', data, import_fields, options)
 
-    @api.multi
     def _parse_import_data_recursive(self, model, prefix, data, import_fields, options):
         # Get fields of type date/datetime
         all_fields = self.env[model].fields_get()
@@ -771,8 +790,7 @@ class Import(models.TransientModel):
                 # We should be able to manage both case
                 index = import_fields.index(name)
                 self._parse_float_from_data(data, index, name, options)
-            # DON'T Forward port in >= saas-12.2
-            elif field['type'] == 'binary' and (field.get('attachment') or field.get('manual')) and any(f in name for f in IMAGE_FIELDS) and name in import_fields:
+            elif field['type'] == 'binary' and field.get('attachment') and any(f in name for f in IMAGE_FIELDS) and name in import_fields:
                 index = import_fields.index(name)
 
                 with requests.Session() as session:
@@ -860,7 +878,6 @@ class Import(models.TransientModel):
                 'error': e
             })
 
-    @api.multi
     def do(self, fields, columns, options, dryrun=False):
         """ Actual execution of the import
 
@@ -894,7 +911,7 @@ class Import(models.TransientModel):
             return {
                 'messages': [{
                     'type': 'error',
-                    'message': pycompat.text_type(error),
+                    'message': str(error),
                     'record': False,
                 }]
             }
@@ -902,7 +919,8 @@ class Import(models.TransientModel):
         _logger.info('importing %d rows...', len(data))
 
         name_create_enabled_fields = options.pop('name_create_enabled_fields', {})
-        model = self.env[self.res_model].with_context(import_file=True, name_create_enabled_fields=name_create_enabled_fields)
+        import_limit = options.pop('limit', None)
+        model = self.env[self.res_model].with_context(import_file=True, name_create_enabled_fields=name_create_enabled_fields, _import_limit=import_limit)
         import_result = model.load(import_fields, data)
         _logger.info('done')
 
@@ -941,6 +959,22 @@ class Import(models.TransientModel):
                             'column_name': column_name,
                             'field_name': fields[index]
                         })
+        if 'name' in import_fields:
+            index_of_name = import_fields.index('name')
+            skipped = options.get('skip', 0)
+            # pad front as data doesn't contain anythig for skipped lines
+            r = import_result['name'] = [''] * skipped
+            # only add names for the window being imported
+            r.extend(x[index_of_name] for x in data[:import_limit])
+            # pad back (though that's probably not useful)
+            r.extend([''] * (len(data) - (import_limit or 0)))
+        else:
+            import_result['name'] = []
+
+        skip = options.get('skip', 0)
+        # convert load's internal nextrow to the imported file's
+        if import_result['nextrow']: # don't update if nextrow = 0 (= no nextrow)
+            import_result['nextrow'] += skip
 
         return import_result
 

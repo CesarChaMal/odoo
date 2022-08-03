@@ -1,18 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * iap
+# 	* iap
 # 
 # Translators:
-# Martin Trigaux, 2018
+# Martin Trigaux, 2019
 # Léonie Bouchat <lbo@odoo.com>, 2019
+# Stefano Consolaro <stefano.consolaro@mymage.it>, 2019
 # Sergio Zanchetta <primes2h@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-08-08 13:34+0000\n"
-"PO-Revision-Date: 2018-08-24 09:19+0000\n"
+"POT-Creation-Date: 2020-04-27 09:22+0000\n"
+"PO-Revision-Date: 2019-08-26 09:11+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/odoo/teams/41243/it/)\n"
 "MIME-Version: 1.0\n"
@@ -33,36 +34,28 @@ msgstr "Token account"
 
 #. module: iap
 #. openerp-web
-#: code:addons/iap/static/src/js/crash_manager.js:23
+#: code:addons/iap/static/src/js/crash_manager.js:0
+#: code:addons/iap/static/src/xml/iap_templates.xml:0
 #, python-format
-msgid "Buy credits at Odoo"
-msgstr "Acquista crediti su Odoo"
+msgid "Buy credits"
+msgstr "Acquista crediti"
 
 #. module: iap
 #. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:41
-#, python-format
-msgid "Buy more credits"
-msgstr "Acquista altri crediti"
-
-#. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/js/crash_manager.js:61
+#: code:addons/iap/static/src/js/crash_manager.js:0
 #, python-format
 msgid "Cancel"
 msgstr "Annulla"
 
 #. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:28
-#, python-format
-msgid "Checking remaining credit ..."
-msgstr "Controllo del credito residuo..."
-
-#. module: iap
-#: model:ir.model.fields,field_description:iap.field_iap_account__company_id
+#: model:ir.model.fields,field_description:iap.field_iap_account__company_ids
 msgid "Company"
 msgstr "Azienda"
+
+#. module: iap
+#: model:ir.model,name:iap.model_res_config_settings
+msgid "Config Settings"
+msgstr "Impostazioni di configurazione"
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__create_uid
@@ -103,29 +96,20 @@ msgid "ID"
 msgstr "ID"
 
 #. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:21
-#, python-format
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
 msgid "In-App Purchases"
 msgstr "Acquisti integrati"
 
 #. module: iap
 #. openerp-web
-#: code:addons/iap/static/src/js/crash_manager.js:51
+#: code:addons/iap/static/src/js/crash_manager.js:0
 #, python-format
 msgid "Insufficient Balance"
 msgstr "Saldo insufficiente"
 
 #. module: iap
 #. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:31
-#, python-format
-msgid "Insufficient credit"
-msgstr "Credito insufficiente"
-
-#. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:14
+#: code:addons/iap/static/src/xml/iap_templates.xml:0
 #, python-format
 msgid "Insufficient credit to perform this service."
 msgstr "Credito insufficiente per l'esecuzione di questo servizio."
@@ -146,11 +130,14 @@ msgid "Last Updated on"
 msgstr "Ultimo aggiornamento il"
 
 #. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:34
-#, python-format
-msgid "Remaining :"
-msgstr "Residuo:"
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
+msgid "Odoo IAP"
+msgstr "Acquisti integrati Odoo"
+
+#. module: iap
+#: model:ir.actions.server,name:iap.open_iap_account
+msgid "Open IAP Account"
+msgstr "Apri account acquisti integrati"
 
 #. module: iap
 #: model:ir.model.fields,field_description:iap.field_iap_account__service_name
@@ -159,31 +146,27 @@ msgstr "Nome servizio"
 
 #. module: iap
 #. openerp-web
-#: code:addons/iap/static/src/js/crash_manager.js:23
+#: code:addons/iap/static/src/js/crash_manager.js:0
 #, python-format
 msgid "Start a Trial at Odoo"
 msgstr "Inizia una prova con Odoo"
 
 #. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:37
-#, python-format
-msgid "Temporarily unavailable"
-msgstr "Temporaneamente non disponibile"
-
-#. module: iap
-#: code:addons/iap/models/iap.py:72
+#: code:addons/iap/models/iap.py:0
 #, python-format
 msgid ""
 "The url that this service requested returned an error. Please contact the "
-"author the app. The url it tried to contact was %s"
+"author of the app. The url it tried to contact was %s"
 msgstr ""
 "L'URL richiesto dal servizio ha restituito un errore, contattare l'autore "
 "dell'applicazione. URL richiesto dal servizio: %s"
 
 #. module: iap
-#. openerp-web
-#: code:addons/iap/static/src/xml/iap_templates.xml:34
-#, python-format
-msgid "credits"
-msgstr "crediti"
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
+msgid "View My Services"
+msgstr "Visualizza servizi"
+
+#. module: iap
+#: model_terms:ir.ui.view,arch_db:iap.res_config_settings_view_form
+msgid "View your IAP Services and recharge your credits"
+msgstr "Visualizza servizi di acquisto integrati e ricarica crediti"

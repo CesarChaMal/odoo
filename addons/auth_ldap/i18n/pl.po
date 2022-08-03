@@ -1,23 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * auth_ldap
+# 	* auth_ldap
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Piotr Szlązak <szlazakpiotr@gmail.com>, 2018
-# Slawomir Adamus <melthalion@gmail.com>, 2018
-# Marcin Młynarczyk <mlynarczyk@gmail.com>, 2018
-# Andrzej Donczew <a.donczew@hadron.eu.com>, 2018
-# Maja Stawicka <mjstwck@wp.pl>, 2018
-# Maksym <ms@myodoo.pl>, 2018
+# Martin Trigaux, 2019
+# Piotr Szlązak <szlazakpiotr@gmail.com>, 2019
+# Slawomir Adamus <melthalion@gmail.com>, 2019
+# Marcin Młynarczyk <mlynarczyk@gmail.com>, 2019
+# Andrzej Donczew <a.donczew@hadron.eu.com>, 2019
+# Maja Stawicka <mjstwck@wp.pl>, 2019
+# Maksym <ms@myodoo.pl>, 2019
 # Piotr Strębski <strebski@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 08:20+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-08-12 11:32+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Piotr Strębski <strebski@gmail.com>, 2021\n"
 "Language-Team: Polish (https://www.transifex.com/odoo/teams/41243/pl/)\n"
 "MIME-Version: 1.0\n"
@@ -148,7 +148,7 @@ msgid "Login Information"
 msgstr "Informacje o logowaniu"
 
 #. module: auth_ldap
-#: code:addons/auth_ldap/models/res_company_ldap.py:201
+#: code:addons/auth_ldap/models/res_company_ldap.py:202
 #, python-format
 msgid "No local user found for LDAP login and not configured to create one"
 msgstr ""

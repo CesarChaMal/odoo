@@ -1,17 +1,17 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * im_livechat_mail_bot
+# 	* im_livechat_mail_bot
 # 
 # Translators:
-# Martin Trigaux, 2018
+# Martin Trigaux, 2019
 # Ivan Yelizariev <yelizariev@it-projects.info>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-02 10:05+0000\n"
-"PO-Revision-Date: 2018-08-24 09:20+0000\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:11+0000\n"
 "Last-Translator: Ivan Yelizariev <yelizariev@it-projects.info>, 2020\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -21,12 +21,7 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Disabled"
-msgstr "отключено"
-
-#. module: im_livechat_mail_bot
-#: code:addons/im_livechat_mail_bot/models/mail_bot.py:18
+#: code:addons/im_livechat_mail_bot/models/mail_bot.py:0
 #, python-format
 msgid ""
 "Good, you can customize canned responses in the live chat "
@@ -38,22 +33,12 @@ msgstr ""
 "Odoo!"
 
 #. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Idle"
-msgstr "Холостой ход"
-
-#. module: im_livechat_mail_bot
 #: model:ir.model,name:im_livechat_mail_bot.model_mail_bot
 msgid "Mail Bot"
 msgstr "Почтовый бот"
 
 #. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Not initialized"
-msgstr "НЕ инициализирован"
-
-#. module: im_livechat_mail_bot
-#: code:addons/im_livechat_mail_bot/models/mail_bot.py:21
+#: code:addons/im_livechat_mail_bot/models/mail_bot.py:0
 #, python-format
 msgid ""
 "Not sure wat you are doing. Please press : and wait for the propositions. "
@@ -68,32 +53,12 @@ msgid "OdooBot Status"
 msgstr "статус OdooBot"
 
 #. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Onboarding attachement"
-msgstr "входящее прикрепления"
-
-#. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
+#: model:ir.model.fields.selection,name:im_livechat_mail_bot.selection__res_users__odoobot_state__onboarding_canned
 msgid "Onboarding canned"
 msgstr "входные автоматические"
 
 #. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Onboarding command"
-msgstr "входная команда"
-
-#. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Onboarding emoji"
-msgstr "встроенные emoji"
-
-#. module: im_livechat_mail_bot
-#: selection:res.users,odoobot_state:0
-msgid "Onboarding ping"
-msgstr "встроенные ping"
-
-#. module: im_livechat_mail_bot
-#: code:addons/im_livechat_mail_bot/models/mail_bot.py:15
+#: code:addons/im_livechat_mail_bot/models/mail_bot.py:0
 #, python-format
 msgid "That's me! 🎉<br/>Try to type \":\" to use canned responses."
 msgstr ""

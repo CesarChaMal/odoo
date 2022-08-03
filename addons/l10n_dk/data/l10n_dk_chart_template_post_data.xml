@@ -12,5 +12,6 @@
         <field name="property_stock_valuation_account_id" ref="a6530"/>
         <field name="income_currency_exchange_account_id" ref="a4670"/>
         <field name="expense_currency_exchange_account_id" ref="a4770"/>
+        <field name="default_pos_receivable_account_id" ref="a6611"/>
     </record>
 </odoo>

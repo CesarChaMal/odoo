@@ -119,9 +119,126 @@ class TestFiscalPosition(common.TransactionCase):
         self.fr_b2b_state = self.fr_b2b.copy(dict(state_ids=[(4, self.state_fr.id)], sequence=70))
         george.state_id = self.state_fr
         assert_fp(george, self.fr_b2b_zip100, "FR-B2B with zip should have precedence over states")
-        george.zip = 0
+        george.zip = False
         assert_fp(george, self.fr_b2b_state, "FR-B2B with states should have precedence")
 
         # Dedicated position has max precedence
         george.property_account_position_id = self.be_nat
         assert_fp(george, self.be_nat, "Forced position has max precedence")
+
+
+    def test_20_fp_one_tax_2m(self):
+
+        self.src_tax = self.env['account.tax'].create({'name': "SRC", 'amount': 0.0})
+        self.dst1_tax = self.env['account.tax'].create({'name': "DST1", 'amount': 0.0})
+        self.dst2_tax = self.env['account.tax'].create({'name': "DST2", 'amount': 0.0})
+
+        self.fp2m = self.fp.create({
+            'name': "FP-TAX2TAXES",
+            'tax_ids': [
+                (0,0,{
+                    'tax_src_id': self.src_tax.id,
+                    'tax_dest_id': self.dst1_tax.id
+                }),
+                (0,0,{
+                    'tax_src_id': self.src_tax.id,
+                    'tax_dest_id': self.dst2_tax.id
+                })
+            ]
+        })
+        mapped_taxes = self.fp2m.map_tax(self.src_tax)
+
+        self.assertEqual(mapped_taxes, self.dst1_tax | self.dst2_tax)
+
+    def test_30_fp_delivery_address(self):
+        # Make sure the billing company is from Belgium (within the EU)
+        self.env.company.vat = 'BE0477472701'
+        self.env.company.country_id = self.be.id
+
+        # Reset any existing FP
+        self.fp.search([]).write({'auto_apply': False})
+
+        # Create the fiscal positions
+        be_nat = self.fp.create({
+            'name': 'Régime National',
+            'auto_apply': True,
+            'country_id': self.be.id,
+            'vat_required': True,
+            'sequence': 10
+        })
+        eu_priv = self.fp.create({
+            'name': 'EU privé',
+            'auto_apply': True,
+            'country_group_id': self.eu.id,
+            'vat_required': False,
+            'sequence': 20
+        })
+        eu_intra = self.fp.create({
+            'name': 'Régime Intra-Communautaire',
+            'auto_apply': True,
+            'country_group_id': self.eu.id,
+            'vat_required': True,
+            'sequence': 30
+        })
+        eu_extra = self.fp.create({
+            'name': 'Régime Extra-Communautaire',
+            'auto_apply': True,
+            'vat_required': False,
+            'sequence': 40
+        })
+
+        # Create the partners
+        be_vat = self.res_partner.create({
+            'name': 'BE VAT',
+            'vat': 'BE0477472701',
+            'country_id': self.env.ref('base.be').id
+        })
+        nl_vat = self.res_partner.create({
+            'name': 'NL VAT',
+            'vat': 'NL123456782B90',
+            'country_id': self.env.ref('base.nl').id
+        })
+        nl_no_vat = self.res_partner.create({
+            'name': 'NL NO VAT',
+            'country_id': self.env.ref('base.nl').id
+        })
+        us_no_vat = self.res_partner.create({
+            'name': 'US NO VAT',
+            'country_id': self.env.ref('base.us').id
+        })
+
+        # Case : 1
+        # Billing (VAT/country) : BE/BE
+        # Delivery (VAT/country) : NL/NL
+        # Expected FP : Régime National
+        self.assertEqual(self.fp.get_fiscal_position(be_vat.id, nl_vat.id), be_nat.id)
+
+        # Case : 2
+        # Billing (VAT/country) : NL/NL
+        # Delivery (VAT/country) : BE/BE
+        # Expected FP : Régime National
+        self.assertEqual(self.fp.get_fiscal_position(nl_vat.id, be_vat.id), be_nat.id)
+
+        # Case : 3
+        # Billing (VAT/country) : BE/BE
+        # Delivery (VAT/country) : None/NL
+        # Expected FP : Régime National
+        self.assertEqual(self.fp.get_fiscal_position(be_vat.id, nl_no_vat.id), be_nat.id)
+
+        # Case : 4
+        # Billing (VAT/country) : NL/NL
+        # Delivery (VAT/country) : NL/NL
+        # Expected FP : Régime Intra-Communautaire
+        self.assertEqual(self.fp.get_fiscal_position(nl_vat.id, nl_vat.id), eu_intra.id)
+
+        # Case : 5
+        # Billing (VAT/country) : None/NL
+        # Delivery (VAT/country) : None/NL
+        # Expected FP : EU privé
+        self.assertEqual(self.fp.get_fiscal_position(nl_no_vat.id, nl_no_vat.id), eu_priv.id)
+
+        # Case : 6
+        # Billing (VAT/country) : None/US
+        # Delivery (VAT/country) : None/US
+        # Expected FP : Régime Extra-Communautaire
+        self.assertEqual(self.fp.get_fiscal_position(us_no_vat.id, us_no_vat.id), eu_extra.id)

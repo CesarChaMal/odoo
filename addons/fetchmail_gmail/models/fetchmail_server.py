@@ -9,9 +9,9 @@ class FetchmailServer(models.Model):
     _name = 'fetchmail.server'
     _inherit = ['fetchmail.server', 'google.gmail.mixin']
 
-    @api.constrains('use_google_gmail_service', 'type')
+    @api.constrains('use_google_gmail_service', 'server_type')
     def _check_use_google_gmail_service(self):
-        if any(server.use_google_gmail_service and server.type != 'imap' for server in self):
+        if any(server.use_google_gmail_service and server.server_type != 'imap' for server in self):
             raise UserError(_('Gmail authentication only supports IMAP server type.'))
 
     @api.onchange('use_google_gmail_service')
@@ -19,7 +19,7 @@ class FetchmailServer(models.Model):
         """Set the default configuration for a IMAP Gmail server."""
         if self.use_google_gmail_service:
             self.server = 'imap.gmail.com'
-            self.type = 'imap'
+            self.server_type = 'imap'
             self.is_ssl = True
             self.port = 993
         else:

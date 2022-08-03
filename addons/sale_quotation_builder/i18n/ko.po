@@ -1,20 +1,17 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sale_quotation_builder
+# 	* sale_quotation_builder
 # 
 # Translators:
-# Link Up링크업 <linkup.way@gmail.com>, 2018
-# Seongseok Shin <shinss61@hotmail.com>, 2018
-# Martin Trigaux, 2018
-# Linkup <link-up@naver.com>, 2018
+# Martin Trigaux, 2019
 # JH CHOI <hwangtog@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 08:21+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
+"POT-Creation-Date: 2019-08-26 08:17+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
 "Last-Translator: JH CHOI <hwangtog@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/odoo/teams/41243/ko/)\n"
 "MIME-Version: 1.0\n"
@@ -24,16 +21,9 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "&amp;times;"
-msgstr "&amp; 번"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid ""
-",\n"
-"                an awesome"
-msgstr ""
+msgstr "&amp;times;"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -85,6 +75,11 @@ msgid "About us"
 msgstr "회사 소개"
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "An awesome"
+msgstr "멋진"
+
+#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid ""
 "As a leading professional services firm,\n"
@@ -96,14 +91,9 @@ msgstr ""
 "                                알고 있습니다."
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
-msgid "Back"
-msgstr "뒤로"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "Close"
-msgstr "마감"
+msgstr "닫기"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_res_config_settings
@@ -112,8 +102,8 @@ msgstr "설정 구성"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_template_view_form_inherit_sale_quotation_builder
-msgid "Edit Template"
-msgstr "서식 편집"
+msgid "Design Template"
+msgstr "디자인 서식"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -144,11 +134,6 @@ msgstr ""
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Odoo"
-msgstr "Odoo"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
 msgid "Open Source CRM"
 msgstr "오픈 소스 CRM"
 
@@ -160,22 +145,17 @@ msgstr "선택 상품 :"
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid "Our Offer"
-msgstr "우리의 제안"
+msgstr "제안"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid "Our Quality"
-msgstr "우리의 품질"
+msgstr "품질"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid "Our Service"
 msgstr "서비스"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Powered by"
-msgstr "제공자"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -185,7 +165,7 @@ msgstr "가격"
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_product_template
 msgid "Product Template"
-msgstr "상품 양식"
+msgstr "상품 서식"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -199,19 +179,22 @@ msgstr ""
 "                                끊임없이 중점을 두고 그것을 구축합니다."
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
 msgid "Product:"
 msgstr "상품 :"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_description
 msgid "Quotation Description"
 msgstr "견적 설명"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_only_description
 msgid "Quotation Only Description"
-msgstr "견적용 설명"
+msgstr "견적 전용 설명"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order_template
@@ -235,26 +218,28 @@ msgstr "판매 선택 사항"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order
-msgid "Sale Order"
+msgid "Sales Order"
 msgstr "판매 주문"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "판매 주문 라인"
+msgstr "판매 주문 명세"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
 msgid "Terms &amp; Conditions"
-msgstr "약관"
+msgstr "이용 약관"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_sale_order_template_line__website_description
 msgid "The quotation description (not used on eCommerce)"
 msgstr "견적 설명 (전자 상거래에 사용되지 않음)"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_description
 msgid ""
 "This field uses the Quotation Only Description if it is defined, otherwise "
@@ -273,6 +258,11 @@ msgstr ""
 "                                 환경 설정 / 견적 서식 메뉴를 사용하여\n"
 "                         <i>판매</i> 응용 프로그램의 필요에 맞게 \n"
 "                                 사용자 정의해야 합니다."
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+msgid "This is a preview of the sale order template."
+msgstr "판매 주문 서식의 미리보기입니다."
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -318,3 +308,8 @@ msgstr ""
 "                           견적을 자동으로 작성합니다. \n"
 "                           왼쪽의 목차는 설명에 사용한 스타일(heading 1, heading 2, ...)을 \n"
 "                           사용하여  자동으로 생성됩니다."
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "portal"
+msgstr "포털"

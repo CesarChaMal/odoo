@@ -217,7 +217,7 @@ class GoogleCalendar(models.AbstractModel):
         reminders = []
         for alarm in event.alarm_ids:
             reminders.append({
-                "method": "email" if alarm.type == "email" else "popup",
+                "method": "email" if alarm.alarm_type == "email" else "popup",
                 "minutes": alarm.duration_minutes
             })
         data = {
@@ -290,7 +290,15 @@ class GoogleCalendar(models.AbstractModel):
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         url = "/calendar/v3/calendars/%s/events/%s" % ('primary', event_id)
 
-        return self.env['google.service']._do_request(url, params, headers, type='DELETE')
+        try:
+            response = self.env['google.service']._do_request(url, params, headers, type='DELETE')
+        except requests.HTTPError as e:
+            # For some unknown reason Google can also return a 403 response when the event is already cancelled.
+            if e.response.status_code != 403:
+                raise e
+            _logger.info("Could not delete Google event %s" % event_id)
+            return False
+        return response
 
     def get_calendar_primary_id(self):
         """ In google calendar, you can have multiple calendar. But only one is
@@ -385,13 +393,18 @@ class GoogleCalendar(models.AbstractModel):
         data['sequence'] = google_event.get('sequence', 0)
         data_json = json.dumps(data)
 
-        status, content, ask_time = self.env['google.service']._do_request(url, data_json, headers, type='PATCH')
+        try:
+            status, content, ask_time = self.env['google.service']._do_request(url, data_json, headers, type='PATCH')
+            update_date = datetime.strptime(content['updated'], "%Y-%m-%dT%H:%M:%S.%fz")
+            oe_event.write({'oe_update_date': update_date})
 
-        update_date = datetime.strptime(content['updated'], "%Y-%m-%dT%H:%M:%S.%fz")
-        oe_event.write({'oe_update_date': update_date})
-
-        if self.env.context.get('curr_attendee'):
-            self.env['calendar.attendee'].browse(self.env.context['curr_attendee']).write({'oe_synchro_date': update_date})
+            if self.env.context.get('curr_attendee'):
+                self.env['calendar.attendee'].browse(self.env.context['curr_attendee']).write(
+                    {'oe_synchro_date': update_date})
+        except requests.HTTPError as e:
+            if e.response.status_code != 403:
+                raise e
+            _logger.info("Could not update Google event %s" % google_event['id'])
 
     def update_an_event(self, event):
         data = self.generate_data(event)
@@ -481,7 +494,6 @@ class GoogleCalendar(models.AbstractModel):
                 if not attendee:
                     data = {
                         'email': partner_email,
-                        'customer': False,
                         'name': google_attendee.get("displayName", False) or partner_email
                     }
                     attendee = ResPartner.create(data)
@@ -493,13 +505,13 @@ class GoogleCalendar(models.AbstractModel):
         for google_alarm in single_event_dict.get('reminders', {}).get('overrides', []):
             alarm = CalendarAlarm.search(
                 [
-                    ('type', '=', google_alarm['method'] if google_alarm['method'] == 'email' else 'notification'),
+                    ('alarm_type', '=', google_alarm['method'] if google_alarm['method'] == 'email' else 'notification'),
                     ('duration_minutes', '=', google_alarm['minutes'])
                 ], limit=1
             )
             if not alarm:
                 data = {
-                    'type': google_alarm['method'] if google_alarm['method'] == 'email' else 'notification',
+                    'alarm_type': google_alarm['method'] if google_alarm['method'] == 'email' else 'notification',
                     'duration': google_alarm['minutes'],
                     'interval': 'minutes',
                     'name': "%s minutes - %s" % (google_alarm['minutes'], google_alarm['method'])
@@ -588,7 +600,7 @@ class GoogleCalendar(models.AbstractModel):
         for user_to_sync in users.ids:
             _logger.info("Calendar Synchro - Starting synchronization for a new user [%s]", user_to_sync)
             try:
-                resp = self.sudo(user_to_sync).synchronize_events(lastSync=True)
+                resp = self.with_user(user_to_sync).synchronize_events(lastSync=True)
                 if resp.get("status") == "need_reset":
                     _logger.info("[%s] Calendar Synchro - Failed - NEED RESET  !", user_to_sync)
                 else:
@@ -604,7 +616,7 @@ class GoogleCalendar(models.AbstractModel):
         user_to_sync = self.ids and self.ids[0] or self.env.uid
         current_user = self.env['res.users'].sudo().browse(user_to_sync)
 
-        recs = self.sudo(user_to_sync)
+        recs = self.with_user(user_to_sync)
         status, current_google, ask_time = recs.get_calendar_primary_id()
         if current_user.google_calendar_cal_id:
             if current_google != current_user.google_calendar_cal_id:
@@ -911,7 +923,7 @@ class GoogleCalendar(models.AbstractModel):
                             recs.delete_an_event(current_event[0])
                         except requests.exceptions.HTTPError as e:
                             if e.response.status_code in (401, 410,):
-                                pass
+                                _logger.info("Google event %s already deleted or never created" % current_event[0])
                             else:
                                 raise e
                     elif actSrc == 'OE':
@@ -990,7 +1002,7 @@ class GoogleCalendar(models.AbstractModel):
         return datetime.now() - timedelta(weeks=int(number_of_week))
 
     def get_need_synchro_attendee(self):
-        return self.env['ir.config_parameter'].sudo().get_param('calendar.block_synchro_attendee', default=True)
+        return not (self.env['ir.config_parameter'].sudo().get_param('calendar.block_synchro_attendee', default=False) == 'True')
 
     def get_disable_since_synchro(self):
         return self.env['ir.config_parameter'].sudo().get_param('calendar.block_since_synchro', default=False)

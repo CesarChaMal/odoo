@@ -2,13 +2,14 @@
 
 from odoo import api, fields, models, _
 from odoo.osv import expression
-from odoo.tools import float_is_zero, pycompat
+from odoo.tools import float_is_zero
 from odoo.tools import float_compare, float_round, float_repr
 from odoo.tools.misc import formatLang, format_date
 from odoo.exceptions import UserError, ValidationError
 
 import time
 import math
+import base64
 
 class AccountCashboxLine(models.Model):
     """ Cash Box Details """
@@ -17,16 +18,17 @@ class AccountCashboxLine(models.Model):
     _rec_name = 'coin_value'
     _order = 'coin_value'
 
-    @api.one
     @api.depends('coin_value', 'number')
     def _sub_total(self):
         """ Calculates Sub total"""
-        self.subtotal = self.coin_value * self.number
+        for cashbox_line in self:
+            cashbox_line.subtotal = cashbox_line.coin_value * cashbox_line.number
 
     coin_value = fields.Float(string='Coin/Bill Value', required=True, digits=0)
-    number = fields.Integer(string='Number of Coins/Bills', help='Opening Unit Numbers')
+    number = fields.Integer(string='#Coins/Bills', help='Opening Unit Numbers')
     subtotal = fields.Float(compute='_sub_total', string='Subtotal', digits=0, readonly=True)
     cashbox_id = fields.Many2one('account.bank.statement.cashbox', string="Cashbox")
+    currency_id = fields.Many2one('res.currency', related='cashbox_id.currency_id')
 
 
 class AccountBankStmtCashWizard(models.Model):
@@ -35,23 +37,63 @@ class AccountBankStmtCashWizard(models.Model):
     """
     _name = 'account.bank.statement.cashbox'
     _description = 'Bank Statement Cashbox'
+    _rec_name = 'id'
 
     cashbox_lines_ids = fields.One2many('account.cashbox.line', 'cashbox_id', string='Cashbox Lines')
+    start_bank_stmt_ids = fields.One2many('account.bank.statement', 'cashbox_start_id')
+    end_bank_stmt_ids = fields.One2many('account.bank.statement', 'cashbox_end_id')
+    total = fields.Float(compute='_compute_total')
+    currency_id = fields.Many2one('res.currency', compute='_compute_currency')
 
-    @api.multi
-    def validate(self):
-        bnk_stmt_id = self.env.context.get('bank_statement_id', False) or self.env.context.get('active_id', False)
-        bnk_stmt = self.env['account.bank.statement'].browse(bnk_stmt_id)
-        total = 0.0
-        for lines in self.cashbox_lines_ids:
-            total += lines.subtotal
-        if self.env.context.get('balance', False) == 'start':
-            #starting balance
-            bnk_stmt.write({'balance_start': total, 'cashbox_start_id': self.id})
-        else:
-            #closing balance
-            bnk_stmt.write({'balance_end_real': total, 'cashbox_end_id': self.id})
-        return {'type': 'ir.actions.act_window_close'}
+    @api.depends('start_bank_stmt_ids', 'end_bank_stmt_ids')
+    def _compute_currency(self):
+        for cashbox in self:
+            cashbox.currency_id = False
+            if cashbox.end_bank_stmt_ids:
+                cashbox.currency_id = cashbox.end_bank_stmt_ids[0].currency_id
+            if cashbox.start_bank_stmt_ids:
+                cashbox.currency_id = cashbox.start_bank_stmt_ids[0].currency_id
+
+    @api.depends('cashbox_lines_ids', 'cashbox_lines_ids.coin_value', 'cashbox_lines_ids.number')
+    def _compute_total(self):
+        for cashbox in self:
+            cashbox.total = sum([line.subtotal for line in cashbox.cashbox_lines_ids])
+
+    @api.model
+    def default_get(self, fields):
+        vals = super(AccountBankStmtCashWizard, self).default_get(fields)
+        balance = self.env.context.get('balance')
+        statement_id = self.env.context.get('statement_id')
+        if 'start_bank_stmt_ids' in fields and not vals.get('start_bank_stmt_ids') and statement_id and balance == 'start':
+            vals['start_bank_stmt_ids'] = [(6, 0, [statement_id])]
+        if 'end_bank_stmt_ids' in fields and not vals.get('end_bank_stmt_ids') and statement_id and balance == 'close':
+            vals['end_bank_stmt_ids'] = [(6, 0, [statement_id])]
+
+        return vals
+
+    def name_get(self):
+        result = []
+        for cashbox in self:
+            result.append((cashbox.id, _("%s")%(cashbox.total)))
+        return result
+
+    @api.model_create_multi
+    def create(self, vals):
+        cashboxes = super(AccountBankStmtCashWizard, self).create(vals)
+        cashboxes._validate_cashbox()
+        return cashboxes
+
+    def write(self, vals):
+        res = super(AccountBankStmtCashWizard, self).write(vals)
+        self._validate_cashbox()
+        return res
+
+    def _validate_cashbox(self):
+        for cashbox in self:
+            if cashbox.start_bank_stmt_ids:
+                cashbox.start_bank_stmt_ids.write({'balance_start': cashbox.total})
+            if cashbox.end_bank_stmt_ids:
+                cashbox.end_bank_stmt_ids.write({'balance_end_real': cashbox.total})
 
 
 class AccountBankStmtCloseCheck(models.TransientModel):
@@ -61,7 +103,6 @@ class AccountBankStmtCloseCheck(models.TransientModel):
     _name = 'account.bank.statement.closebalance'
     _description = 'Bank Statement Closing Balance'
 
-    @api.multi
     def validate(self):
         bnk_stmt_id = self.env.context.get('active_id', False)
         if bnk_stmt_id:
@@ -71,27 +112,30 @@ class AccountBankStmtCloseCheck(models.TransientModel):
 
 class AccountBankStatement(models.Model):
 
-    @api.one
     @api.depends('line_ids', 'balance_start', 'line_ids.amount', 'balance_end_real')
     def _end_balance(self):
-        self.total_entry_encoding = sum([line.amount for line in self.line_ids])
-        self.balance_end = self.balance_start + self.total_entry_encoding
-        self.difference = self.balance_end_real - self.balance_end
+        for statement in self:
+            statement.total_entry_encoding = sum([line.amount for line in statement.line_ids])
+            statement.balance_end = statement.balance_start + statement.total_entry_encoding
+            statement.difference = statement.balance_end_real - statement.balance_end
 
-    @api.multi
     def _is_difference_zero(self):
         for bank_stmt in self:
             bank_stmt.is_difference_zero = float_is_zero(bank_stmt.difference, precision_digits=bank_stmt.currency_id.decimal_places)
 
-    @api.one
     @api.depends('journal_id')
     def _compute_currency(self):
-        self.currency_id = self.journal_id.currency_id or self.company_id.currency_id
+        for statement in self:
+            statement.currency_id = statement.journal_id.currency_id or statement.company_id.currency_id
 
-    @api.one
     @api.depends('line_ids.journal_entry_ids')
     def _check_lines_reconciled(self):
-        self.all_lines_reconciled = all([line.journal_entry_ids.ids or line.account_id.id for line in self.line_ids if not self.currency_id.is_zero(line.amount)])
+        for statement in self:
+            statement.all_lines_reconciled = all(
+                line.journal_entry_ids.ids or line.account_id.id
+                for line in statement.line_ids
+                if not statement.currency_id.is_zero(line.amount)
+            )
 
     @api.depends('move_line_ids')
     def _get_move_line_count(self):
@@ -101,21 +145,19 @@ class AccountBankStatement(models.Model):
     @api.model
     def _default_journal(self):
         journal_type = self.env.context.get('journal_type', False)
-        company_id = self.env['res.company']._company_default_get('account.bank.statement').id
+        company_id = self.env.company.id
         if journal_type:
             journals = self.env['account.journal'].search([('type', '=', journal_type), ('company_id', '=', company_id)])
             if journals:
                 return journals[0]
         return self.env['account.journal']
 
-    @api.multi
     def _get_opening_balance(self, journal_id):
         last_bnk_stmt = self.search([('journal_id', '=', journal_id)], limit=1)
         if last_bnk_stmt:
             return last_bnk_stmt.balance_end
         return 0
 
-    @api.multi
     def _set_opening_balance(self, journal_id):
         self.balance_start = self._get_opening_balance(journal_id)
 
@@ -136,17 +178,17 @@ class AccountBankStatement(models.Model):
     reference = fields.Char(string='External Reference', states={'open': [('readonly', False)]}, copy=False, readonly=True, help="Used to hold the reference of the external mean that created this statement (name of imported file, reference of online synchronization...)")
     date = fields.Date(required=True, states={'confirm': [('readonly', True)]}, index=True, copy=False, default=fields.Date.context_today)
     date_done = fields.Datetime(string="Closed On")
-    balance_start = fields.Monetary(string='Starting Balance', states={'confirm': [('readonly', True)]}, default=_default_opening_balance)
-    balance_end_real = fields.Monetary('Ending Balance', states={'confirm': [('readonly', True)]})
+    balance_start = fields.Monetary(string='Starting Balance', states={'confirm': [('readonly', True)]}, default=_default_opening_balance, tracking=True)
+    balance_end_real = fields.Monetary('Ending Balance', states={'confirm': [('readonly', True)]}, tracking=True)
     accounting_date = fields.Date(string="Accounting Date", help="If set, the accounting entries created during the bank statement reconciliation process will be created at this date.\n"
         "This is useful if the accounting period in which the entries should normally be booked is already closed.",
         states={'open': [('readonly', False)]}, readonly=True)
-    state = fields.Selection([('open', 'New'), ('confirm', 'Validated')], string='Status', required=True, readonly=True, copy=False, default='open')
-    currency_id = fields.Many2one('res.currency', compute='_compute_currency', oldname='currency', string="Currency")
+    state = fields.Selection([('open', 'New'), ('confirm', 'Validated')], string='Status', required=True, readonly=True, copy=False, default='open', tracking=True)
+    currency_id = fields.Many2one('res.currency', compute='_compute_currency', string="Currency")
     journal_id = fields.Many2one('account.journal', string='Journal', required=True, states={'confirm': [('readonly', True)]}, default=_default_journal)
-    journal_type = fields.Selection(related='journal_id.type', help="Technical field used for usability purposes", readonly=False)
+    journal_type = fields.Selection(related='journal_id.type', help="Technical field used for usability purposes")
     company_id = fields.Many2one('res.company', related='journal_id.company_id', string='Company', store=True, readonly=True,
-        default=lambda self: self.env['res.company']._company_default_get('account.bank.statement'))
+        default=lambda self: self.env.company)
 
     total_entry_encoding = fields.Monetary('Transactions Subtotal', compute='_end_balance', store=True, help="Total of transaction lines.")
     balance_end = fields.Monetary('Computed Balance', compute='_end_balance', store=True, help='Balance as calculated based on Opening Balance and transaction lines')
@@ -166,7 +208,6 @@ class AccountBankStatement(models.Model):
     def onchange_journal_id(self):
         self._set_opening_balance(self.journal_id.id)
 
-    @api.multi
     def _balance_check(self):
         for stmt in self:
             if not stmt.currency_id.is_zero(stmt.difference):
@@ -179,7 +220,7 @@ class AccountBankStatement(models.Model):
                         account = stmt.journal_id.profit_account_id
                         name = _('Profit')
                     if not account:
-                        raise UserError(_('There is no account defined on the journal %s for %s involved in a cash difference.') % (stmt.journal_id.name, name))
+                        raise UserError(_('Please go on the %s journal and define a %s Account. This account will be used to record cash difference.') % (stmt.journal_id.name, name))
 
                     values = {
                         'statement_id': stmt.id,
@@ -195,8 +236,8 @@ class AccountBankStatement(models.Model):
                         % (balance_end_real, balance_end))
         return True
 
-    @api.multi
     def unlink(self):
+
         for statement in self:
             if statement.state != 'open':
                 raise UserError(_('In order to delete a bank statement, you must first cancel it to delete related journal items.'))
@@ -204,24 +245,31 @@ class AccountBankStatement(models.Model):
             statement.line_ids.unlink()
         return super(AccountBankStatement, self).unlink()
 
-    @api.multi
     def open_cashbox_id(self):
+        self.ensure_one()
         context = dict(self.env.context or {})
-        if context.get('cashbox_id'):
-            context['active_id'] = self.id
-            return {
+        if context.get('balance'):
+            context['statement_id'] = self.id
+            if context['balance'] == 'start':
+                cashbox_id = self.cashbox_start_id.id
+            elif context['balance'] == 'close':
+                cashbox_id = self.cashbox_end_id.id
+            else:
+                cashbox_id = False
+
+            action = {
                 'name': _('Cash Control'),
-                'view_type': 'form',
                 'view_mode': 'form',
                 'res_model': 'account.bank.statement.cashbox',
-                'view_id': self.env.ref('account.view_account_bnk_stmt_cashbox').id,
+                'view_id': self.env.ref('account.view_account_bnk_stmt_cashbox_footer').id,
                 'type': 'ir.actions.act_window',
-                'res_id': self.env.context.get('cashbox_id'),
+                'res_id': cashbox_id,
                 'context': context,
                 'target': 'new'
             }
 
-    @api.multi
+            return action
+
     def check_confirm_bank(self):
         if self.journal_type == 'cash' and not self.currency_id.is_zero(self.difference):
             action_rec = self.env['ir.model.data'].xmlid_to_object('account.action_view_account_bnk_stmt_check')
@@ -230,7 +278,6 @@ class AccountBankStatement(models.Model):
                 return action
         return self.button_confirm_bank()
 
-    @api.multi
     def button_confirm_bank(self):
         self._balance_check()
         statements = self.filtered(lambda r: r.state == 'open')
@@ -251,13 +298,21 @@ class AccountBankStatement(models.Model):
             if moves:
                 moves.filtered(lambda m: m.state != 'posted').post()
             statement.message_post(body=_('Statement %s confirmed, journal items were created.') % (statement.name,))
+            if statement.journal_id.type == 'bank':
+                # Attach report to the Bank statement
+                content, content_type = self.env.ref('account.action_report_account_statement').render_qweb_pdf(statement.id)
+                self.env['ir.attachment'].create({
+                    'name': statement.name and _("Bank Statement %s.pdf") % statement.name or _("Bank Statement.pdf"),
+                    'type': 'binary',
+                    'datas': base64.encodebytes(content),
+                    'res_model': statement._name,
+                    'res_id': statement.id
+                })
         statements.write({'state': 'confirm', 'date_done': time.strftime("%Y-%m-%d %H:%M:%S")})
 
-    @api.multi
     def button_journal_entries(self):
         return {
             'name': _('Journal Entries'),
-            'view_type': 'form',
             'view_mode': 'tree,form',
             'res_model': 'account.move',
             'view_id': False,
@@ -268,7 +323,6 @@ class AccountBankStatement(models.Model):
             }
         }
 
-    @api.multi
     def button_open(self):
         """ Changes statement state to Running."""
         for statement in self:
@@ -282,6 +336,25 @@ class AccountBankStatement(models.Model):
                 statement.name = st_number
             statement.state = 'open'
 
+    def button_reopen(self):
+        self.state = 'open'
+
+    def action_bank_reconcile_bank_statements(self):
+        self.ensure_one()
+        limit = int(self.env["ir.config_parameter"].sudo().get_param("account.reconcile.batch", 1000))
+        bank_stmt_lines = self.env['account.bank.statement.line'].search([
+            ('statement_id', 'in', self.ids),
+            # take not reconciled lines only. See _check_lines_reconciled method
+            ('account_id', '=', False),
+            ('journal_entry_ids', '=', False),
+            ('amount', '!=', 0),
+        ], limit=limit)
+        return {
+            'type': 'ir.actions.client',
+            'tag': 'bank_statement_reconciliation_view',
+            'context': {'statement_line_ids': bank_stmt_lines.ids, 'company_ids': self.mapped('company_id').ids},
+        }
+
 
 class AccountBankStatementLine(models.Model):
     _name = "account.bank.statement.line"
@@ -290,7 +363,7 @@ class AccountBankStatementLine(models.Model):
 
     name = fields.Char(string='Label', required=True)
     date = fields.Date(required=True, default=lambda self: self._context.get('date', fields.Date.context_today(self)))
-    amount = fields.Monetary(digits=0, currency_field='journal_currency_id')
+    amount = fields.Monetary(currency_field='journal_currency_id')
     journal_currency_id = fields.Many2one('res.currency', string="Journal's Currency", related='statement_id.currency_id',
         help='Utility field to express amount currency', readonly=True)
     partner_id = fields.Many2one('res.partner', string='Partner')
@@ -305,6 +378,7 @@ class AccountBankStatementLine(models.Model):
              " when the partner doesn't exist yet in the database (or cannot be found).")
     ref = fields.Char(string='Reference')
     note = fields.Text(string='Notes')
+    transaction_type = fields.Char(string='Transaction Type')
     sequence = fields.Integer(index=True, help="Gives the sequence order when displaying a list of bank statement lines.", default=1)
     company_id = fields.Many2one('res.company', related='statement_id.company_id', string='Company', store=True, readonly=True)
     journal_entry_ids = fields.One2many('account.move.line', 'statement_line_id', 'Journal Items', copy=False, readonly=True)
@@ -315,19 +389,20 @@ class AccountBankStatementLine(models.Model):
         default=False, copy=False,
         help="Technical field holding the number given to the journal entry, automatically set when the statement line is reconciled then stored to set the same number again if the line is cancelled, set to draft and re-processed again.")
 
-    @api.one
     @api.constrains('amount')
     def _check_amount(self):
-        # Allow to enter bank statement line with an amount of 0,
-        # so that user can enter/import the exact bank statement they have received from their bank in Odoo
-        if self.journal_id.type != 'bank' and self.currency_id.is_zero(self.amount):
-            raise ValidationError(_('The amount of a cash transaction cannot be 0.'))
+        for line in self:
+            # Allow to enter bank statement line with an amount of 0,
+            # so that user can enter/import the exact bank statement they have received from their bank in Odoo
+            currency = line.currency_id or line.journal_currency_id
+            if line.journal_id.type != 'bank' and currency.is_zero(line.amount):
+                raise ValidationError(_('The amount of a cash transaction cannot be 0.'))
 
-    @api.one
     @api.constrains('amount', 'amount_currency')
     def _check_amount_currency(self):
-        if self.amount_currency != 0 and self.amount == 0:
-            raise ValidationError(_('If "Amount Currency" is specified, then "Amount" must be as well.'))
+        for line in self:
+            if line.amount_currency != 0 and line.amount == 0:
+                raise ValidationError(_('If "Amount Currency" is specified, then "Amount" must be as well.'))
 
     @api.constrains('currency_id', 'journal_id')
     def _check_currency_id(self):
@@ -353,14 +428,12 @@ class AccountBankStatementLine(models.Model):
         line.amount = line.amount
         return line
 
-    @api.multi
     def unlink(self):
         for line in self:
             if line.journal_entry_ids.ids:
                 raise UserError(_('In order to delete a bank statement line, you must first cancel it to delete related journal items.'))
         return super(AccountBankStatementLine, self).unlink()
 
-    @api.multi
     def button_cancel_reconciliation(self):
         aml_to_unbind = self.env['account.move.line']
         aml_to_cancel = self.env['account.move.line']
@@ -386,8 +459,9 @@ class AccountBankStatementLine(models.Model):
         if aml_to_cancel:
             aml_to_cancel.remove_move_reconcile()
             moves_to_cancel = aml_to_cancel.mapped('move_id')
+            moves_to_cancel.button_draft()
             moves_to_cancel.button_cancel()
-            moves_to_cancel.unlink()
+            moves_to_cancel.with_context(force_delete=True).unlink()
         if payment_to_cancel:
             payment_to_cancel.unlink()
 
@@ -396,7 +470,6 @@ class AccountBankStatementLine(models.Model):
     ####################################################
 
     def _get_common_sql_query(self, overlook_partner = False, excluded_ids = None, split = False):
-        acc_type = "acc.reconcile = true"
         select_clause = "SELECT aml.id "
         from_clause = "FROM account_move_line aml JOIN account_account acc ON acc.id = aml.account_id "
         account_clause = ''
@@ -405,7 +478,7 @@ class AccountBankStatementLine(models.Model):
         where_clause = """WHERE aml.company_id = %(company_id)s
                           AND (
                                     """ + account_clause + """
-                                    ("""+acc_type+""" AND aml.reconciled = false)
+                                    (acc.reconcile = true AND aml.reconciled IS NOT TRUE)
                           )"""
         where_clause = where_clause + ' AND aml.partner_id = %(partner_id)s' if self.partner_id else where_clause
         where_clause = where_clause + ' AND aml.id NOT IN %(excluded_ids)s' if excluded_ids else where_clause
@@ -424,8 +497,11 @@ class AccountBankStatementLine(models.Model):
         if self.ref:
             ref = move_ref + ' - ' + self.ref if move_ref else self.ref
         data = {
+            'type': 'entry',
             'journal_id': self.statement_id.journal_id.id,
+            'currency_id': self.statement_id.currency_id.id,
             'date': self.statement_id.accounting_date or self.date,
+            'partner_id': self.partner_id.id,
             'ref': ref,
         }
         if self.move_name:
@@ -469,12 +545,18 @@ class AccountBankStatementLine(models.Model):
         # last case is company in currency A, statement in currency A and transaction in currency A
         # and in this case counterpart line does not need any second currency nor amount_currency
 
+        # Check if default_debit or default_credit account are properly configured
+        account_id = amount >= 0 \
+            and self.statement_id.journal_id.default_credit_account_id.id \
+            or self.statement_id.journal_id.default_debit_account_id.id
+
+        if not account_id:
+            raise UserError(_('No default debit and credit account defined on journal %s (ids: %s).' % (self.statement_id.journal_id.name, self.statement_id.journal_id.ids)))
+
         aml_dict = {
             'name': self.name,
             'partner_id': self.partner_id and self.partner_id.id or False,
-            'account_id': amount >= 0 \
-                and self.statement_id.journal_id.default_credit_account_id.id \
-                or self.statement_id.journal_id.default_debit_account_id.id,
+            'account_id': account_id,
             'credit': amount < 0 and -amount or 0.0,
             'debit': amount > 0 and amount or 0.0,
             'statement_line_id': self.id,
@@ -485,7 +567,6 @@ class AccountBankStatementLine(models.Model):
             aml_dict['move_id'] = move.id
         return aml_dict
 
-    @api.multi
     def fast_counterpart_creation(self):
         """This function is called when confirming a bank statement and will allow to automatically process lines without
         going in the bank reconciliation widget. By setting an account_id on bank statement lines, it will create a journal
@@ -538,18 +619,61 @@ class AccountBankStatementLine(models.Model):
 
         # Creates
         payment_ids = self.env['account.payment'].create(payment_list)
-        for payment_id, move_vals in pycompat.izip(payment_ids, move_list):
+        for payment_id, move_vals in zip(payment_ids, move_list):
             for line in move_vals['line_ids']:
                 line[2]['payment_id'] = payment_id.id
         move_ids = self.env['account.move'].create(move_list)
         move_ids.post()
 
-        for move, st_line, payment in pycompat.izip(move_ids, self.browse(managed_st_line), payment_ids):
+        for move, st_line, payment in zip(move_ids, self.browse(managed_st_line), payment_ids):
             st_line.write({'move_name': move.name})
             payment.write({'payment_reference': move.name})
 
     def _get_communication(self, payment_method_id):
         return self.name or ''
+
+    def _prepare_payment_vals(self, total):
+        """ Prepare the dict of values to create the payment from a statement line. This method may be overridden for update dict
+            through model inheritance (make sure to call super() to establish a clean extension chain).
+
+           :param float total: will be used as the amount of the generated payment
+           :return: dict of value to create() the account.payment
+        """
+        self.ensure_one()
+        partner_type = False
+        if self.partner_id:
+            if total < 0:
+                partner_type = 'supplier'
+            else:
+                partner_type = 'customer'
+        if not partner_type and self.env.context.get('default_partner_type'):
+            partner_type = self.env.context['default_partner_type']
+        currency = self.journal_id.currency_id or self.company_id.currency_id
+        payment_methods = (total > 0) and self.journal_id.inbound_payment_method_ids or self.journal_id.outbound_payment_method_ids
+        return {
+            'payment_method_id': payment_methods and payment_methods[0].id or False,
+            'payment_type': total > 0 and 'inbound' or 'outbound',
+            'partner_id': self.partner_id.id,
+            'partner_type': partner_type,
+            'journal_id': self.statement_id.journal_id.id,
+            'payment_date': self.date,
+            'state': 'reconciled',
+            'currency_id': currency.id,
+            'amount': abs(total),
+            'communication': self._get_communication(payment_methods[0] if payment_methods else False),
+            'name': self.statement_id.name or _("Bank Statement %s") %  self.date,
+        }
+
+    def _find_or_create_bank_account(self):
+        bank_account = self.env['res.partner.bank'].search(
+            [('company_id', '=', self.company_id.id), ('acc_number', '=', self.account_number)])
+        if not bank_account:
+            bank_account = self.env['res.partner.bank'].create({
+                'acc_number': self.account_number,
+                'partner_id': self.partner_id.id,
+                'company_id': self.company_id.id,
+            })
+        return bank_account
 
     def process_reconciliation(self, counterpart_aml_dicts=None, payment_aml_rec=None, new_aml_dicts=None):
         """ Match statement lines with existing payments (eg. checks) and/or payables/receivables (eg. invoices and credit notes) and/or new move lines (eg. write-offs).
@@ -575,12 +699,14 @@ class AccountBankStatementLine(models.Model):
                 - 'account_id'
                 - (optional) 'tax_ids'
                 - (optional) Other account.move.line fields like analytic_account_id or analytics_id
+                - (optional) 'reconcile_model_id'
 
             :returns: The journal entries with which the transaction was matched. If there was at least an entry in counterpart_aml_dicts or new_aml_dicts, this list contains
                 the move created by the reconciliation, containing entries for the statement.line (1), the counterpart move lines (0..*) and the new move lines (0..*).
         """
         payable_account_type = self.env.ref('account.data_account_type_payable')
         receivable_account_type = self.env.ref('account.data_account_type_receivable')
+        suspense_moves_mode = self._context.get('suspense_moves_mode')
         counterpart_aml_dicts = counterpart_aml_dicts or []
         payment_aml_rec = payment_aml_rec or self.env['account.move.line']
         new_aml_dicts = new_aml_dicts or []
@@ -597,22 +723,26 @@ class AccountBankStatementLine(models.Model):
         if any(rec.statement_id for rec in payment_aml_rec):
             raise UserError(_('A selected move line was already reconciled.'))
         for aml_dict in counterpart_aml_dicts:
-            if aml_dict['move_line'].reconciled:
+            if aml_dict['move_line'].reconciled and not suspense_moves_mode:
                 raise UserError(_('A selected move line was already reconciled.'))
-            if isinstance(aml_dict['move_line'], pycompat.integer_types):
+            if isinstance(aml_dict['move_line'], int):
                 aml_dict['move_line'] = aml_obj.browse(aml_dict['move_line'])
 
         account_types = self.env['account.account.type']
         for aml_dict in (counterpart_aml_dicts + new_aml_dicts):
-            if aml_dict.get('tax_ids') and isinstance(aml_dict['tax_ids'][0], pycompat.integer_types):
+            if aml_dict.get('tax_ids') and isinstance(aml_dict['tax_ids'][0], int):
                 # Transform the value in the format required for One2many and Many2many fields
                 aml_dict['tax_ids'] = [(4, id, None) for id in aml_dict['tax_ids']]
 
             user_type_id = self.env['account.account'].browse(aml_dict.get('account_id')).user_type_id
             if user_type_id in [payable_account_type, receivable_account_type] and user_type_id not in account_types:
                 account_types |= user_type_id
-        if any(line.journal_entry_ids for line in self):
-            raise UserError(_('A selected statement line was already reconciled with an account move.'))
+        if suspense_moves_mode:
+            if any(not line.journal_entry_ids for line in self):
+                raise UserError(_('Some selected statement line were not already reconciled with an account move.'))
+        else:
+            if any(line.journal_entry_ids for line in self):
+                raise UserError(_('A selected statement line was already reconciled with an account move.'))
 
         # Fully reconciled moves are just linked to the bank statement
         total = self.amount
@@ -623,7 +753,7 @@ class AccountBankStatementLine(models.Model):
             total -= aml_currency._convert(balance, currency, aml_rec.company_id, aml_rec.date)
             aml_rec.with_context(check_move_validity=False).write({'statement_line_id': self.id})
             counterpart_moves = (counterpart_moves | aml_rec.move_id)
-            if aml_rec.journal_id.post_at_bank_rec and aml_rec.payment_id and aml_rec.move_id.state == 'draft':
+            if aml_rec.journal_id.post_at == 'bank_rec' and aml_rec.payment_id and aml_rec.move_id.state == 'draft':
                 # In case the journal is set to only post payments when performing bank
                 # reconciliation, we modify its date and post it.
                 aml_rec.move_id.date = self.date
@@ -640,37 +770,21 @@ class AccountBankStatementLine(models.Model):
             # Create the move
             self.sequence = self.statement_id.line_ids.ids.index(self.id) + 1
             move_vals = self._prepare_reconciliation_move(self.statement_id.name)
-            move = self.env['account.move'].create(move_vals)
+            if suspense_moves_mode:
+                self.button_cancel_reconciliation()
+            move = self.env['account.move'].with_context(default_journal_id=move_vals['journal_id']).create(move_vals)
             counterpart_moves = (counterpart_moves | move)
 
             # Create The payment
             payment = self.env['account.payment']
             partner_id = self.partner_id or (aml_dict.get('move_line') and aml_dict['move_line'].partner_id) or self.env['res.partner']
             if abs(total)>0.00001:
-                partner_type = False
-                if partner_id and len(account_types) == 1:
-                    partner_type = 'customer' if account_types == receivable_account_type else 'supplier'
-                if partner_id and not partner_type:
-                    if total < 0:
-                        partner_type = 'supplier'
-                    else:
-                        partner_type = 'customer'
-
-                payment_methods = (total>0) and self.journal_id.inbound_payment_method_ids or self.journal_id.outbound_payment_method_ids
-                currency = self.journal_id.currency_id or self.company_id.currency_id
-                payment = self.env['account.payment'].create({
-                    'payment_method_id': payment_methods and payment_methods[0].id or False,
-                    'payment_type': total >0 and 'inbound' or 'outbound',
-                    'partner_id': partner_id.id,
-                    'partner_type': partner_type,
-                    'journal_id': self.statement_id.journal_id.id,
-                    'payment_date': self.date,
-                    'state': 'reconciled',
-                    'currency_id': currency.id,
-                    'amount': abs(total),
-                    'communication': self._get_communication(payment_methods[0] if payment_methods else False),
-                    'name': self.statement_id.name or _("Bank Statement %s") %  self.date,
-                })
+                payment_vals = self._prepare_payment_vals(total)
+                if not payment_vals['partner_id']:
+                    payment_vals['partner_id'] = partner_id.id
+                if payment_vals['partner_id'] and len(account_types) == 1:
+                    payment_vals['partner_type'] = 'customer' if account_types == receivable_account_type else 'supplier'
+                payment = payment.create(payment_vals)
 
             # Complete dicts to create both counterpart move lines and write-offs
             to_create = (counterpart_aml_dicts + new_aml_dicts)
@@ -700,7 +814,7 @@ class AccountBankStatementLine(models.Model):
 
                 (new_aml | counterpart_move_line).reconcile()
 
-                self._check_invoice_state(counterpart_move_line.invoice_id)
+                self._check_invoice_state(counterpart_move_line.move_id)
 
             # Balance the move
             st_line_amount = -sum([x.balance for x in move.line_ids])
@@ -720,17 +834,11 @@ class AccountBankStatementLine(models.Model):
         if self.account_number and self.partner_id and not self.bank_account_id:
             # Search bank account without partner to handle the case the res.partner.bank already exists but is set
             # on a different partner.
-            bank_account = self.env['res.partner.bank'].search([('company_id', '=', self.company_id.id),('acc_number', '=', self.account_number)])
-            if not bank_account:
-                bank_account = self.env['res.partner.bank'].create({
-                    'acc_number': self.account_number, 'partner_id': self.partner_id.id
-                })
-            self.bank_account_id = bank_account
+            self.bank_account_id = self._find_or_create_bank_account()
 
-        counterpart_moves.assert_balanced()
+        counterpart_moves._check_balanced()
         return counterpart_moves
 
-    @api.multi
     def _prepare_move_line_for_currency(self, aml_dict, date):
         self.ensure_one()
         company_currency = self.journal_id.company_id.currency_id
@@ -761,5 +869,8 @@ class AccountBankStatementLine(models.Model):
             aml_dict['currency_id'] = statement_currency.id
 
     def _check_invoice_state(self, invoice):
-        if invoice.state == 'in_payment' and all([payment.state == 'reconciled' for payment in invoice.mapped('payment_move_line_ids.payment_id')]):
-           invoice.write({'state': 'paid'})
+        if invoice.is_invoice(include_receipts=True):
+            invoice._compute_amount()
+
+    def button_confirm_bank(self):
+        self.statement_id.button_confirm_bank()

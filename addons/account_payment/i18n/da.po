@@ -1,20 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_payment
+# 	* account_payment
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Morten Schou <ms@msteknik.dk>, 2018
-# lhmflexerp <lhm@flexerp.dk>, 2018
-# Sanne Kristensen <sanne@vkdata.dk>, 2018
+# Martin Trigaux, 2019
+# Morten Schou <ms@msteknik.dk>, 2019
+# Sanne Kristensen <sanne@vkdata.dk>, 2019
+# lhmflexerp <lhm@flexerp.dk>, 2019
 # JonathanStein <jstein@image.dk>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-12-05 12:32+0000\n"
+"PO-Revision-Date: 2019-08-26 09:08+0000\n"
 "Last-Translator: JonathanStein <jstein@image.dk>, 2020\n"
 "Language-Team: Danish (https://www.transifex.com/odoo/teams/41243/da/)\n"
 "MIME-Version: 1.0\n"
@@ -122,7 +122,7 @@ msgstr ""
 "Færdig, Din online betaling er blevet korrekt gennemført. Tak for din ordre."
 
 #. module: account_payment
-#: code:addons/account_payment/controllers/payment.py:47
+#: code:addons/account_payment/controllers/payment.py:0
 #, python-format
 msgid ""
 "If we store your payment information on our server, subscription payments "
@@ -132,13 +132,15 @@ msgstr ""
 "abonnementsbetalinger blive foretaget automatisk."
 
 #. module: account_payment
-#: code:addons/account_payment/controllers/payment.py:44
+#: code:addons/account_payment/controllers/payment.py:0
 #, python-format
 msgid "Pay & Confirm"
 msgstr "Betal & bekræft"
 
 #. module: account_payment
-#: code:addons/account_payment/models/payment.py:22
+#: code:addons/account_payment/models/payment.py:0
+#: model_terms:ir.ui.view,arch_db:account_payment.portal_invoice_payment
+#: model_terms:ir.ui.view,arch_db:account_payment.portal_my_invoices_payment
 #, python-format
 msgid "Pay Now"
 msgstr "Betal nu"
@@ -156,7 +158,7 @@ msgstr "Betal med"
 #. module: account_payment
 #: model:ir.model,name:account_payment.model_payment_transaction
 msgid "Payment Transaction"
-msgstr "Betalings transaktion"
+msgstr "Betalingstransaktion"
 
 #. module: account_payment
 #: model_terms:ir.ui.view,arch_db:account_payment.portal_my_invoices_payment

@@ -1,16 +1,16 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * base_gengo
+# 	* base_gengo
 # 
 # Translators:
 # Abu Zafar <azmikbal@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-22 11:11+0000\n"
-"PO-Revision-Date: 2018-08-24 09:16+0000\n"
+"POT-Creation-Date: 2019-11-22 08:19+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Abu Zafar <azmikbal@gmail.com>, 2020\n"
 "Language-Team: Bengali (https://www.transifex.com/odoo/teams/41243/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -67,7 +67,7 @@ msgid "Base Gengo Translations"
 msgstr ""
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__both
 msgid "Both"
 msgstr ""
 
@@ -108,7 +108,7 @@ msgstr ""
 #. module: base_gengo
 #: model:ir.model,name:base_gengo.model_res_company
 msgid "Companies"
-msgstr "কোম্পানিগুলি"
+msgstr "কোম্পানি"
 
 #. module: base_gengo
 #: model:ir.model,name:base_gengo.model_res_config_settings
@@ -118,12 +118,12 @@ msgstr "রূপরেখা নির্ধারণ"
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__create_uid
 msgid "Created by"
-msgstr "প্রস্তুতকারী"
+msgstr "দ্বারা সৃষ্টি"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__create_date
 msgid "Created on"
-msgstr "তৈরিকৃত"
+msgstr "তৈরি"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__display_name
@@ -168,7 +168,7 @@ msgid "Gengo Translation Service Level"
 msgstr ""
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:85
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "Gengo `Public Key` or `Private Key` are missing. Enter your Gengo "
@@ -176,11 +176,18 @@ msgid ""
 msgstr ""
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:96
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "Gengo connection failed with this message:\n"
 "``%s``"
+msgstr ""
+
+#. module: base_gengo
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
+#, python-format
+msgid ""
+"Gengo library not installed. Contact your system administrator to use it."
 msgstr ""
 
 #. module: base_gengo
@@ -245,7 +252,7 @@ msgid "Private Key"
 msgstr ""
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__pro
 msgid "Pro"
 msgstr ""
 
@@ -255,7 +262,7 @@ msgid "Public Key"
 msgstr ""
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__receive
 msgid "Receive Translation"
 msgstr ""
 
@@ -272,12 +279,12 @@ msgid "Send"
 msgstr "পাঠান"
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__send
 msgid "Send New Terms"
 msgstr ""
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__standard
 msgid "Standard"
 msgstr ""
 
@@ -287,7 +294,7 @@ msgid "Sync Type"
 msgstr ""
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:115
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "The number of terms to sync should be between 1 to 200 to work with Gengo "
@@ -308,7 +315,7 @@ msgid ""
 msgstr ""
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:110
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid "This language is not supported by the Gengo translation services."
 msgstr ""
@@ -324,12 +331,12 @@ msgid "Translation"
 msgstr ""
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__machine
 msgid "Translation By Machine"
 msgstr ""
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__ultra
 msgid "Ultra"
 msgstr ""
 

@@ -94,7 +94,6 @@ PKGS_TO_INSTALL="
     python3-passlib \
     python3-libsass \
     python3-qrcode \
-    python3-html2text \
     python3-unittest2 \
     python3-simplejson"
 
@@ -121,6 +120,11 @@ PIP_TO_INSTALL="
     pycups"
 
 pip3 install ${PIP_TO_INSTALL}
+
+# Dowload MPD server and library for Six terminals
+wget 'https://nightly.odoo.com/master/iotbox/eftdvs' -P /usr/local/bin/
+chmod +x /usr/local/bin/eftdvs
+wget 'https://nightly.odoo.com/master/iotbox/eftapi.so' -P /usr/lib/
 
 groupadd usbusers
 usermod -a -G usbusers pi

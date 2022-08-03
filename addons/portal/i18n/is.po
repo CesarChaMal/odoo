@@ -5,14 +5,14 @@
 # Translators:
 # Martin Trigaux, 2018
 # Axel Diego <axel.diego@gmail.com>, 2018
-# Björn Ingvarsson <boi@exigo.is>, 2018
+# Bjorn Ingvarsson <boi@exigo.is>, 2018
 # Birgir Steinarsson <biggboss83@gmail.com>, 2018
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~11.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-07 07:15+0000\n"
+"POT-Creation-Date: 2018-09-21 13:18+0000\n"
 "PO-Revision-Date: 2018-08-24 09:22+0000\n"
 "Last-Translator: Birgir Steinarsson <biggboss83@gmail.com>, 2018\n"
 "Language-Team: Icelandic (https://www.transifex.com/odoo/teams/41243/is/)\n"
@@ -23,24 +23,10 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n % 10 != 1 || n % 100 == 11);\n"
 
 #. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:117
-#, python-format
-msgid ""
-"\n"
-"- Switch the internal users to portal manually"
-msgstr ""
-
-#. module: portal
 #. openerp-web
-#: code:addons/portal/static/src/js/portal_sidebar.js:47
+#: code:addons/portal/static/src/js/portal_sidebar.js:43
 #, python-format
-msgid "%1d days overdue"
-msgstr ""
-
-#. module: portal
-#: code:addons/portal/controllers/portal.py:277
-#, python-format
-msgid "%s is not the reference of a report"
+msgid "%d days overdue"
 msgstr ""
 
 #. module: portal
@@ -51,18 +37,6 @@ msgstr ""
 #. module: portal
 #: model_terms:ir.ui.view,arch_db:portal.portal_back_in_edit_mode
 msgid "<i class=\"fa fa-arrow-right\"/> Back to edit mode"
-msgstr ""
-
-#. module: portal
-#: model_terms:ir.ui.view,arch_db:portal.record_pager
-msgid ""
-"<i class=\"fa fa-chevron-left\" role=\"img\" aria-label=\"Previous\" "
-"title=\"Previous\"/>"
-msgstr ""
-
-#. module: portal
-#: model_terms:ir.ui.view,arch_db:portal.record_pager
-msgid "<i class=\"fa fa-chevron-right\" role=\"img\" aria-label=\"Next\" title=\"Next\"/>"
 msgstr ""
 
 #. module: portal
@@ -178,13 +152,6 @@ msgid ""
 msgstr ""
 
 #. module: portal
-#. openerp-web
-#: code:addons/portal/static/src/xml/portal_signature.xml:19
-#, python-format
-msgid "Accept & Sign"
-msgstr ""
-
-#. module: portal
 #: model:ir.model.fields,field_description:portal.field_portal_mixin__access_warning
 #: model:ir.model.fields,field_description:portal.field_portal_share__access_warning
 msgid "Access warning"
@@ -230,17 +197,9 @@ msgstr "Hætta við"
 
 #. module: portal
 #: code:addons/portal/controllers/portal.py:220
-#: model_terms:ir.ui.view,arch_db:portal.portal_my_details
 #, python-format
 msgid ""
 "Changing VAT number is not allowed once document(s) have been issued for "
-"your account. Please contact us directly for this operation."
-msgstr ""
-
-#. module: portal
-#: model_terms:ir.ui.view,arch_db:portal.portal_my_details
-msgid ""
-"Changing company name is not allowed once document(s) have been issued for "
 "your account. Please contact us directly for this operation."
 msgstr ""
 
@@ -258,7 +217,7 @@ msgstr "Clear"
 
 #. module: portal
 #. openerp-web
-#: code:addons/portal/static/src/xml/portal_signature.xml:28
+#: code:addons/portal/static/src/xml/portal_signature.xml:27
 #, python-format
 msgid "Click here to see your document."
 msgstr ""
@@ -343,14 +302,14 @@ msgstr ""
 
 #. module: portal
 #. openerp-web
-#: code:addons/portal/static/src/js/portal_sidebar.js:45
+#: code:addons/portal/static/src/js/portal_sidebar.js:41
 #, python-format
-msgid "Due in %1d days"
+msgid "Due in %d days"
 msgstr ""
 
 #. module: portal
 #. openerp-web
-#: code:addons/portal/static/src/js/portal_sidebar.js:41
+#: code:addons/portal/static/src/js/portal_sidebar.js:39
 #, python-format
 msgid "Due today"
 msgstr ""
@@ -401,12 +360,6 @@ msgstr ""
 #, python-format
 msgid "Invalid Email! Please enter a valid email address."
 msgstr "Ógilt Tölvupóstur! Vinsamlegast sláðu inn gilt netfang."
-
-#. module: portal
-#: code:addons/portal/controllers/portal.py:272
-#, python-format
-msgid "Invalid report type: %s"
-msgstr ""
 
 #. module: portal
 #: model:ir.model.fields,field_description:portal.field_portal_wizard__welcome_message
@@ -542,7 +495,7 @@ msgstr ""
 
 #. module: portal
 #. openerp-web
-#: code:addons/portal/static/src/js/portal_chatter.js:116
+#: code:addons/portal/static/src/js/portal_chatter.js:109
 #, python-format
 msgid "Published on %s"
 msgstr ""
@@ -589,7 +542,7 @@ msgid "Send"
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:105
+#: code:addons/portal/wizard/portal_wizard.py:100
 #, python-format
 msgid "Several contacts have the same email: "
 msgstr ""
@@ -601,19 +554,13 @@ msgid "Share Document"
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:111
-#, python-format
-msgid "Some contacts are already internal users:"
-msgstr ""
-
-#. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:102
+#: code:addons/portal/wizard/portal_wizard.py:97
 #, python-format
 msgid "Some contacts don't have a valid email: "
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:108
+#: code:addons/portal/wizard/portal_wizard.py:103
 #, python-format
 msgid "Some contacts have the same email as an existing portal user:"
 msgstr ""
@@ -636,7 +583,7 @@ msgstr "Heimili"
 
 #. module: portal
 #. openerp-web
-#: code:addons/portal/static/src/xml/portal_signature.xml:26
+#: code:addons/portal/static/src/xml/portal_signature.xml:25
 #, python-format
 msgid "Thank You !"
 msgstr ""
@@ -646,12 +593,6 @@ msgstr ""
 #: code:addons/portal/static/src/xml/portal_chatter.xml:12
 #, python-format
 msgid "There are no comments for now."
-msgstr ""
-
-#. module: portal
-#: code:addons/portal/controllers/portal.py:237
-#, python-format
-msgid "This document does not exist."
 msgstr ""
 
 #. module: portal
@@ -670,7 +611,7 @@ msgid "This text is included in the email sent to new users of the portal."
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:114
+#: code:addons/portal/wizard/portal_wizard.py:106
 #, python-format
 msgid ""
 "To resolve this error, you can: \n"
@@ -694,30 +635,11 @@ msgid "VAT Number"
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/models/portal_mixin.py:93
-#, python-format
-msgid "View %s"
-msgstr ""
-
-#. module: portal
 #: model:ir.model.fields,field_description:portal.field_account_analytic_account__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_calendar_event__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_event_event__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_event_registration__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_fleet_vehicle__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_fleet_vehicle_log_contract__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_gamification_badge__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_gamification_challenge__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_hr_department__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_hr_employee__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_hr_job__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_mail_blacklist__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_mail_channel__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_mail_thread__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_maintenance_equipment__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_maintenance_equipment_category__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_maintenance_request__website_message_ids
-#: model:ir.model.fields,field_description:portal.field_note_note__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_res_partner__website_message_ids
 #: model:ir.model.fields,field_description:portal.field_res_users__website_message_ids
 msgid "Website Messages"
@@ -726,22 +648,9 @@ msgstr "Skilaboð frá vef"
 #. module: portal
 #: model:ir.model.fields,help:portal.field_account_analytic_account__website_message_ids
 #: model:ir.model.fields,help:portal.field_calendar_event__website_message_ids
-#: model:ir.model.fields,help:portal.field_event_event__website_message_ids
-#: model:ir.model.fields,help:portal.field_event_registration__website_message_ids
-#: model:ir.model.fields,help:portal.field_fleet_vehicle__website_message_ids
-#: model:ir.model.fields,help:portal.field_fleet_vehicle_log_contract__website_message_ids
-#: model:ir.model.fields,help:portal.field_gamification_badge__website_message_ids
-#: model:ir.model.fields,help:portal.field_gamification_challenge__website_message_ids
-#: model:ir.model.fields,help:portal.field_hr_department__website_message_ids
-#: model:ir.model.fields,help:portal.field_hr_employee__website_message_ids
-#: model:ir.model.fields,help:portal.field_hr_job__website_message_ids
 #: model:ir.model.fields,help:portal.field_mail_blacklist__website_message_ids
 #: model:ir.model.fields,help:portal.field_mail_channel__website_message_ids
 #: model:ir.model.fields,help:portal.field_mail_thread__website_message_ids
-#: model:ir.model.fields,help:portal.field_maintenance_equipment__website_message_ids
-#: model:ir.model.fields,help:portal.field_maintenance_equipment_category__website_message_ids
-#: model:ir.model.fields,help:portal.field_maintenance_request__website_message_ids
-#: model:ir.model.fields,help:portal.field_note_note__website_message_ids
 #: model:ir.model.fields,help:portal.field_res_partner__website_message_ids
 #: model:ir.model.fields,help:portal.field_res_users__website_message_ids
 msgid "Website communication history"
@@ -760,8 +669,8 @@ msgid "Write a message..."
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/wizard/portal_share.py:61
-#: code:addons/portal/wizard/portal_share.py:77
+#: code:addons/portal/wizard/portal_share.py:59
+#: code:addons/portal/wizard/portal_share.py:71
 #, python-format
 msgid "You are invited to access %s"
 msgstr ""
@@ -779,7 +688,7 @@ msgid "You must be"
 msgstr ""
 
 #. module: portal
-#: code:addons/portal/wizard/portal_wizard.py:184
+#: code:addons/portal/wizard/portal_wizard.py:175
 #, python-format
 msgid ""
 "You must have an email address in your User Preferences to send emails."

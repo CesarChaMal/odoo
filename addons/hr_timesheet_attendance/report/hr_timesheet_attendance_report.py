@@ -15,7 +15,6 @@ class TimesheetAttendance(models.Model):
     total_attendance = fields.Float()
     total_difference = fields.Float()
 
-    @api.model_cr
     def init(self):
         tools.drop_view_if_exists(self.env.cr, self._table)
         self._cr.execute("""CREATE OR REPLACE VIEW %s AS (

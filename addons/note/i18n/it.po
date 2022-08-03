@@ -1,27 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * note
+# 	* note
 # 
 # Translators:
-# Francesco Garganese <francesco.garganese@aeromnia.aero>, 2018
-# Martin Trigaux, 2018
-# Luigi Di Naro <gigidn@gmail.com>, 2018
-# Christian <chris@effeci.info>, 2018
-# Paolo Valier, 2018
-# Cécile Collart <cco@odoo.com>, 2018
-# Pietro Della Notte <pdellanotte@gmail.com>, 2018
-# Léonie Bouchat <lbo@odoo.com>, 2018
-# SebastianoPistore <SebastianoPistore.info@protonmail.ch>, 2019
-# Sergio Zanchetta <primes2h@gmail.com>, 2020
-# Lorenzo Battistini <lb@takobi.online>, 2021
+# Francesco Garganese <francesco.garganese@aeromnia.aero>, 2019
+# Martin Trigaux, 2019
+# Lorenzo Battistini <lb@takobi.online>, 2019
+# Christian <chris@effeci.info>, 2019
+# Paolo Valier, 2019
+# Cécile Collart <cco@odoo.com>, 2019
+# Pietro Della Notte <pdellanotte@gmail.com>, 2019
+# Léonie Bouchat <lbo@odoo.com>, 2019
+# Stefano Consolaro <stefano.consolaro@mymage.it>, 2019
+# Sergio Zanchetta <primes2h@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-29 10:09+0000\n"
-"PO-Revision-Date: 2018-08-24 09:21+0000\n"
-"Last-Translator: Lorenzo Battistini <lb@takobi.online>, 2021\n"
+"POT-Creation-Date: 2020-04-27 09:21+0000\n"
+"PO-Revision-Date: 2019-08-26 09:12+0000\n"
+"Last-Translator: Sergio Zanchetta <primes2h@gmail.com>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/odoo/teams/41243/it/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -45,10 +44,25 @@ msgid "Action Needed"
 msgstr "Azione richiesta"
 
 #. module: note
+#: model:ir.model.fields,field_description:note.field_mail_activity_type__category
+msgid "Action to Perform"
+msgstr "Azione da eseguire"
+
+#. module: note
+#: model:ir.model.fields,help:note.field_mail_activity_type__category
+msgid ""
+"Actions may trigger specific behavior like opening calendar view or "
+"automatically mark as done when a document is uploaded"
+msgstr ""
+"Le azioni possono attivare comportamenti specifici, come aprire una vista "
+"calendario o segnare come completato il caricamento di un documento in modo "
+"automatico"
+
+#. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__open
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Active"
-msgstr "Attiva"
+msgstr "Attivo"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_ids
@@ -59,6 +73,11 @@ msgstr "Attività"
 #: model:ir.model,name:note.model_mail_activity
 msgid "Activity"
 msgstr "Attività"
+
+#. module: note
+#: model:ir.model.fields,field_description:note.field_note_note__activity_exception_decoration
+msgid "Activity Exception Decoration"
+msgstr "Decorazione eccezione attività"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__activity_state
@@ -82,14 +101,14 @@ msgstr "Aggiunge una nuova etichetta"
 
 #. module: note
 #. openerp-web
-#: code:addons/note/static/src/xml/systray.xml:14
+#: code:addons/note/static/src/xml/systray.xml:0
 #, python-format
 msgid "Add a note"
 msgstr "Aggiungi una nota"
 
 #. module: note
 #. openerp-web
-#: code:addons/note/static/src/xml/systray.xml:6
+#: code:addons/note/static/src/xml/systray.xml:0
 #, python-format
 msgid "Add new note"
 msgstr "Aggiungi nuova nota"
@@ -97,7 +116,7 @@ msgstr "Aggiungi nuova nota"
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Archive"
-msgstr "Archiviate"
+msgstr "Archivia"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_attachment_count
@@ -110,20 +129,8 @@ msgid "By sticky note Category"
 msgstr "Per categoria di annotazione"
 
 #. module: note
-#: model:ir.model.fields,help:note.field_mail_activity_type__category
-msgid "Categories may trigger specific behavior like opening calendar view"
-msgstr ""
-"Le categorie possono attivare uno specifico comportamento, come aprire una "
-"vista calendario"
-
-#. module: note
-#: model:ir.model.fields,field_description:note.field_mail_activity_type__category
-msgid "Category"
-msgstr "Categoria"
-
-#. module: note
 #. openerp-web
-#: code:addons/note/static/src/xml/systray.xml:10
+#: code:addons/note/static/src/xml/systray.xml:0
 #, python-format
 msgid "Channel"
 msgstr "Canale"
@@ -183,12 +190,12 @@ msgstr "Minimizzata in modo predefinito"
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_kanban
 msgid "Follower"
-msgstr "Follower"
+msgstr "Chi segue"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_follower_ids
 msgid "Followers"
-msgstr "Follower"
+msgstr "Chi segue"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_channel_ids
@@ -218,14 +225,20 @@ msgid "ID"
 msgstr "ID"
 
 #. module: note
-#: model:ir.model.fields,help:note.field_note_note__message_unread
-msgid "If checked new messages require your attention."
-msgstr "Se selezionato, nuovi messaggi richiedono attenzione."
+#: model:ir.model.fields,field_description:note.field_note_note__activity_exception_icon
+msgid "Icon"
+msgstr "Icona"
+
+#. module: note
+#: model:ir.model.fields,help:note.field_note_note__activity_exception_icon
+msgid "Icon to indicate an exception activity."
+msgstr "Icona per indicare un'attività eccezione."
 
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_needaction
+#: model:ir.model.fields,help:note.field_note_note__message_unread
 msgid "If checked, new messages require your attention."
-msgstr ".Se selezionato, nuovi messaggi richiedono attenzione."
+msgstr "Se selezionato, nuovi messaggi richiedono attenzione."
 
 #. module: note
 #: model:ir.model.fields,help:note.field_note_note__message_has_error
@@ -269,11 +282,6 @@ msgid "Main Attachment"
 msgstr "Allegato principale"
 
 #. module: note
-#: selection:mail.activity.type,category:0
-msgid "Meeting"
-msgstr "Appuntamento"
-
-#. module: note
 #: model:note.stage,name:note.note_stage_01
 msgid "Meeting Minutes"
 msgstr "Verbale appuntamento"
@@ -287,11 +295,6 @@ msgstr "Errore di consegna messaggio"
 #: model:ir.model.fields,field_description:note.field_note_note__message_ids
 msgid "Messages"
 msgstr "Messaggi"
-
-#. module: note
-#: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
-msgid "My Activities"
-msgstr "Le mie attività"
 
 #. module: note
 #: model:note.stage,name:note.note_stage_00
@@ -341,7 +344,7 @@ msgid "Note Tag"
 msgstr "Etichetta nota"
 
 #. module: note
-#: code:addons/note/models/res_users.py:61
+#: code:addons/note/models/res_users.py:0
 #: model:ir.actions.act_window,name:note.action_note_note
 #: model:ir.ui.menu,name:note.menu_note_notes
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
@@ -366,7 +369,7 @@ msgstr "Numero di azioni"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_has_error_counter
-msgid "Number of error"
+msgid "Number of errors"
 msgstr "Numero di errori"
 
 #. module: note
@@ -385,16 +388,6 @@ msgid "Number of unread messages"
 msgstr "Numero di messaggi non letti"
 
 #. module: note
-#: selection:mail.activity.type,category:0
-msgid "Other"
-msgstr "Altro"
-
-#. module: note
-#: selection:note.note,activity_state:0
-msgid "Overdue"
-msgstr "In ritardo"
-
-#. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__user_id
 #: model:ir.model.fields,field_description:note.field_note_stage__user_id
 msgid "Owner"
@@ -406,24 +399,19 @@ msgid "Owner of the note stage"
 msgstr "Proprietario fase della nota"
 
 #. module: note
-#: selection:note.note,activity_state:0
-msgid "Planned"
-msgstr "Pianificata"
-
-#. module: note
 #: model:ir.model.fields,field_description:note.field_mail_activity__note_id
 msgid "Related Note"
 msgstr "Nota collegata"
 
 #. module: note
 #. openerp-web
-#: code:addons/note/static/src/xml/systray.xml:23
+#: code:addons/note/static/src/xml/systray.xml:0
 #, python-format
 msgid "Remember..."
 msgstr "Ricorda di..."
 
 #. module: note
-#: selection:mail.activity.type,category:0
+#: model:ir.model.fields.selection,name:note.selection__mail_activity_type__category__reminder
 #: model:mail.activity.type,name:note.mail_activity_data_reminder
 msgid "Reminder"
 msgstr "Promemoria"
@@ -435,7 +423,7 @@ msgstr "Utente responsabile"
 
 #. module: note
 #. openerp-web
-#: code:addons/note/static/src/xml/systray.xml:25
+#: code:addons/note/static/src/xml/systray.xml:0
 #, python-format
 msgid "SAVE"
 msgstr "SALVA"
@@ -448,7 +436,7 @@ msgstr "Sequenza"
 
 #. module: note
 #. openerp-web
-#: code:addons/note/static/src/xml/systray.xml:18
+#: code:addons/note/static/src/xml/systray.xml:0
 #, python-format
 msgid "Set date and time"
 msgstr "Impostare data e ora"
@@ -456,8 +444,7 @@ msgstr "Impostare data e ora"
 #. module: note
 #: model_terms:ir.ui.view,arch_db:note.view_note_note_filter
 msgid "Show all records which has next action date is before today"
-msgstr ""
-"Mostra tutti i record che hanno la prossima data dell’azione è prima di oggi"
+msgstr "Mostra tutti i record con data prossima azione precedente a oggi"
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__stage_id
@@ -511,7 +498,7 @@ msgid "Tag Name"
 msgstr "Nome etichetta"
 
 #. module: note
-#: sql_constraint:note.tag:0
+#: model:ir.model.constraint,message:note.constraint_note_tag_name_uniq
 msgid "Tag name already exists !"
 msgstr "Nome etichetta già esistente."
 
@@ -527,8 +514,7 @@ msgstr "Etichette"
 
 #. module: note
 #. openerp-web
-#: code:addons/note/static/src/js/systray_activity_menu.js:97
-#: selection:note.note,activity_state:0
+#: code:addons/note/static/src/js/systray_activity_menu.js:0
 #, python-format
 msgid "Today"
 msgstr "Oggi"
@@ -542,6 +528,11 @@ msgstr "Attività odierne"
 #: model:note.stage,name:note.note_stage_03
 msgid "Todo"
 msgstr "Da fare"
+
+#. module: note
+#: model:ir.model.fields,help:note.field_note_note__activity_exception_decoration
+msgid "Type of the exception activity on record."
+msgstr "Tipo di attività eccezione sul record."
 
 #. module: note
 #: model:ir.model.fields,field_description:note.field_note_note__message_unread
@@ -562,13 +553,3 @@ msgstr "Usato per ordinare le fasi delle note"
 #: model:ir.model,name:note.model_res_users
 msgid "Users"
 msgstr "Utenti"
-
-#. module: note
-#: model:ir.model.fields,field_description:note.field_note_note__website_message_ids
-msgid "Website Messages"
-msgstr "Messaggi sito web"
-
-#. module: note
-#: model:ir.model.fields,help:note.field_note_note__website_message_ids
-msgid "Website communication history"
-msgstr "Cronologia comunicazioni sito web"

@@ -10,6 +10,7 @@
         <field name="property_stock_valuation_account_id" ref="a_1_130018"/>
         <field name="income_currency_exchange_account_id" ref="a_8_110001"/>
         <field name="expense_currency_exchange_account_id" ref="a_9_110001"/>
+        <field name="default_pos_receivable_account_id" ref="a_1_1210011"/>
         <field name="use_anglo_saxon" eval="1"/>
     </record>
 </odoo>

@@ -5,8 +5,8 @@ import werkzeug
 
 from odoo import http, _
 from odoo.addons.auth_signup.models.res_users import SignupError
-from odoo.addons.web.controllers.main import ensure_db, Home
-from odoo.addons.web_settings_dashboard.controllers.main import WebSettingsDashboard as Dashboard
+from odoo.addons.web.controllers.main import ensure_db, Home, SIGN_UP_REQUEST_PARAMS
+from odoo.addons.base_setup.controllers.main import BaseSetup
 from odoo.exceptions import UserError
 from odoo.http import request
 
@@ -104,7 +104,7 @@ class AuthSignupHome(Home):
 
     def get_auth_signup_qcontext(self):
         """ Shared helper returning the rendering context for signup and reset password """
-        qcontext = request.params.copy()
+        qcontext = {k: v for (k, v) in request.params.items() if k in SIGN_UP_REQUEST_PARAMS}
         qcontext.update(self.get_auth_signup_config())
         if not qcontext.get('token') and request.session.get('auth_signup_token'):
             qcontext['token'] = request.session.get('auth_signup_token')
@@ -126,9 +126,10 @@ class AuthSignupHome(Home):
             raise UserError(_("The form was not properly filled in."))
         if values.get('password') != qcontext.get('confirm_password'):
             raise UserError(_("Passwords do not match; please retype them."))
-        supported_langs = [lang['code'] for lang in request.env['res.lang'].sudo().search_read([], ['code'])]
-        if request.lang in supported_langs:
-            values['lang'] = request.lang
+        supported_lang_codes = [code for code, _ in request.env['res.lang'].get_installed()]
+        lang = request.context.get('lang', '')
+        if lang in supported_lang_codes:
+            values['lang'] = lang
         self._signup_with_values(qcontext.get('token'), values)
         request.env.cr.commit()
 
@@ -139,9 +140,9 @@ class AuthSignupHome(Home):
         if not uid:
             raise SignupError(_('Authentication Failed.'))
 
-class WebSettingsDashboard(Dashboard):
-    @http.route('/web_settings_dashboard/data', type='json', auth='user')
-    def web_settings_dashboard_data(self, **kw):
-        res = super(WebSettingsDashboard, self).web_settings_dashboard_data(**kw)
-        res['users_info'].update({'resend_invitation': True})
+class AuthBaseSetup(BaseSetup):
+    @http.route('/base_setup/data', type='json', auth='user')
+    def base_setup_data(self, **kwargs):
+        res = super().base_setup_data(**kwargs)
+        res.update({'resend_invitation': True})
         return res

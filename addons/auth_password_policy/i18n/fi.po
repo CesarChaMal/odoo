@@ -1,18 +1,18 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * auth_password_policy
+# 	* auth_password_policy
 # 
 # Translators:
-# Miku Laitinen <miku.laitinen@gmail.com>, 2018
-# Johanna Valkonen <johanna.valkonen@sv-oy.fi>, 2019
+# Miku Laitinen <miku.laitinen@gmail.com>, 2019
+# Jussi Heikkilä <jussi.heikkila@panimo.com>, 2019
 # Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 06:48+0000\n"
-"PO-Revision-Date: 2018-10-08 07:10+0000\n"
+"POT-Creation-Date: 2019-08-12 11:32+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Jarmo Kortetjärvi <jarmo.kortetjarvi@gmail.com>, 2020\n"
 "Language-Team: Finnish (https://www.transifex.com/odoo/teams/41243/fi/)\n"
 "MIME-Version: 1.0\n"
@@ -24,7 +24,7 @@ msgstr ""
 #. module: auth_password_policy
 #: model:ir.model,name:auth_password_policy.model_res_config_settings
 msgid "Config Settings"
-msgstr "Konfiguraatio-asetukset"
+msgstr "Konfiguraatioasetukset"
 
 #. module: auth_password_policy
 #: model:ir.model.fields,field_description:auth_password_policy.field_res_config_settings__minlength
@@ -67,7 +67,7 @@ msgstr "Käyttäjät"
 #: code:addons/auth_password_policy/static/src/js/password_gauge.js:28
 #, python-format
 msgid "at least %d character classes"
-msgstr "vähintään %d merkkiluokkaa"
+msgstr "vähintään %d merkkityyppiä"
 
 #. module: auth_password_policy
 #. openerp-web

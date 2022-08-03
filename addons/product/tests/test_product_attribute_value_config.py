@@ -2,9 +2,12 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 import time
+from psycopg2 import IntegrityError
 
+from odoo.exceptions import UserError, ValidationError
 from odoo.tests import tagged
 from odoo.tests.common import TransactionCase
+from odoo.tools import mute_logger
 
 
 class TestProductAttributeValueSetup(TransactionCase):
@@ -20,15 +23,11 @@ class TestProductAttributeValueSetup(TransactionCase):
         self._add_ram_attribute()
         self._add_hdd_attribute()
 
-        self.computer.create_variant_ids()
-
         self.computer_case = self.env['product.template'].create({
             'name': 'Super Computer Case'
         })
 
         self._add_size_attribute()
-
-        self.computer_case.create_variant_ids()
 
     def _add_ssd_attribute(self):
         self.ssd_attribute = self.env['product.attribute'].create({'name': 'Memory', 'sequence': 1})
@@ -156,7 +155,7 @@ class TestProductAttributeValueSetup(TransactionCase):
         """
         if not model:
             model = self.computer
-        return model._get_valid_product_template_attribute_lines().filtered(
+        return model.valid_product_template_attribute_line_ids.filtered(
             lambda l: l.attribute_id == product_attribute_value.attribute_id
         ).product_template_value_ids.filtered(
             lambda v: v.product_attribute_value_id == product_attribute_value
@@ -203,20 +202,12 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
         # under defined variant
         combination = computer_ssd_256 + computer_ram_8
         variant = self.computer._get_variant_for_combination(combination)
-        self.assertEqual(len(variant), 0)
-
-        # also test _has_valid_attributes (case ok):
-        valid_value_ids = self.computer.valid_product_attribute_value_wnva_ids
-        valid_attribute_ids = self.computer.valid_product_attribute_wnva_ids
-        self.assertTrue(ok_variant._has_valid_attributes(valid_attribute_ids, valid_value_ids))
-
-        # also test _has_valid_attributes (case not ok):
-        self.assertFalse(ok_variant._has_valid_attributes(valid_attribute_ids, valid_value_ids - self.hdd_1))
+        self.assertFalse(variant)
 
     def test_product_filtered_exclude_for(self):
         """
             Super Computer has 18 variants total (2 ssd * 3 ram * 3 hdd)
-            RAM 16 excudes HDD 1, that matches 2 variants:
+            RAM 16 excludes HDD 1, that matches 2 variants:
             - SSD 256 RAM 16 HDD 1
             - SSD 512 RAM 16 HDD 1
 
@@ -232,8 +223,8 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
         self._add_ram_exclude_for()
         self.assertEqual(len(self.computer._get_possible_variants()), 16)
         self.assertTrue(self.computer._get_variant_for_combination(computer_ssd_256 + computer_ram_8 + computer_hdd_1)._is_variant_possible())
-        self.assertFalse(self.computer._get_variant_for_combination(computer_ssd_256 + computer_ram_16 + computer_hdd_1)._is_variant_possible())
-        self.assertFalse(self.computer._get_variant_for_combination(computer_ssd_512 + computer_ram_16 + computer_hdd_1)._is_variant_possible())
+        self.assertFalse(self.computer._get_variant_for_combination(computer_ssd_256 + computer_ram_16 + computer_hdd_1))
+        self.assertFalse(self.computer._get_variant_for_combination(computer_ssd_512 + computer_ram_16 + computer_hdd_1))
 
     def test_children_product_filtered_exclude_for(self):
         """
@@ -286,8 +277,6 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
             'value_ids': [(6, 0, [color_red.id, color_green.id])],
         })
 
-        mouse.create_variant_ids()
-
         mouse_color_red = self._get_product_template_attribute_value(color_red, mouse)
         mouse_color_green = self._get_product_template_attribute_value(color_green, mouse)
 
@@ -314,15 +303,15 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
 
         # CASE: if multiple variants exist for the same combination and at least
         # one of them is not archived, the combination is possible
-        values = self.ssd_256 + self.ram_8 + self.hdd_1
+        combination = computer_ssd_256 + computer_ram_8 + computer_hdd_1
         self.env['product.product'].create({
             'product_tmpl_id': self.computer.id,
-            'attribute_value_ids': [(6, 0, values.ids)],
+            'product_template_attribute_value_ids': [(6, 0, combination.ids)],
             'active': False,
         })
         self.env['product.product'].create({
             'product_tmpl_id': self.computer.id,
-            'attribute_value_ids': [(6, 0, values.ids)],
+            'product_template_attribute_value_ids': [(6, 0, combination.ids)],
             'active': True,
         })
         self.assertTrue(self.computer._is_combination_possible(computer_ssd_256 + computer_ram_8 + computer_hdd_1))
@@ -392,8 +381,26 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
         self._add_exclude(computer_ram_32, computer_ssd_256)
         self.assertEqual(self.computer._get_first_possible_combination(), computer_ssd_512 + computer_ram_32 + computer_hdd_4)
 
-        # No possible combination (test helper and iterator)
-        self._add_exclude(computer_ram_32, computer_hdd_4)
+        # Not possible to add an exclusion when only one variant is left -> it deletes the product template associated to it
+        with self.assertRaises(UserError), self.cr.savepoint():
+            self._add_exclude(computer_ram_32, computer_hdd_4)
+
+        # If an exclusion rule deletes all variants at once it does not delete the template.
+        # Here we can test `_get_first_possible_combination` with a product template with no variants
+        # Deletes all exclusions
+        for exclusion in computer_ram_32.exclude_for:
+            computer_ram_32.write({
+                'exclude_for': [(2, exclusion.id, 0)]
+            })
+
+        # Activates all exclusions at once
+        computer_ram_32.write({
+            'exclude_for': [(0, computer_ram_32.exclude_for.id, {
+                'product_tmpl_id': self.computer.id,
+                'value_ids': [(6, 0, [computer_hdd_1.id, computer_hdd_2.id, computer_hdd_4.id, computer_ssd_256.id, computer_ssd_512.id])]
+            })]
+        })
+
         self.assertEqual(self.computer._get_first_possible_combination(), self.env['product.template.attribute.value'])
         gen = self.computer._get_possible_combinations()
         with self.assertRaises(StopIteration):
@@ -419,13 +426,29 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
             'value_ids': [(6, 0, [color_red.id, color_green.id])],
         })
 
-        mouse.create_variant_ids()
-
         mouse_color_red = self._get_product_template_attribute_value(color_red, mouse)
         mouse_color_green = self._get_product_template_attribute_value(color_green, mouse)
 
         self._add_exclude(computer_ssd_256, mouse_color_red, mouse)
         self.assertEqual(mouse._get_first_possible_combination(parent_combination=computer_ssd_256 + computer_ram_8 + computer_hdd_1), mouse_color_green)
+
+        # Test to see if several attribute_line for same attribute is well handled
+        color_blue = self.env['product.attribute.value'].create({
+            'name': 'Blue',
+            'attribute_id': color_attribute.id,
+        })
+        color_yellow = self.env['product.attribute.value'].create({
+            'name': 'Yellow',
+            'attribute_id': color_attribute.id,
+        })
+        self.env['product.template.attribute.line'].create({
+            'product_tmpl_id': mouse.id,
+            'attribute_id': color_attribute.id,
+            'value_ids': [(6, 0, [color_blue.id, color_yellow.id])],
+        })
+        mouse_color_blue = self._get_product_template_attribute_value(color_blue, mouse)
+        mouse_color_yellow = self._get_product_template_attribute_value(color_yellow, mouse)
+        self.assertEqual(mouse._get_first_possible_combination(necessary_values=mouse_color_yellow), mouse_color_red + mouse_color_yellow)
 
         # Making sure it's not extremely slow (has to discard invalid combinations early !)
         product_template = self.env['product.template'].create({
@@ -455,9 +478,6 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
                 'value_ids': [(6, 0, product_attribute.value_ids.ids)]
             }])
 
-        # Need to manually trigger compute as dependency are not specified, it's not the purpose of this perf test
-        product_template._compute_valid_attributes()
-
         self._add_exclude(
             self._get_product_template_attribute_value(product_template.attribute_line_ids[1].value_ids[0],
                                                        model=product_template),
@@ -484,6 +504,9 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
         elapsed = time.time() - started_at
         # It should be about instantaneous, 0.5 to avoid false positives
         self.assertLess(elapsed, 0.5)
+
+
+
 
     def test_get_closest_possible_combinations(self):
         computer_ssd_256 = self._get_product_template_attribute_value(self.ssd_256)
@@ -570,57 +593,72 @@ class TestProductAttributeValueConfig(TestProductAttributeValueSetup):
     def test_clear_caches(self):
         """The goal of this test is to make sure the cache is invalidated when
         it should be."""
-        attribute_values = self.ssd_256 + self.ram_8 + self.hdd_1
+        computer_ssd_256 = self._get_product_template_attribute_value(self.ssd_256)
+        computer_ram_8 = self._get_product_template_attribute_value(self.ram_8)
+        computer_hdd_1 = self._get_product_template_attribute_value(self.hdd_1)
+        combination = computer_ssd_256 + computer_ram_8 + computer_hdd_1
 
-        # CASE: initial result of _get_variant_id_for_combination
-        variant_id = self.computer._get_variant_id_for_combination(attribute_values)
-        self.assertTrue(variant_id)
+        # CASE: initial result of _get_variant_for_combination
+        variant = self.computer._get_variant_for_combination(combination)
+        self.assertTrue(variant)
 
         # CASE: clear_caches in product.product unlink
-        self.env['product.product'].browse(variant_id).unlink()
-        self.assertFalse(self.computer._get_variant_id_for_combination(attribute_values))
+        variant.unlink()
+        self.assertFalse(self.computer._get_variant_for_combination(combination))
 
         # CASE: clear_caches in product.product create
         variant = self.env['product.product'].create({
             'product_tmpl_id': self.computer.id,
-            'attribute_value_ids': [(6, 0, attribute_values.ids)],
+            'product_template_attribute_value_ids': [(6, 0, combination.ids)],
         })
-        self.assertEqual(variant.id, self.computer._get_variant_id_for_combination(attribute_values))
+        self.assertEqual(variant, self.computer._get_variant_for_combination(combination))
 
         # CASE: clear_caches in product.product write
-        variant.attribute_value_ids = False
-        self.assertFalse(self.computer._get_variant_id_for_combination(attribute_values))
+        variant.product_template_attribute_value_ids = False
+        self.assertFalse(self.computer._get_variant_id_for_combination(combination))
 
-    def test_unlink_unused_product_template_attributes_values(self):
-        computer = self.env['product.template'].create({
-            'name': "Computer",
-        })
+    def test_constraints(self):
+        """The goal of this test is to make sure constraints are correct."""
+        with self.assertRaises(UserError, msg="can't change variants creation mode of attribute used on product"):
+            self.ram_attribute.create_variant = 'no_variant'
 
-        computer_attribute_line = self.env['product.template.attribute.line'].create({
-            'product_tmpl_id': computer.id,
-            'attribute_id': self.ssd_attribute.id,
-            'value_ids': [(6, 0, self.ssd_256.ids)],
-        })
+        with self.assertRaises(UserError, msg="can't delete attribute used on product"):
+            self.ram_attribute.unlink()
 
-        template_attribute_values = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', computer.id)])
-        self.assertEqual(template_attribute_values.mapped('product_attribute_value_id'), self.ssd_256)
+        with self.assertRaises(UserError, msg="can't change the attribute of an value used on product"):
+            self.ram_32.attribute_id = self.hdd_attribute.id
 
-        # writing through product
-        computer.write({
-            'attribute_line_ids': [(1, computer_attribute_line.id, {
+        with self.assertRaises(UserError, msg="can't delete value used on product"):
+            self.ram_32.unlink()
+
+        with self.assertRaises(ValidationError, msg="can't have attribute without value on product"):
+            self.env['product.template.attribute.line'].create({
+                'product_tmpl_id': self.computer_case.id,
                 'attribute_id': self.hdd_attribute.id,
-                'value_ids': [(6, 0, self.hdd_1.ids)],
-            })],
-        })
+                'value_ids': [(6, 0, [])],
+            })
 
-        template_attribute_values = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', computer.id)])
-        self.assertEqual(template_attribute_values.mapped('product_attribute_value_id'), self.hdd_1)
+        with self.assertRaises(ValidationError, msg="value attribute must match line attribute"):
+            self.env['product.template.attribute.line'].create({
+                'product_tmpl_id': self.computer_case.id,
+                'attribute_id': self.ram_attribute.id,
+                'value_ids': [(6, 0, [self.ssd_256.id])],
+            })
 
-        # writing through attribute line
-        computer_attribute_line.write({
-            'attribute_id': self.ssd_attribute.id,
-            'value_ids': [(6, 0, self.ssd_256.ids)],
-        })
+        with self.assertRaises(UserError, msg="can't change the attribute of an attribute line"):
+            self.computer_ssd_attribute_lines.attribute_id = self.hdd_attribute.id
 
-        template_attribute_values = self.env['product.template.attribute.value'].search([('product_tmpl_id', '=', computer.id)])
-        self.assertEqual(template_attribute_values.mapped('product_attribute_value_id'), self.ssd_256)
+        with self.assertRaises(UserError, msg="can't change the product of an attribute line"):
+            self.computer_ssd_attribute_lines.product_tmpl_id = self.computer_case.id
+
+        with self.assertRaises(UserError, msg="can't change the value of a product template attribute value"):
+            self.computer_ram_attribute_lines.product_template_value_ids[0].product_attribute_value_id = self.hdd_1
+
+        with self.assertRaises(UserError, msg="can't change the product of a product template attribute value"):
+            self.computer_ram_attribute_lines.product_template_value_ids[0].product_tmpl_id = self.computer_case.id
+
+        with mute_logger('odoo.sql_db'), self.assertRaises(IntegrityError, msg="can't have two values with the same name for the same attribute"):
+            self.env['product.attribute.value'].create({
+                'name': '32 GB',
+                'attribute_id': self.ram_attribute.id,
+            })

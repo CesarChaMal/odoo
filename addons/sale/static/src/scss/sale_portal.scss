@@ -22,6 +22,21 @@
     text-align: center;
 }
 
-.sale_tbody input.quantity {
-    padding: 0;
+.sale_tbody div.input-group.w-50.pull-right {
+    width: 100% !important;
+}
+
+.o_portal .sale_tbody .js_quantity_container {
+
+    .js_quantity {
+        padding: 0;
+    }
+
+    .input-group-text {
+        padding: 0.2rem 0.4rem;
+    }
+
+    @include media-breakpoint-down(sm) {
+        width: 100%;
+    }
 }

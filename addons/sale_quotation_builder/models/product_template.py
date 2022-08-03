@@ -12,9 +12,8 @@ class ProductTemplate(models.Model):
         translate=html_translate, help="The quotation description (not used on eCommerce)")
 
     quotation_description = fields.Html('Quotation Description', compute='_compute_quotation_description',
-        help="This field uses the Quotation Only Description if it is defined, otherwise it will try to read the eCommerce Description.")
+        sanitize_attributes=False, help="This field uses the Quotation Only Description if it is defined, otherwise it will try to read the eCommerce Description.")
 
-    @api.multi
     def _compute_quotation_description(self):
         for record in self:
             if record.quotation_only_description:

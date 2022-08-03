@@ -146,6 +146,7 @@
 "a6540","Igangværende arbejder","6540","account.data_account_type_current_assets","account_tag_work_in_progress","dk_chart_template","False"
 "a6580","Forudbetaling for varer","6580","account.data_account_type_prepayments","account_tag_prepayments","dk_chart_template","False"
 "a6610","Debitorer","6610","account.data_account_type_receivable","account_tag_receivable","dk_chart_template","True"
+"a6611","Debitorer (PoS)","6611","account.data_account_type_receivable","account_tag_receivable","dk_chart_template","True"
 "a6640","Andre tilgodehavender","6640","account.data_account_type_current_assets","account_tag_other_receivables","dk_chart_template","False"
 "a6650","Kundekort/Kreditkort","6650","account.data_account_type_current_assets","account_tag_other_receivables","dk_chart_template","False"
 "a6655","Depositum","6655","account.data_account_type_non_current_assets","account_tag_other_receivables","dk_chart_template","False"

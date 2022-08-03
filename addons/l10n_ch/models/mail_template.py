@@ -4,13 +4,11 @@
 import base64
 
 from odoo import api, models
-from odoo.tools import pycompat
 
 
 class MailTemplate(models.Model):
     _inherit = 'mail.template'
 
-    @api.multi
     def generate_email(self, res_ids, fields=None):
         """ Method overridden in order to add an attachment containing the ISR
         to the draft message when opening the 'send by mail' wizard on an invoice.
@@ -21,7 +19,7 @@ class MailTemplate(models.Model):
         rslt = super(MailTemplate, self).generate_email(res_ids, fields)
 
         multi_mode = True
-        if isinstance(res_ids, pycompat.integer_types):
+        if isinstance(res_ids, int):
             res_ids = [res_ids]
             multi_mode = False
 
@@ -29,7 +27,7 @@ class MailTemplate(models.Model):
         for res_id in res_ids:
             related_model = self.env[self.model_id.model].browse(res_id)
 
-            if related_model._name == 'account.invoice':
+            if related_model._name == 'account.move':
 
                 template = res_ids_to_templates[res_id]
                 inv_print_name = self._render_template(template.report_name, template.model, res_id)

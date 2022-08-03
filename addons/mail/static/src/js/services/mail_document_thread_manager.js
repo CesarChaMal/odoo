@@ -34,7 +34,7 @@ MailManager.include({
                     this.call('local_storage', 'getItem', key);
             }
         }
-        this.isReady().then(this._updateDocumentThreadWindows.bind(this, this._documentThreadWindowStates));
+        this._mailBus.on('messaging_ready', this, this._updateDocumentThreadWindows.bind(this, this._documentThreadWindowStates));
         // listen to localStorage changes to synchronize DocumentThread's
         // windows between tabs
         this.call('local_storage', 'onStorage', this, this._onStorage);
@@ -183,7 +183,7 @@ MailManager.include({
                 resModel: resModel,
             });
         }
-        this._super.apply(this, arguments);
+        return this._super.apply(this, arguments);
     },
     /**
      * Updates the thread windows related to document threads.

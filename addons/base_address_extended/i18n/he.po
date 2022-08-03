@@ -1,18 +1,18 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * base_address_extended
+# 	* base_address_extended
 # 
 # Translators:
-# Yihya Hugirat <hugirat@gmail.com>, 2018
+# Yihya Hugirat <hugirat@gmail.com>, 2019
 # דודי מלכה <Dudimalka6@gmail.com>, 2019
 # ZVI BLONDER <ZVIBLONDER@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:48+0000\n"
-"PO-Revision-Date: 2018-08-24 09:16+0000\n"
+"POT-Creation-Date: 2019-08-12 11:31+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: ZVI BLONDER <ZVIBLONDER@gmail.com>, 2019\n"
 "Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
 "MIME-Version: 1.0\n"
@@ -27,7 +27,8 @@ msgid ""
 "Change how the system computes the full street field based on the different "
 "street subfields"
 msgstr ""
-"שנה כיצד המערכת מחשבת את שדה הרחוב המלא על סמך שדות המשנה השונים של הרחוב"
+"שנה את הדרך בה המערכת מחשבת את שדה הרחוב המלא על סמך שדות המשנה השונים של "
+"הרחוב"
 
 #. module: base_address_extended
 #: model:ir.model,name:base_address_extended.model_res_company
@@ -90,7 +91,7 @@ msgstr "מספר בית"
 #. module: base_address_extended
 #: model:ir.model.fields,field_description:base_address_extended.field_res_country__street_format
 msgid "Street Format"
-msgstr "פורמט רחוב"
+msgstr "תבנית רחוב"
 
 #. module: base_address_extended
 #: model:ir.model.fields,field_description:base_address_extended.field_res_company__street_name
@@ -109,11 +110,11 @@ msgstr "שם רחוב..."
 #. module: base_address_extended
 #: model_terms:ir.ui.view,arch_db:base_address_extended.view_res_country_extended_form
 msgid "Street format..."
-msgstr "פורמט רחוב ..."
+msgstr "תבנית רחוב..."
 
 #. module: base_address_extended
-#: code:addons/base_address_extended/models/base_address_extended.py:65
-#: code:addons/base_address_extended/models/base_address_extended.py:113
+#: code:addons/base_address_extended/models/base_address_extended.py:64
+#: code:addons/base_address_extended/models/base_address_extended.py:112
 #, python-format
 msgid "Unrecognized field %s in street format."
-msgstr "שדה לא מוכר %s בפורמט רחוב."
+msgstr "שדה לא מוכר %s בתבנית רחוב."

@@ -1,20 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * product_margin
+# 	* product_margin
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Yihya Hugirat <hugirat@gmail.com>, 2018
-# שהאב חוסיין <shhab89@gmail.com>, 2018
+# ExcaliberX <excaliberx@gmail.com>, 2019
+# Yihya Hugirat <hugirat@gmail.com>, 2019
+# שהאב חוסיין <shhab89@gmail.com>, 2019
 # דודי מלכה <Dudimalka6@gmail.com>, 2019
 # ZVI BLONDER <ZVIBLONDER@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:23+0000\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:13+0000\n"
 "Last-Translator: ZVI BLONDER <ZVIBLONDER@gmail.com>, 2019\n"
 "Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
 "MIME-Version: 1.0\n"
@@ -26,17 +26,17 @@ msgstr ""
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_product__purchase_num_invoiced
 msgid "# Invoiced in Purchase"
-msgstr "# חויבו ברכישה"
+msgstr "מס' שחויבו ברכישה"
 
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_product__sale_num_invoiced
 msgid "# Invoiced in Sale"
-msgstr "# חויבו במכירה"
+msgstr "מס' שחויבו במכירה"
 
 #. module: product_margin
 #: model_terms:ir.ui.view,arch_db:product_margin.view_product_margin_tree
 msgid "# Purchased"
-msgstr "# נרכשו"
+msgstr "מס' שנרכשו"
 
 #. module: product_margin
 #: model_terms:ir.ui.view,arch_db:product_margin.view_product_margin_form
@@ -91,11 +91,11 @@ msgstr "נוצר ב-"
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_margin__display_name
 msgid "Display Name"
-msgstr "השם המוצג"
+msgstr "הצג שם"
 
 #. module: product_margin
-#: selection:product.margin,invoice_state:0
-#: selection:product.product,invoice_state:0
+#: model:ir.model.fields.selection,name:product_margin.selection__product_margin__invoice_state__draft_open_paid
+#: model:ir.model.fields.selection,name:product_margin.selection__product_product__invoice_state__draft_open_paid
 msgid "Draft, Open and Paid"
 msgstr "טיוטה, פתוח ושולם"
 
@@ -153,7 +153,7 @@ msgstr "מצב חשבונית"
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_margin____last_update
 msgid "Last Modified on"
-msgstr "תאריך שינוי אחרון"
+msgstr "שינוי אחרון ב"
 
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_margin__write_uid
@@ -163,7 +163,7 @@ msgstr "עודכן לאחרונה ע\"י"
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_margin__write_date
 msgid "Last Updated on"
-msgstr "תאריך עדכון אחרון"
+msgstr "עדכון אחרון ב"
 
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_product__date_from
@@ -178,7 +178,7 @@ msgstr "תאריך המרווח ל"
 #. module: product_margin
 #: model_terms:ir.ui.view,arch_db:product_margin.view_product_margin_form
 msgid "Margins"
-msgstr "מרווחים"
+msgstr "שוליים"
 
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_product__normal_cost
@@ -196,14 +196,14 @@ msgid "Open Margins"
 msgstr "מרווחים פתוחים"
 
 #. module: product_margin
-#: selection:product.margin,invoice_state:0
-#: selection:product.product,invoice_state:0
+#: model:ir.model.fields.selection,name:product_margin.selection__product_margin__invoice_state__open_paid
+#: model:ir.model.fields.selection,name:product_margin.selection__product_product__invoice_state__open_paid
 msgid "Open and Paid"
 msgstr "פתוח ושולם"
 
 #. module: product_margin
-#: selection:product.margin,invoice_state:0
-#: selection:product.product,invoice_state:0
+#: model:ir.model.fields.selection,name:product_margin.selection__product_margin__invoice_state__paid
+#: model:ir.model.fields.selection,name:product_margin.selection__product_product__invoice_state__paid
 msgid "Paid"
 msgstr "שולם"
 
@@ -218,7 +218,7 @@ msgid "Product Margin"
 msgstr "מרווח מוצר"
 
 #. module: product_margin
-#: code:addons/product_margin/wizard/product_margin.py:49
+#: code:addons/product_margin/wizard/product_margin.py:0
 #: model:ir.actions.act_window,name:product_margin.product_margin_act_window
 #: model:ir.ui.menu,name:product_margin.menu_action_product_margin
 #: model_terms:ir.ui.view,arch_db:product_margin.view_product_margin_form
@@ -236,7 +236,7 @@ msgstr "קטגוריות מאפיינים"
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_product__purchase_gap
 msgid "Purchase Gap"
-msgstr "פער רכישות"
+msgstr "פער רכש"
 
 #. module: product_margin
 #: model_terms:ir.ui.view,arch_db:product_margin.view_product_margin_form
@@ -285,17 +285,17 @@ msgstr "סכום כפל מחיר קטלוג המכירה וכמות חשבוני
 #. module: product_margin
 #: model:ir.model.fields,help:product_margin.field_product_product__sale_num_invoiced
 msgid "Sum of Quantity in Customer Invoices"
-msgstr "סכום הכספים בחשבוניות לקוח"
+msgstr "סכום הכמויות בחשבוניות לקוח"
 
 #. module: product_margin
 #: model:ir.model.fields,help:product_margin.field_product_product__purchase_num_invoiced
 msgid "Sum of Quantity in Vendor Bills"
-msgstr "סכום הכספים בחשבוניות ספק"
+msgstr "סכום הכמויות בחשבוניות ספק"
 
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_margin__to_date
 msgid "To"
-msgstr "אל"
+msgstr "ל"
 
 #. module: product_margin
 #: model:ir.model.fields,field_description:product_margin.field_product_product__total_cost

@@ -1,21 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * base_gengo
+# 	* base_gengo
 # 
 # Translators:
-# Martin Trigaux, 2018
-# fanha99 <fanha99@hotmail.com>, 2018
-# Nancy Momoland <thanhnguyen.icsc@gmail.com>, 2018
-# Minh Nguyen <ndminh210994@gmail.com>, 2018
-# Christine Nguyen <dungnt@trobz.com>, 2019
+# Martin Trigaux, 2019
+# fanha99 <fanha99@hotmail.com>, 2019
+# thanhnguyen.icsc <thanhnguyen.icsc@gmail.com>, 2019
+# Duy BQ <duybq86@gmail.com>, 2019
+# Chinh Chinh <trinhttp@trobz.com>, 2019
+# Dung Nguyen Thi <dungnt@trobz.com>, 2019
+# Dao Nguyen <trucdao.uel@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-22 11:11+0000\n"
-"PO-Revision-Date: 2018-08-24 09:16+0000\n"
-"Last-Translator: Christine Nguyen <dungnt@trobz.com>, 2019\n"
+"POT-Creation-Date: 2019-11-22 08:19+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
+"Last-Translator: Dao Nguyen <trucdao.uel@gmail.com>, 2019\n"
 "Language-Team: Vietnamese (https://www.transifex.com/odoo/teams/41243/vi/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -76,7 +78,7 @@ msgid "Base Gengo Translations"
 msgstr "Dịch thuật Gengo căn bản"
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__both
 msgid "Both"
 msgstr "Cả hai"
 
@@ -124,7 +126,7 @@ msgstr "Công ty"
 #. module: base_gengo
 #: model:ir.model,name:base_gengo.model_res_config_settings
 msgid "Config Settings"
-msgstr "Cấu hình thiết lập"
+msgstr "Cấu hình"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__create_uid
@@ -179,7 +181,7 @@ msgid "Gengo Translation Service Level"
 msgstr "Mức độ dịch vụ dịch thuật Gengo"
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:85
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "Gengo `Public Key` or `Private Key` are missing. Enter your Gengo "
@@ -189,7 +191,7 @@ msgstr ""
 "thực Gengo bên dưới `Thiết lập > Công ty > Tham số Gengo`."
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:96
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "Gengo connection failed with this message:\n"
@@ -197,6 +199,13 @@ msgid ""
 msgstr ""
 "Gengo đã kết nối thất bại:\n"
 "``%s``"
+
+#. module: base_gengo
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
+#, python-format
+msgid ""
+"Gengo library not installed. Contact your system administrator to use it."
+msgstr ""
 
 #. module: base_gengo
 #: model:ir.actions.act_window,name:base_gengo.action_wizard_base_gengo_translations
@@ -237,17 +246,17 @@ msgstr "Ngôn ngữ"
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations____last_update
 msgid "Last Modified on"
-msgstr "Sửa lần cuối vào"
+msgstr "Sửa lần cuối"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__write_uid
 msgid "Last Updated by"
-msgstr "Cập nhật lần cuối bởi"
+msgstr "Cập nhật gần đây bởi"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__write_date
 msgid "Last Updated on"
-msgstr "Cập nhật lần cuối vào"
+msgstr "Cập nhật gần đây vào"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__sync_limit
@@ -260,7 +269,7 @@ msgid "Private Key"
 msgstr "Private Key"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__pro
 msgid "Pro"
 msgstr "Pro"
 
@@ -270,7 +279,7 @@ msgid "Public Key"
 msgstr "Public Key"
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__receive
 msgid "Receive Translation"
 msgstr "Nhận bản dịch"
 
@@ -287,14 +296,14 @@ msgid "Send"
 msgstr "Gửi"
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__send
 msgid "Send New Terms"
 msgstr "Gửi các câu dịch thuật mới"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__standard
 msgid "Standard"
-msgstr "Chuẩn"
+msgstr "Standard"
 
 #. module: base_gengo
 #: model:ir.model.fields,field_description:base_gengo.field_base_gengo_translations__sync_type
@@ -302,7 +311,7 @@ msgid "Sync Type"
 msgstr "Loại đồng bộ"
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:115
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "The number of terms to sync should be between 1 to 200 to work with Gengo "
@@ -326,7 +335,7 @@ msgstr ""
 "Nhận xét này sẽ được tự động gửi kèm theo mỗi yêu cầu được gửiđến Gengo"
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:110
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid "This language is not supported by the Gengo translation services."
 msgstr "Ngôn ngữ này không được hỗ trợ bởi dịch vụ dịch thuật Gengo."
@@ -342,12 +351,12 @@ msgid "Translation"
 msgstr "Bản dịch"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__machine
 msgid "Translation By Machine"
 msgstr "Dịch bởi máy"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__ultra
 msgid "Ultra"
 msgstr "Ultra"
 

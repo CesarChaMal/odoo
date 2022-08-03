@@ -1,18 +1,18 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * auth_oauth
+# 	* auth_oauth
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Kostas Goutoudis <goutoudis@gmail.com>, 2018
+# Martin Trigaux, 2019
+# Kostas Goutoudis <goutoudis@gmail.com>, 2019
 # Alexandros Kapetanios <alexandros@gnugr.org>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:34+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-10-18 09:46+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Alexandros Kapetanios <alexandros@gnugr.org>, 2021\n"
 "Language-Team: Greek (https://www.transifex.com/odoo/teams/41243/el/)\n"
 "MIME-Version: 1.0\n"
@@ -32,7 +32,7 @@ msgid "<i class=\"fa fa-fw fa-arrow-right\"/>Tutorial"
 msgstr "<i class=\"fa fa-fw fa-arrow-right\"/>Εκμάθηση"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:100
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid "Access Denied"
 msgstr "Μη επιτρεπτή πρόσβαση"
@@ -166,7 +166,7 @@ msgid "OAuth Providers"
 msgstr "Πάροχοι OAuth"
 
 #. module: auth_oauth
-#: sql_constraint:res.users:0
+#: model:ir.model.constraint,message:auth_oauth.constraint_res_users_uniq_users_oauth_provider_oauth_uid
 msgid "OAuth UID must be unique per provider"
 msgstr "Το OAuth UID πρέπει να είναι μοναδικό ανά πάροχο"
 
@@ -216,7 +216,7 @@ msgid "Server uri"
 msgstr "Server uri"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:98
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid "Sign up is not allowed on this database."
 msgstr "Η Εγγραφή δεν επιτρέπεται σε αυτή τη βάση δεδομένων."
@@ -237,7 +237,7 @@ msgid "Validation URL"
 msgstr "Διεύθυνση URL επικύρωσης"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:102
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid ""
 "You do not have access to this database or your invitation has expired. "

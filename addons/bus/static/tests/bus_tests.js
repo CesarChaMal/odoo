@@ -22,13 +22,13 @@ QUnit.module('Bus', {
         LocalStorageServiceMock = AbstractStorageService.extend({storage: new RamStorage()});
     },
 }, function () {
-    QUnit.test('notifications received from the longpolling channel', function (assert) {
+    QUnit.test('notifications received from the longpolling channel', async function (assert) {
         assert.expect(6);
 
-        var pollDeferred = $.Deferred();
+        var pollPromise = testUtils.makeTestPromise();
 
         var parent = new Widget();
-        testUtils.addMockEnvironment(parent, {
+        testUtils.mock.addMockEnvironment(parent, {
             data: {},
             services: {
                 bus_service: BusService,
@@ -36,49 +36,52 @@ QUnit.module('Bus', {
             },
             mockRPC: function (route, args) {
                 if (route === '/longpolling/poll') {
-                    assert.step([route, args.channels.join(',')]);
+                    assert.step(route + ' - ' + args.channels.join(','));
 
-                    pollDeferred = $.Deferred();
-                    pollDeferred.abort = (function () {
+                    pollPromise = testUtils.makeTestPromise();
+                    pollPromise.abort = (function () {
                         this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                    }).bind(pollDeferred);
-                    return pollDeferred;
+                    }).bind(pollPromise);
+                    return pollPromise;
                 }
                 return this._super.apply(this, arguments);
             }
         });
 
         var widget = new Widget(parent);
-        widget.appendTo($('#qunit-fixture'));
+        await widget.appendTo($('#qunit-fixture'));
 
         widget.call('bus_service', 'onNotification', this, function (notifications) {
-            assert.step(['notification', notifications]);
+            assert.step('notification - ' + notifications.toString());
         });
         widget.call('bus_service', 'addChannel', 'lambda');
 
-        pollDeferred.resolve([{
+        pollPromise.resolve([{
             id: 1,
             channel: 'lambda',
             message: 'beta',
         }]);
-        pollDeferred.resolve([{
+        await testUtils.nextTick();
+
+        pollPromise.resolve([{
             id: 2,
             channel: 'lambda',
             message: 'epsilon',
         }]);
+        await testUtils.nextTick();
 
         assert.verifySteps([
-            ["/longpolling/poll", "lambda"],
-            ["notification", [["lambda","beta"]]],
-            ["/longpolling/poll", "lambda"],
-            ["notification", [["lambda","epsilon"]]],
-            ["/longpolling/poll", "lambda"]
+            '/longpolling/poll - lambda',
+            'notification - lambda,beta',
+            '/longpolling/poll - lambda',
+            'notification - lambda,epsilon',
+            '/longpolling/poll - lambda',
         ]);
 
         parent.destroy();
     });
 
-    QUnit.test('provide notification ID of 0 by default', function (assert) {
+    QUnit.test('provide notification ID of 0 by default', async function (assert) {
         // This test is important in order to ensure that we provide the correct
         // sentinel value 0 when we are not aware of the last notification ID
         // that we have received. We cannot provide an ID of -1, otherwise it
@@ -88,7 +91,7 @@ QUnit.module('Bus', {
         assert.expect(3);
 
         // Simulate no ID of last notification in the local storage
-        testUtils.patch(LocalStorageServiceMock, {
+        testUtils.mock.patch(LocalStorageServiceMock, {
             getItem: function (key) {
                 if (key === 'last_ts') {
                     return 0;
@@ -97,9 +100,9 @@ QUnit.module('Bus', {
             },
         });
 
-        var pollDeferred = $.Deferred();
+        var pollPromise = testUtils.makeTestPromise();
         var parent = new Widget();
-        testUtils.addMockEnvironment(parent, {
+        testUtils.mock.addMockEnvironment(parent, {
             data: {},
             services: {
                 bus_service: BusService,
@@ -111,37 +114,36 @@ QUnit.module('Bus', {
                     assert.strictEqual(args.last, 0,
                         "provided last notification ID should be 0");
 
-                    pollDeferred = $.Deferred();
-                    pollDeferred.abort = (function () {
+                    pollPromise = testUtils.makeTestPromise();
+                    pollPromise.abort = (function () {
                         this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                    }).bind(pollDeferred);
-                    return pollDeferred;
+                    }).bind(pollPromise);
+                    return pollPromise;
                 }
                 return this._super.apply(this, arguments);
             }
         });
 
         var widget = new Widget(parent);
-        widget.appendTo($('#qunit-fixture'));
+        await widget.appendTo($('#qunit-fixture'));
 
         // trigger longpolling poll RPC
         widget.call('bus_service', 'addChannel', 'lambda');
         assert.verifySteps(['/longpolling/poll']);
 
-        testUtils.unpatch(LocalStorageServiceMock);
+        testUtils.mock.unpatch(LocalStorageServiceMock);
         parent.destroy();
     });
 
-    QUnit.test('cross tab bus share message from a channel', function (assert) {
-        var done = assert.async();
+    QUnit.test('cross tab bus share message from a channel', async function (assert) {
         assert.expect(5);
 
         // master
 
-        var pollDeferredMaster = $.Deferred();
+        var pollPromiseMaster = testUtils.makeTestPromise();
 
         var parentMaster = new Widget();
-        testUtils.addMockEnvironment(parentMaster, {
+        testUtils.mock.addMockEnvironment(parentMaster, {
             data: {},
             services: {
                 bus_service: BusService,
@@ -149,82 +151,77 @@ QUnit.module('Bus', {
             },
             mockRPC: function (route, args) {
                 if (route === '/longpolling/poll') {
-                    assert.step(['master', route, args.channels.join(',')]);
+                    assert.step('master' + ' - ' + route + ' - ' + args.channels.join(','));
 
-                    pollDeferredMaster = $.Deferred();
-                    pollDeferredMaster.abort = (function () {
+                    pollPromiseMaster = testUtils.makeTestPromise();
+                    pollPromiseMaster.abort = (function () {
                         this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                    }).bind(pollDeferredMaster);
-                    return pollDeferredMaster;
+                    }).bind(pollPromiseMaster);
+                    return pollPromiseMaster;
                 }
                 return this._super.apply(this, arguments);
             }
         });
 
         var master = new Widget(parentMaster);
-        master.appendTo($('#qunit-fixture'));
+        await master.appendTo($('#qunit-fixture'));
 
         master.call('bus_service', 'onNotification', master, function (notifications) {
-            assert.step(['master', 'notification', notifications]);
+            assert.step('master - notification - ' + notifications.toString());
         });
         master.call('bus_service', 'addChannel', 'lambda');
 
         // slave
-
-        setTimeout(function () {
-            var parentSlave = new Widget();
-            testUtils.addMockEnvironment(parentSlave, {
-                data: {},
-                services: {
-                    bus_service: BusService,
-                    local_storage: LocalStorageServiceMock,
-                },
-                mockRPC: function (route, args) {
-                    if (route === '/longpolling/poll') {
-                        throw new Error("Can not use the longpolling of the slave client");
-                    }
-                    return this._super.apply(this, arguments);
+        await testUtils.nextTick();
+        var parentSlave = new Widget();
+        testUtils.mock.addMockEnvironment(parentSlave, {
+            data: {},
+            services: {
+                bus_service: BusService,
+                local_storage: LocalStorageServiceMock,
+            },
+            mockRPC: function (route, args) {
+                if (route === '/longpolling/poll') {
+                    throw new Error("Can not use the longpolling of the slave client");
                 }
-            });
+                return this._super.apply(this, arguments);
+            }
+        });
 
-            var slave = new Widget(parentSlave);
-            slave.appendTo($('#qunit-fixture'));
+        var slave = new Widget(parentSlave);
+        await slave.appendTo($('#qunit-fixture'));
 
-            slave.call('bus_service', 'onNotification', slave, function (notifications) {
-                assert.step(['slave', 'notification', notifications]);
-            });
-            slave.call('bus_service', 'addChannel', 'lambda');
+        slave.call('bus_service', 'onNotification', slave, function (notifications) {
+            assert.step('slave - notification - ' + notifications.toString());
+        });
+        slave.call('bus_service', 'addChannel', 'lambda');
 
-            pollDeferredMaster.resolve([{
-                id: 1,
-                channel: 'lambda',
-                message: 'beta',
-            }]);
+        pollPromiseMaster.resolve([{
+            id: 1,
+            channel: 'lambda',
+            message: 'beta',
+        }]);
+        await testUtils.nextTick();
 
-            assert.verifySteps([
-                ["master", "/longpolling/poll", "lambda"],
-                ["master", "notification", [["lambda", "beta"]]],
-                ["slave", "notification", [["lambda", "beta"]]],
-                ["master", "/longpolling/poll", "lambda"],
-            ]);
+        assert.verifySteps([
+            'master - /longpolling/poll - lambda',
+            'master - notification - lambda,beta',
+            'slave - notification - lambda,beta',
+            'master - /longpolling/poll - lambda',
+        ]);
 
-            parentMaster.destroy();
-            parentSlave.destroy();
-
-            done();
-
-        }, 3);
+        parentMaster.destroy();
+        parentSlave.destroy();
     });
 
-    QUnit.test('cross tab bus elect new master on master unload', function (assert) {
-        var done = assert.async();
+    QUnit.test('cross tab bus elect new master on master unload', async function (assert) {
         assert.expect(8);
 
         // master
-        var pollDeferredMaster = $.Deferred();
+        var pollPromiseMaster = testUtils.makeTestPromise();
 
         var parentMaster = new Widget();
-        testUtils.addMockEnvironment(parentMaster, {
+        testUtils.mock.addMockEnvironment(parentMaster, {
             data: {},
             services: {
                 bus_service: BusService,
@@ -232,95 +229,93 @@ QUnit.module('Bus', {
             },
             mockRPC: function (route, args) {
                 if (route === '/longpolling/poll') {
-                    assert.step(['master', route, args.channels.join(',')]);
+                    assert.step('master - ' + route + ' - ' + args.channels.join(','));
 
-                    pollDeferredMaster = $.Deferred();
-                    pollDeferredMaster.abort = (function () {
+                    pollPromiseMaster = testUtils.makeTestPromise();
+                    pollPromiseMaster.abort = (function () {
                         this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                    }).bind(pollDeferredMaster);
-                    return pollDeferredMaster;
+                    }).bind(pollPromiseMaster);
+                    return pollPromiseMaster;
                 }
                 return this._super.apply(this, arguments);
             }
         });
 
         var master = new Widget(parentMaster);
-        master.appendTo($('#qunit-fixture'));
+        await master.appendTo($('#qunit-fixture'));
 
         master.call('bus_service', 'onNotification', master, function (notifications) {
-            assert.step(['master', 'notification', notifications]);
+            assert.step('master - notification - ' + notifications.toString());
         });
         master.call('bus_service', 'addChannel', 'lambda');
 
         // slave
-        setTimeout(function () {
-            var parentSlave = new Widget();
-            var pollDeferredSlave = $.Deferred();
-            testUtils.addMockEnvironment(parentSlave, {
-                data: {},
-                services: {
-                    bus_service: BusService,
-                    local_storage: LocalStorageServiceMock,
-                },
-                mockRPC: function (route, args) {
-                    if (route === '/longpolling/poll') {
-                        assert.step(['slave', route, args.channels.join(',')]);
+        await testUtils.nextTick();
+        var parentSlave = new Widget();
+        var pollPromiseSlave = testUtils.makeTestPromise();
+        testUtils.mock.addMockEnvironment(parentSlave, {
+            data: {},
+            services: {
+                bus_service: BusService,
+                local_storage: LocalStorageServiceMock,
+            },
+            mockRPC: function (route, args) {
+                if (route === '/longpolling/poll') {
+                    assert.step('slave - ' + route + ' - ' + args.channels.join(','));
 
-                        pollDeferredSlave = $.Deferred();
-                        pollDeferredSlave.abort = (function () {
-                            this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                        }).bind(pollDeferredSlave);
-                        return pollDeferredSlave;
-                    }
-                    return this._super.apply(this, arguments);
+                    pollPromiseSlave = testUtils.makeTestPromise();
+                    pollPromiseSlave.abort = (function () {
+                        this.reject({message: "XmlHttpRequestError abort"}, $.Event());
+                    }).bind(pollPromiseSlave);
+                    return pollPromiseSlave;
                 }
-            });
+                return this._super.apply(this, arguments);
+            }
+        });
 
-            var slave = new Widget(parentSlave);
-            slave.appendTo($('#qunit-fixture'));
+        var slave = new Widget(parentSlave);
+        await slave.appendTo($('#qunit-fixture'));
 
-            slave.call('bus_service', 'onNotification', slave, function (notifications) {
-                assert.step(['slave', 'notification', notifications]);
-            });
-            slave.call('bus_service', 'addChannel', 'lambda');
+        slave.call('bus_service', 'onNotification', slave, function (notifications) {
+            assert.step('slave - notification - ' + notifications.toString());
+        });
+        slave.call('bus_service', 'addChannel', 'lambda');
 
-            pollDeferredMaster.resolve([{
-                id: 1,
-                channel: 'lambda',
-                message: 'beta',
-            }]);
+        pollPromiseMaster.resolve([{
+            id: 1,
+            channel: 'lambda',
+            message: 'beta',
+        }]);
+        await testUtils.nextTick();
 
-            // simulate unloading master
-            master.call('bus_service', '_onUnload');
+        // simulate unloading master
+        master.call('bus_service', '_onUnload');
 
-            pollDeferredSlave.resolve([{
-                id: 2,
-                channel: 'lambda',
-                message: 'gamma',
-            }]);
+        pollPromiseSlave.resolve([{
+            id: 2,
+            channel: 'lambda',
+            message: 'gamma',
+        }]);
+        await testUtils.nextTick();
 
-            assert.verifySteps([
-                ["master", "/longpolling/poll", "lambda"],
-                ["master", "notification", [["lambda", "beta"]]],
-                ["slave", "notification", [["lambda", "beta"]]],
-                ["master", "/longpolling/poll", "lambda"],
-                ["slave", "/longpolling/poll", "lambda"],
-                ["slave", "notification", [["lambda", "gamma"]]],
-                ["slave", "/longpolling/poll", "lambda"],
-            ]);
+        assert.verifySteps([
+            'master - /longpolling/poll - lambda',
+            'master - notification - lambda,beta',
+            'slave - notification - lambda,beta',
+            'master - /longpolling/poll - lambda',
+            'slave - /longpolling/poll - lambda',
+            'slave - notification - lambda,gamma',
+            'slave - /longpolling/poll - lambda',
+        ]);
 
-            parentMaster.destroy();
-            parentSlave.destroy();
-
-            done();
-
-        }, 3);
+        parentMaster.destroy();
+        parentSlave.destroy();
     });
 
-    QUnit.test('two tabs calling addChannel simultaneously', function (assert) {
+    QUnit.test('two tabs calling addChannel simultaneously', async function (assert) {
         assert.expect(5);
 
-        var id = 1;
+        let id = 1;
         testUtils.patch(CrossTabBus, {
             init: function () {
                 this._super.apply(this, arguments);
@@ -336,8 +331,8 @@ QUnit.module('Bus', {
             },
         });
 
-        var pollDeferred;
-        var parentTab1 = new Widget();
+        let pollPromise;
+        const parentTab1 = new Widget();
         testUtils.addMockEnvironment(parentTab1, {
             data: {},
             services: {
@@ -345,16 +340,16 @@ QUnit.module('Bus', {
             },
             mockRPC: function (route) {
                 if (route === '/longpolling/poll') {
-                    pollDeferred = $.Deferred();
-                    pollDeferred.abort = (function () {
+                    pollPromise = testUtils.makeTestPromise();
+                    pollPromise.abort = (function () {
                         this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                    }).bind(pollDeferred);
-                    return pollDeferred;
+                    }).bind(pollPromise);
+                    return pollPromise;
                 }
                 return this._super.apply(this, arguments);
             }
         });
-        var parentTab2 = new Widget();
+        const parentTab2 = new Widget();
         testUtils.addMockEnvironment(parentTab2, {
             data: {},
             services: {
@@ -362,18 +357,18 @@ QUnit.module('Bus', {
             },
             mockRPC: function (route) {
                 if (route === '/longpolling/poll') {
-                    pollDeferred = $.Deferred();
-                    pollDeferred.abort = (function () {
+                    pollPromise = testUtils.makeTestPromise();
+                    pollPromise.abort = (function () {
                         this.reject({message: "XmlHttpRequestError abort"}, $.Event());
-                    }).bind(pollDeferred);
-                    return pollDeferred;
+                    }).bind(pollPromise);
+                    return pollPromise;
                 }
                 return this._super.apply(this, arguments);
             }
         });
 
-        var tab1 = new CrossTabBus(parentTab1);
-        var tab2 = new CrossTabBus(parentTab2);
+        const tab1 = new CrossTabBus(parentTab1);
+        const tab2 = new CrossTabBus(parentTab2);
 
         tab1.addChannel("alpha");
         tab2.addChannel("alpha");
@@ -391,7 +386,6 @@ QUnit.module('Bus', {
         parentTab1.destroy();
         parentTab2.destroy();
     });
-
 });
 
 });

@@ -1,17 +1,17 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * base_sparse_field
+# 	* base_sparse_field
 # 
 # Translators:
-# Martin Trigaux, 2018
+# Martin Trigaux, 2019
 # Ivan Yelizariev <yelizariev@it-projects.info>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-21 13:17+0000\n"
-"PO-Revision-Date: 2018-08-24 09:16+0000\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Ivan Yelizariev <yelizariev@it-projects.info>, 2020\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -26,7 +26,7 @@ msgid "Boolean"
 msgstr "Логическое"
 
 #. module: base_sparse_field
-#: code:addons/base_sparse_field/models/models.py:25
+#: code:addons/base_sparse_field/models/models.py:0
 #, python-format
 msgid "Changing the storing system for field \"%s\" is not allowed."
 msgstr "Изменение системы хранения для поля \"%s\" не допускается."
@@ -108,7 +108,7 @@ msgid "Last Updated on"
 msgstr "Последнее обновление"
 
 #. module: base_sparse_field
-#: selection:sparse_fields.test,selection:0
+#: model:ir.model.fields.selection,name:base_sparse_field.selection__sparse_fields_test__selection__one
 msgid "One"
 msgstr "один"
 
@@ -118,7 +118,7 @@ msgid "Partner"
 msgstr "Партнёр"
 
 #. module: base_sparse_field
-#: code:addons/base_sparse_field/models/models.py:27
+#: code:addons/base_sparse_field/models/models.py:0
 #, python-format
 msgid "Renaming sparse field \"%s\" is not allowed"
 msgstr "Переименование разбросанного поля \"%s\" запрещено"
@@ -134,7 +134,7 @@ msgid "Serialization Field"
 msgstr "Поле сериализации"
 
 #. module: base_sparse_field
-#: code:addons/base_sparse_field/models/models.py:39
+#: code:addons/base_sparse_field/models/models.py:0
 #, python-format
 msgid "Serialization field `%s` not found for sparse field `%s`!"
 msgstr "Поле сериализации ` %s ` не найдено для разреженного поля` %s `!"
@@ -145,86 +145,11 @@ msgid "Sparse fields Test"
 msgstr "Тест гибких полей"
 
 #. module: base_sparse_field
-#: selection:sparse_fields.test,selection:0
+#: model:ir.model.fields.selection,name:base_sparse_field.selection__sparse_fields_test__selection__two
 msgid "Two"
 msgstr "два"
 
 #. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "binary"
-msgstr "двойной"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "boolean"
-msgstr "булевых"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "char"
-msgstr "символ"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "date"
-msgstr "дата"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "datetime"
-msgstr "дата время"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "float"
-msgstr "float"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "html"
-msgstr "html"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "integer"
-msgstr "integer"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "many2many"
-msgstr "many2many"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "many2one"
-msgstr "many2one"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "monetary"
-msgstr "monetary"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "one2many"
-msgstr "one2many"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "reference"
-msgstr "ссылки"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "selection"
-msgstr "выбор"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
+#: model:ir.model.fields.selection,name:base_sparse_field.selection__ir_model_fields__ttype__serialized
 msgid "serialized"
 msgstr "сериализация"
-
-#. module: base_sparse_field
-#: selection:ir.model.fields,ttype:0
-msgid "text"
-msgstr "текст"

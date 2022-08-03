@@ -1,25 +1,24 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * purchase_stock
+# 	* purchase_stock
 # 
 # Translators:
-# kirily <kiril@teracomp.eu>, 2019
-# Martin Trigaux, 2019
-# Kaloyan Naumov <kaloyan@lumnus.net>, 2019
-# Anton Vassilev, 2019
-# B Dochev, 2019
-# aleksandar ivanov, 2019
-# Albena Mincheva <albena_vicheva@abv.bg>, 2019
-# Весел Карастоянов <vesel@abv.bg>, 2019
-# Maria Boyadjieva <marabo2000@gmail.com>, 2019
+# kirily <kiril@teracomp.eu>, 2020
+# Martin Trigaux, 2020
+# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2020
+# Kaloyan Naumov <kaloyan@lumnus.net>, 2020
+# aleksandar ivanov, 2020
+# Albena Mincheva <albena_vicheva@abv.bg>, 2020
+# Весел Карастоянов <vesel@abv.bg>, 2020
+# Maria Boyadjieva <marabo2000@gmail.com>, 2020
 # Igor Sheludko <igor.sheludko@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:33+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:13+0000\n"
 "Last-Translator: Igor Sheludko <igor.sheludko@gmail.com>, 2020\n"
 "Language-Team: Bulgarian (https://www.transifex.com/odoo/teams/41243/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -39,8 +38,8 @@ msgstr ""
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.stock_production_lot_view_form
-msgid "<span class=\"o_stat_text\">Purchase Orders</span>"
-msgstr ""
+msgid "<span class=\"o_stat_text\">Purchases</span>"
+msgstr "<span class=\"o_stat_text\">Доставки</span>"
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.report_purchaseorder_document
@@ -49,15 +48,26 @@ msgid "<strong>Shipping address:</strong>"
 msgstr "<strong>Адрес за шипинг:</strong>"
 
 #. module: purchase_stock
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order_line__qty_received_method
+msgid ""
+"According to product configuration, the recieved quantity can be automatically computed by mechanism :\n"
+"  - Manual: the quantity is set manually on the line\n"
+"  - Stock Moves: the quantity comes from confirmed pickings\n"
+msgstr ""
+"Според продуктовата конфигурация, получените кол-ва може автоматично да се сметнат с помощта на механизъм :\n"
+"  - Ръчен: количеството се посочва ръчно за реда\n"
+"  - Складови движения: бройките се дърпат от потвърдените пикинги\n"
+
+#. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_stock_rule__action
 msgid "Action"
 msgstr "Действие"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/stock.py:139
+#: code:addons/purchase_stock/models/stock.py:0
+#: model:ir.model.fields.selection,name:purchase_stock.selection__stock_rule__action__buy
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_report_stock_rule
 #: model:stock.location.route,name:purchase_stock.route_warehouse0_buy
-#: selection:stock.rule,action:0
 #, python-format
 msgid "Buy"
 msgstr "Купете"
@@ -92,8 +102,12 @@ msgstr "Доставете до"
 #: model:ir.model.fields,help:purchase_stock.field_product_template__route_ids
 msgid ""
 "Depending on the modules installed, this will allow you to define the route "
-"of the product: whether it will be bought, manufactured, MTO, etc."
+"of the product: whether it will be bought, manufactured, replenished on "
+"order, etc."
 msgstr ""
+"В зависимост от инсталираните модули, това ще Ви позволи да определите "
+"маршрута на продукта: дали ще бъде закупен, произведен, попълнен за "
+"поръчката, друго."
 
 #. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__default_location_dest_id_usage
@@ -121,11 +135,6 @@ msgid "Exception(s):"
 msgstr "Изключение(я):"
 
 #. module: purchase_stock
-#: model:ir.ui.menu,name:purchase_stock.menu_action_picking_tree_in_move
-msgid "Incoming  Products"
-msgstr "Входящи продукти"
-
-#. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
 msgid "Incoming Shipments"
 msgstr "Входящи пратки"
@@ -145,11 +154,6 @@ msgstr ""
 "дефинирани търговски термини, използвани в международните транзакции."
 
 #. module: purchase_stock
-#: model:ir.model,name:purchase_stock.model_account_invoice
-msgid "Invoice"
-msgstr "Фактура"
-
-#. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__is_shipped
 msgid "Is Shipped"
 msgstr "Изпратено"
@@ -158,6 +162,11 @@ msgstr "Изпратено"
 #: model:ir.model.fields,field_description:purchase_stock.field_res_config_settings__is_installed_sale
 msgid "Is the Sale Module Installed"
 msgstr "Дали модул Продажби е инсталиран"
+
+#. module: purchase_stock
+#: model:ir.model,name:purchase_stock.model_account_move
+msgid "Journal Entries"
+msgstr "Записи в дневника"
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_purchase
@@ -172,12 +181,7 @@ msgstr "Партиден/сериен"
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.exception_on_po
 msgid "Manual actions may be needed."
-msgstr "Може да подрябват ръчни действия"
-
-#. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Manufacture"
-msgstr "Производство"
+msgstr "Може да подрябват ръчни действия."
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_stock
@@ -206,9 +210,17 @@ msgid "Next transfer(s) impacted:"
 msgstr "Следващи трансфери са засегнали:"
 
 #. module: purchase_stock
+#: code:addons/purchase_stock/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Odoo is not able to generate the anglo saxon entries. The total valuation of"
+" %s is zero."
+msgstr ""
+
+#. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__orderpoint_id
 msgid "Orderpoint"
-msgstr "точка на заявка"
+msgstr "точка за заявка"
 
 #. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__picking_count
@@ -226,14 +238,14 @@ msgid "Product Template"
 msgstr "Шаблон за продукт "
 
 #. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Pull & Push"
-msgstr ""
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__propagate_date
+msgid "Propagate Rescheduling"
+msgstr "Разпространение на планирането"
 
 #. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Pull From"
-msgstr ""
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__propagate_cancel
+msgid "Propagate cancellation"
+msgstr "Разпространение на отмяна"
 
 #. module: purchase_stock
 #: model:ir.model,name:purchase_stock.model_purchase_order
@@ -261,12 +273,7 @@ msgstr "Отчет Доставки"
 #. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_stock_production_lot__purchase_order_count
 msgid "Purchase order count"
-msgstr "Брой Поръчки за снабдяване"
-
-#. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Push To"
-msgstr ""
+msgstr "Преброяване на поръчката за купуване"
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
@@ -279,6 +286,11 @@ msgid "Receive Products"
 msgstr "Получавайте продукти"
 
 #. module: purchase_stock
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__qty_received_method
+msgid "Received Qty Method"
+msgstr "Метод Получени кол-ва"
+
+#. module: purchase_stock
 #: model:ir.actions.act_window,name:purchase_stock.purchase_open_picking
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__picking_ids
 msgid "Receptions"
@@ -287,7 +299,12 @@ msgstr "Приемания"
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_purchase
 msgid "Request your vendors to deliver to your customers"
-msgstr "Поискайте доставчиците да доставят директно на клиентите Ви"
+msgstr "Поискайте доставчиците Ви да доставят директно на клиентите Ви"
+
+#. module: purchase_stock
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__propagate_date_minimum_delta
+msgid "Reschedule if Higher Than"
+msgstr "Препланирай ако е над"
 
 #. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__move_ids
@@ -316,6 +333,7 @@ msgid "Stock Move"
 msgstr "Движение в склада"
 
 #. module: purchase_stock
+#: model:ir.model.fields.selection,name:purchase_stock.selection__purchase_order_line__qty_received_method__stock_moves
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_line_view_form_inherit
 msgid "Stock Moves"
 msgstr "Складови движения"
@@ -323,12 +341,12 @@ msgstr "Складови движения"
 #. module: purchase_stock
 #: model:ir.model,name:purchase_stock.model_stock_rule
 msgid "Stock Rule"
-msgstr "Складово правило"
+msgstr "Правило зс наличност"
 
 #. module: purchase_stock
 #: model:ir.model,name:purchase_stock.model_report_stock_report_stock_rule
 msgid "Stock rule report"
-msgstr "Отчет складови правила"
+msgstr "Отчет Правила за наличност"
 
 #. module: purchase_stock
 #: model:ir.model.fields,help:purchase_stock.field_purchase_order__default_location_dest_id_usage
@@ -336,7 +354,13 @@ msgid "Technical field used to display the Drop Ship Address"
 msgstr "Техническо поле, използвано за показване адреса за доставка"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:265
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order_line__propagate_date_minimum_delta
+msgid "The change must be higher than this value to be propagated"
+msgstr ""
+"Промяната следва да бъде по-висока от тази стойност за да бъде разширена"
+
+#. module: purchase_stock
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid ""
 "The quantities on your purchase order indicate less than billed. You should "
@@ -346,12 +370,21 @@ msgstr ""
 " връщане на пари."
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/stock_rule.py:38
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order_line__propagate_date
+msgid "The rescheduling is propagated to the next move."
+msgstr "Препланирането засяга следващото движение"
+
+#. module: purchase_stock
+#: code:addons/purchase_stock/models/stock_rule.py:0
 #, python-format
 msgid ""
-"There is no vendor associated to the product %s. Please define a vendor for "
-"this product."
+"There is no matching vendor price to generate the purchase order for product"
+" %s (no vendor defined, minimum quantity not reached, dates not valid, ...)."
+" Go on the product form and complete the list of vendors."
 msgstr ""
+"Не откривам съвпадаща цена при доставчика за да генерирам поръчка за продукт"
+"  %s (не зададен доставчик, не достигнати мин. кол-ва, не валидни дати, "
+"...). Отидете към екрана на продукта и попълнете списъка с доставчиците."
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_purchase
@@ -379,7 +412,7 @@ msgid "Transfer"
 msgstr "Прехвърлете"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:95
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid ""
 "Unable to cancel purchase order %s as some receptions have already been "
@@ -400,7 +433,7 @@ msgid "When products are bought, they can be delivered to this warehouse"
 msgstr "Закупените продукти могат да бъдат доставени в този склад"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/stock_rule.py:20
+#: code:addons/purchase_stock/models/stock_rule.py:0
 #, python-format
 msgid ""
 "When products are needed in <b>%s</b>, <br/> a request for quotation is "
@@ -410,7 +443,7 @@ msgstr ""
 "попълване на потребността."
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:257
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid ""
 "You cannot decrease the ordered quantity below the received quantity.\n"
@@ -420,7 +453,7 @@ msgstr ""
 "Първо направете връщане."
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:186
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid "You must set a Vendor Location for this partner %s"
 msgstr "Трябва да настроите местоположение на доставчик за този контрагент %s"

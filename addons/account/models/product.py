@@ -8,12 +8,12 @@ class ProductCategory(models.Model):
     _inherit = "product.category"
 
     property_account_income_categ_id = fields.Many2one('account.account', company_dependent=True,
-        string="Income Account", oldname="property_account_income_categ",
-        domain=[('deprecated', '=', False)],
+        string="Income Account",
+        domain="['&', ('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="This account will be used when validating a customer invoice.")
     property_account_expense_categ_id = fields.Many2one('account.account', company_dependent=True,
-        string="Expense Account", oldname="property_account_expense_categ",
-        domain=[('deprecated', '=', False)],
+        string="Expense Account",
+        domain="['&', ('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="The expense is accounted for when a vendor bill is validated, except in anglo-saxon accounting with perpetual inventory valuation in which case the expense (Cost of Goods Sold account) is recognized at the customer invoice validation.")
 
 #----------------------------------------------------------
@@ -23,60 +23,109 @@ class ProductTemplate(models.Model):
     _inherit = "product.template"
 
     taxes_id = fields.Many2many('account.tax', 'product_taxes_rel', 'prod_id', 'tax_id', help="Default taxes used when selling the product.", string='Customer Taxes',
-        domain=[('type_tax_use', '=', 'sale')], default=lambda self: self.env.user.company_id.account_sale_tax_id)
+        domain=[('type_tax_use', '=', 'sale')], default=lambda self: self.env.company.account_sale_tax_id)
     supplier_taxes_id = fields.Many2many('account.tax', 'product_supplier_taxes_rel', 'prod_id', 'tax_id', string='Vendor Taxes', help='Default taxes used when buying the product.',
-        domain=[('type_tax_use', '=', 'purchase')], default=lambda self: self.env.user.company_id.account_purchase_tax_id)
+        domain=[('type_tax_use', '=', 'purchase')], default=lambda self: self.env.company.account_purchase_tax_id)
     property_account_income_id = fields.Many2one('account.account', company_dependent=True,
-        string="Income Account", oldname="property_account_income",
-        domain=[('deprecated', '=', False)],
+        string="Income Account",
+        domain="['&', ('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="Keep this field empty to use the default value from the product category.")
     property_account_expense_id = fields.Many2one('account.account', company_dependent=True,
-        string="Expense Account", oldname="property_account_expense",
-        domain=[('deprecated', '=', False)],
+        string="Expense Account",
+        domain="['&', ('deprecated', '=', False), ('company_id', '=', current_company_id)]",
         help="Keep this field empty to use the default value from the product category. If anglo-saxon accounting with automated valuation method is configured, the expense account on the product category will be used.")
 
-    @api.multi
     def _get_product_accounts(self):
         return {
             'income': self.property_account_income_id or self.categ_id.property_account_income_categ_id,
             'expense': self.property_account_expense_id or self.categ_id.property_account_expense_categ_id
         }
 
-    @api.multi
     def _get_asset_accounts(self):
         res = {}
         res['stock_input'] = False
         res['stock_output'] = False
         return res
 
-    @api.multi
     def get_product_accounts(self, fiscal_pos=None):
         accounts = self._get_product_accounts()
         if not fiscal_pos:
             fiscal_pos = self.env['account.fiscal.position']
         return fiscal_pos.map_accounts(accounts)
 
+
 class ProductProduct(models.Model):
     _inherit = "product.product"
 
     @api.model
-    def _convert_prepared_anglosaxon_line(self, line, partner):
-        return {
-            'date_maturity': line.get('date_maturity', False),
-            'partner_id': partner,
-            'name': line['name'],
-            'debit': line['price'] > 0 and line['price'],
-            'credit': line['price'] < 0 and -line['price'],
-            'account_id': line['account_id'],
-            'analytic_line_ids': line.get('analytic_line_ids', []),
-            'amount_currency': line['price'] > 0 and abs(line.get('amount_currency', False)) or -abs(line.get('amount_currency', False)),
-            'currency_id': line.get('currency_id', False),
-            'quantity': line.get('quantity', 1.00),
-            'product_id': line.get('product_id', False),
-            'product_uom_id': line.get('uom_id', False),
-            'analytic_account_id': line.get('account_analytic_id', False),
-            'invoice_id': line.get('invoice_id', False),
-            'tax_ids': line.get('tax_ids', False),
-            'tax_line_id': line.get('tax_line_id', False),
-            'analytic_tag_ids': line.get('analytic_tag_ids', False),
-        }
+    def _get_tax_included_unit_price(self, company, currency, document_date, document_type,
+            is_refund_document=False, product_uom=None, product_currency=None,
+            product_price_unit=None, product_taxes=None, fiscal_position=None
+        ):
+        """ Helper to get the price unit from different models.
+            This is needed to compute the same unit price in different models (sale order, account move, etc.) with same parameters.
+        """
+
+        product = self
+
+        assert document_type
+
+        if product_uom is None:
+            product_uom = product.uom_id
+        if not product_currency:
+            if document_type == 'sale':
+                product_currency = product.currency_id
+            elif document_type == 'purchase':
+                product_currency = company.currency_id
+        if product_price_unit is None:
+            if document_type == 'sale':
+                product_price_unit = product.lst_price
+            elif document_type == 'purchase':
+                product_price_unit = product.standard_price
+            else:
+                return 0.0
+        if product_taxes is None:
+            if document_type == 'sale':
+                product_taxes = product.taxes_id.filtered(lambda x: x.company_id == company)
+            elif document_type == 'purchase':
+                product_taxes = product.supplier_taxes_id.filtered(lambda x: x.company_id == company)
+        # Apply unit of measure.
+        if product_uom and product.uom_id != product_uom:
+            product_price_unit = product.uom_id._compute_price(product_price_unit, product_uom)
+
+        # Apply fiscal position.
+        if product_taxes and fiscal_position:
+            product_taxes_after_fp = fiscal_position.map_tax(product_taxes)
+
+            if set(product_taxes.ids) != set(product_taxes_after_fp.ids):
+                flattened_taxes_before_fp = product_taxes._origin.flatten_taxes_hierarchy()
+                if any(tax.price_include for tax in flattened_taxes_before_fp):
+                    taxes_res = flattened_taxes_before_fp.compute_all(
+                        product_price_unit,
+                        quantity=1.0,
+                        currency=currency,
+                        product=product,
+                        is_refund=is_refund_document,
+                    )
+                    product_price_unit = taxes_res['total_excluded']
+
+                flattened_taxes_after_fp = product_taxes_after_fp._origin.flatten_taxes_hierarchy()
+                if any(tax.price_include for tax in flattened_taxes_after_fp):
+                    taxes_res = flattened_taxes_after_fp.compute_all(
+                        product_price_unit,
+                        quantity=1.0,
+                        currency=currency,
+                        product=product,
+                        is_refund=is_refund_document,
+                        handle_price_include=False,
+                    )
+                    for tax_res in taxes_res['taxes']:
+                        tax = self.env['account.tax'].browse(tax_res['id'])
+                        if tax.price_include:
+                            product_price_unit += tax_res['amount']
+
+        # Apply currency rate.
+        if currency != product_currency:
+            product_price_unit = product_currency._convert(product_price_unit, currency, company, document_date)
+
+        return product_price_unit

@@ -24,6 +24,41 @@ except ImportError:
 from odoo import api, models, tools, _
 from odoo.tools.misc import ustr
 from odoo.exceptions import ValidationError
+from stdnum.at.uid import compact as compact_at
+from stdnum.be.vat import compact as compact_be
+from stdnum.bg.vat import compact as compact_bg
+from stdnum.ch.vat import compact as compact_ch, format as format_ch
+from stdnum.cy.vat import compact as compact_cy
+from stdnum.cz.dic import compact as compact_cz
+from stdnum.de.vat import compact as compact_de
+from stdnum.ee.kmkr import compact as compact_ee
+# el not in stdnum
+from stdnum.es.nif import compact as compact_es
+from stdnum.fi.alv import compact as compact_fi
+from stdnum.fr.tva import compact as compact_fr
+from stdnum.gb.vat import compact as compact_gb
+from stdnum.gr.vat import compact as compact_gr
+from stdnum.hu.anum import compact as compact_hu
+from stdnum.hr.oib import compact as compact_hr
+from stdnum.ie.vat import compact as compact_ie
+from stdnum.it.iva import compact as compact_it
+from stdnum.lt.pvm import compact as compact_lt
+from stdnum.lu.tva import compact as compact_lu
+from stdnum.lv.pvn import compact as compact_lv
+from stdnum.mt.vat import compact as compact_mt
+from stdnum.mx.rfc import compact as compact_mx
+from stdnum.nl.btw import compact as compact_nl
+from stdnum.no.mva import compact as compact_no
+# pe is not in stdnum
+from stdnum.pl.nip import compact as compact_pl
+from stdnum.pt.nif import compact as compact_pt
+from stdnum.ro.cf import compact as compact_ro
+from stdnum.se.vat import compact as compact_se
+from stdnum.si.ddv import compact as compact_si
+from stdnum.sk.dph import compact as compact_sk
+from stdnum.ar.cuit import compact as compact_ar
+# tr compact vat is not in stdnum
+
 
 _eu_country_vat = {
     'GR': 'EL'
@@ -139,19 +174,25 @@ class ResPartner(models.Model):
 
     @api.constrains('vat', 'country_id')
     def check_vat(self):
+        # The context key 'no_vat_validation' allows you to store/set a VAT number without doing validations.
+        # This is for API pushes from external platforms where you have no control over VAT numbers.
+        if self.env.context.get('no_vat_validation'):
+            return
         if self.env.context.get('company_id'):
             company = self.env['res.company'].browse(self.env.context['company_id'])
         else:
-            company = self.env.user.company_id
-        if company.vat_check_vies:
-            # force full VIES online check
-            check_func = self.vies_vat_check
-        else:
-            # quick and partial off-line checksum validation
-            check_func = self.simple_vat_check
+            company = self.env.company
+        eu_countries = self.env.ref('base.europe').country_ids
         for partner in self:
             if not partner.vat:
                 continue
+            is_eu_country = partner.commercial_partner_id.country_id in eu_countries
+            if company.vat_check_vies and is_eu_country and partner.is_company:
+                # force full VIES online check
+                check_func = self.vies_vat_check
+            else:
+                # quick and partial off-line checksum validation
+                check_func = self.simple_vat_check
             #check with country code as prefix of the TIN
             failed_check = False
             vat_country_code, vat_number = self._split_vat(partner.vat)
@@ -183,7 +224,7 @@ class ResPartner(models.Model):
         if self.env.context.get('company_id'):
             company = self.env['res.company'].browse(self.env.context['company_id'])
         else:
-            company = self.env.user.company_id
+            company = self.env.company
         if company.vat_check_vies:
             return '\n' + _('The VAT number [%s] for partner [%s] either failed the VIES VAT validation check or did not respect the expected format %s.') % (self.vat, self.name, vat_no)
         return '\n' + _('The VAT number [%s] for partner [%s] does not seem to be valid. \nNote: the expected format is %s') % (self.vat, self.name, vat_no)
@@ -255,9 +296,6 @@ class ResPartner(models.Model):
                                    br"[ \-_]?" \
                                    br"(?P<code>[A-Za-z0-9&\xd1\xf1]{3})$")
 
-    # Netherlands VAT verification
-    __check_vat_nl_re = re.compile("(?:NL)?[0-9A-Z+*]{10}[0-9]{2}")
-
     def check_vat_mx(self, vat):
         ''' Mexican VAT verification
 
@@ -281,6 +319,62 @@ class ResPartner(models.Model):
 
         # Valid format and valid date
         return True
+
+    # Netherlands VAT verification
+    __check_vat_nl_re = re.compile("(?:NL)?[0-9A-Z+*]{10}[0-9]{2}")
+
+    def check_vat_nl(self, vat):
+        """
+        Temporary Netherlands VAT validation to support the new format introduced in January 2020,
+        until upstream is fixed.
+
+        Algorithm detail: http://kleineondernemer.nl/index.php/nieuw-btw-identificatienummer-vanaf-1-januari-2020-voor-eenmanszaken
+
+        TODO: remove when fixed upstream
+        """
+
+        try:
+            from stdnum.util import clean
+            from stdnum.nl.bsn import checksum
+        except ImportError:
+            return True
+
+        vat = clean(vat, ' -.').upper().strip()
+
+        # Remove the prefix
+        if vat.startswith("NL"):
+            vat = vat[2:]
+
+        if not len(vat) == 12:
+            return False
+
+        # Check the format
+        match = self.__check_vat_nl_re.match(vat)
+        if not match:
+            return False
+
+        # Match letters to integers
+        char_to_int = {k: str(ord(k) - 55) for k in string.ascii_uppercase}
+        char_to_int['+'] = '36'
+        char_to_int['*'] = '37'
+
+        # 2 possible checks:
+        # - For natural persons
+        # - For non-natural persons and combinations of natural persons (company)
+
+        # Natural person => mod97 full checksum
+        check_val_natural = '2321'
+        for x in vat:
+            check_val_natural += x if x.isdigit() else char_to_int[x]
+        if int(check_val_natural) % 97 == 1:
+            return True
+
+        # Company => weighted(9->2) mod11 on bsn
+        vat = vat[:-3]
+        if vat.isdigit() and checksum(vat) == 0:
+            return True
+
+        return False
 
     # Norway VAT validation, contributed by Rolv Råen (adEgo) <rora@adego.no>
     # Support for MVA suffix contributed by Bringsvor Consulting AS (bringsvor@bringsvor.com)
@@ -378,58 +472,13 @@ class ResPartner(models.Model):
     def check_vat_co(self, vat):
         return stdnum.util.get_cc_module('co', 'vat').is_valid(vat) if stdnum else True
 
-    def check_vat_nl(self, vat):
-        """
-        Temporary Netherlands VAT validation to support the new format introduced in January 2020,
-        until upstream is fixed.
-
-        Algorithm detail: http://kleineondernemer.nl/index.php/nieuw-btw-identificatienummer-vanaf-1-januari-2020-voor-eenmanszaken
-
-        TODO: remove when fixed upstream
-        """
-
+    # Argentinian VAT validation, contributed by ADHOC
+    def check_vat_ar(self, vat):
         try:
-            from stdnum.util import clean
-            from stdnum.nl.bsn import checksum
+            import stdnum.ar
+            return stdnum.ar.cuit.is_valid(vat)
         except ImportError:
             return True
-
-        vat = clean(vat, ' -.').upper().strip()
-
-        # Remove the prefix
-        if vat.startswith("NL"):
-            vat = vat[2:]
-
-        if not len(vat) == 12:
-            return False
-
-        # Check the format
-        match = self.__check_vat_nl_re.match(vat)
-        if not match:
-            return False
-
-        # Match letters to integers
-        char_to_int = {k: str(ord(k) - 55) for k in string.ascii_uppercase}
-        char_to_int['+'] = '36'
-        char_to_int['*'] = '37'
-
-        # 2 possible checks:
-        # - For natural persons
-        # - For non-natural persons and combinations of natural persons (company)
-
-        # Natural person => mod97 full checksum
-        check_val_natural = '2321'
-        for x in vat:
-            check_val_natural += x if x.isdigit() else char_to_int[x]
-        if int(check_val_natural) % 97 == 1:
-            return True
-
-        # Company => weighted(9->2) mod11 on bsn
-        vat = vat[:-3]
-        if vat.isdigit() and checksum(vat) == 0:
-            return True
-
-        return False
 
     def check_vat_ua(self, vat):
         res = []
@@ -457,3 +506,31 @@ class ResPartner(models.Model):
         new VAT number starting with XI
         TODO: remove when stdnum is updated to 1.16 in supported distro"""
         return stdnum.util.get_cc_module('gb', 'vat').is_valid(vat) if stdnum else True
+
+    def default_compact(self, vat):
+        return vat
+
+    def _fix_vat_number(self, vat, country_id):
+        code = self.env['res.country'].browse(country_id).code if country_id else False
+        vat_country, vat_number = self._split_vat(vat)
+        if code and code.lower() != vat_country:
+            return vat
+        check_func_name = 'compact_' + vat_country
+        check_func = globals().get(check_func_name) or getattr(self, 'default_compact')
+        vat_number = check_func(vat_number)
+        format_func = globals().get('format_' + vat_country)
+        return format_func(vat_country.upper() + vat_number) if format_func else vat_country.upper() + vat_number
+
+    @api.model
+    def create(self, values):
+        if values.get('vat'):
+            country_id = values.get('country_id')
+            values['vat'] = self._fix_vat_number(values['vat'], country_id)
+        return super(ResPartner, self).create(values)
+
+    def write(self, values):
+        if values.get('vat') and len(self.mapped('country_id')) == 1:
+            country_id = values.get('country_id', self.country_id.id)
+            values['vat'] = self._fix_vat_number(values['vat'], country_id)
+        return super(ResPartner, self).write(values)
+

@@ -19,18 +19,21 @@ class TestSettings(AccountingTestCase):
     def switch_tax_settings(self, config):
         config.show_line_subtotals_tax_selection = "tax_excluded"
         config._onchange_sale_tax()
+        config.flush()
         config.execute()
         self.assertEqual(self.env.user.has_group('account.group_show_line_subtotals_tax_excluded'), True)
         self.assertEqual(self.env.user.has_group('account.group_show_line_subtotals_tax_included'), False)
 
         config.show_line_subtotals_tax_selection = "tax_included"
         config._onchange_sale_tax()
+        config.flush()
         config.execute()
         self.assertEqual(self.env.user.has_group('account.group_show_line_subtotals_tax_excluded'), False)
         self.assertEqual(self.env.user.has_group('account.group_show_line_subtotals_tax_included'), True)
 
         config.show_line_subtotals_tax_selection = "tax_excluded"
         config._onchange_sale_tax()
+        config.flush()
         config.execute()
         self.assertEqual(self.env.user.has_group('account.group_show_line_subtotals_tax_excluded'), True)
         self.assertEqual(self.env.user.has_group('account.group_show_line_subtotals_tax_included'), False)
@@ -50,7 +53,7 @@ class TestSettings(AccountingTestCase):
         user = self.env.ref('base.user_admin')
         company = self.env['res.company'].create({'name': 'oobO'})
         user.write({'company_ids': [(4, company.id)], 'company_id': company.id})
-        Settings = self.env['res.config.settings'].sudo(user.id)
+        Settings = self.env['res.config.settings'].with_user(user.id)
         config = Settings.create({})
 
         self.switch_tax_settings(config)

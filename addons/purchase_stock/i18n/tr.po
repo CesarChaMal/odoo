@@ -1,26 +1,27 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * purchase_stock
+# 	* purchase_stock
 # 
 # Translators:
-# Ayhan KIZILTAN <akiziltan76@hotmail.com>, 2018
-# Martin Trigaux, 2018
-# Levent Karakaş <levent@mektup.at>, 2018
-# Murat Kaplan <muratk@projetgrup.com>, 2018
-# Güven YILMAZ <guvenyilmaz@outlook.com.tr>, 2018
-# Buket Şeker <buket_skr@hotmail.com>, 2018
+# Ayhan KIZILTAN <akiziltan76@hotmail.com>, 2019
+# Martin Trigaux, 2019
+# Levent Karakaş <levent@mektup.at>, 2019
+# Murat Kaplan <muratk@projetgrup.com>, 2019
+# Güven YILMAZ <guvenyilmaz@outlook.com.tr>, 2019
 # Umur Akın <umura@projetgrup.com>, 2019
-# Ediz Duman <neps1192@gmail.com>, 2019
-# Murat Durmuş <muratd@projetgrup.com>, 2020
+# Buket Şeker <buket_skr@hotmail.com>, 2019
+# Ediz Duman <neps1192@gmail.com>, 2020
 # Tugay Hatıl <tugayh@projetgrup.com>, 2020
+# Murat Durmuş <muratd@projetgrup.com>, 2020
+# Nadir Gazioglu <nadirgazioglu@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:33+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
-"Last-Translator: Tugay Hatıl <tugayh@projetgrup.com>, 2020\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:13+0000\n"
+"Last-Translator: Nadir Gazioglu <nadirgazioglu@gmail.com>, 2021\n"
 "Language-Team: Turkish (https://www.transifex.com/odoo/teams/41243/tr/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -39,8 +40,8 @@ msgstr ""
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.stock_production_lot_view_form
-msgid "<span class=\"o_stat_text\">Purchase Orders</span>"
-msgstr ""
+msgid "<span class=\"o_stat_text\">Purchases</span>"
+msgstr "<span class=\"o_stat_text\">Satınalma</span>"
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.report_purchaseorder_document
@@ -49,15 +50,26 @@ msgid "<strong>Shipping address:</strong>"
 msgstr "<strong>Sevkiyat adresi:</strong>"
 
 #. module: purchase_stock
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order_line__qty_received_method
+msgid ""
+"According to product configuration, the recieved quantity can be automatically computed by mechanism :\n"
+"  - Manual: the quantity is set manually on the line\n"
+"  - Stock Moves: the quantity comes from confirmed pickings\n"
+msgstr ""
+"Ürün konfigürasyonuna göre, alınan miktar otomatik olarak mekanizma ile hesaplanabilir:\n"
+" Manuel: miktar hatta manuel olarak ayarlanır\n"
+"- Stok Hareketleri: Miktar teyit edilen toplamalardan gelir\n"
+
+#. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_stock_rule__action
 msgid "Action"
 msgstr "Aksiyon"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/stock.py:139
+#: code:addons/purchase_stock/models/stock.py:0
+#: model:ir.model.fields.selection,name:purchase_stock.selection__stock_rule__action__buy
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_report_stock_rule
 #: model:stock.location.route,name:purchase_stock.route_warehouse0_buy
-#: selection:stock.rule,action:0
 #, python-format
 msgid "Buy"
 msgstr "Satınal"
@@ -92,8 +104,11 @@ msgstr "Teslim Alacak"
 #: model:ir.model.fields,help:purchase_stock.field_product_template__route_ids
 msgid ""
 "Depending on the modules installed, this will allow you to define the route "
-"of the product: whether it will be bought, manufactured, MTO, etc."
+"of the product: whether it will be bought, manufactured, replenished on "
+"order, etc."
 msgstr ""
+"Kurulu modüllere dayalı olarak, bu, ürünün rotasını tanımlamanızı sağlar: "
+"satın alınacak, üretilecek, sipariş üzerine yenilenecek vb."
 
 #. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__default_location_dest_id_usage
@@ -121,11 +136,6 @@ msgid "Exception(s):"
 msgstr "İstisnalar:"
 
 #. module: purchase_stock
-#: model:ir.ui.menu,name:purchase_stock.menu_action_picking_tree_in_move
-msgid "Incoming  Products"
-msgstr "Gelen Ürünler"
-
-#. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
 msgid "Incoming Shipments"
 msgstr "Gelen Sevkiyatlar"
@@ -145,11 +155,6 @@ msgstr ""
 "tanımlanmış ticari  dizinlerdir."
 
 #. module: purchase_stock
-#: model:ir.model,name:purchase_stock.model_account_invoice
-msgid "Invoice"
-msgstr "Fatura"
-
-#. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order__is_shipped
 msgid "Is Shipped"
 msgstr "Sevk Edildi"
@@ -158,6 +163,11 @@ msgstr "Sevk Edildi"
 #: model:ir.model.fields,field_description:purchase_stock.field_res_config_settings__is_installed_sale
 msgid "Is the Sale Module Installed"
 msgstr "Satış modülü yüklü mü"
+
+#. module: purchase_stock
+#: model:ir.model,name:purchase_stock.model_account_move
+msgid "Journal Entries"
+msgstr "Yevmiye Kayıtları"
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_purchase
@@ -173,11 +183,6 @@ msgstr "Lot/Seri"
 #: model_terms:ir.ui.view,arch_db:purchase_stock.exception_on_po
 msgid "Manual actions may be needed."
 msgstr "Manuel işlem gerekebilir."
-
-#. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Manufacture"
-msgstr "Üretim"
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_stock
@@ -206,6 +211,16 @@ msgid "Next transfer(s) impacted:"
 msgstr "Etkilenen sonraki transferler:"
 
 #. module: purchase_stock
+#: code:addons/purchase_stock/models/account_invoice.py:0
+#, python-format
+msgid ""
+"Odoo is not able to generate the anglo saxon entries. The total valuation of"
+" %s is zero."
+msgstr ""
+"Odoo is not able to generate the anglo saxon entries. The total valuation of"
+" %s is zero."
+
+#. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__orderpoint_id
 msgid "Orderpoint"
 msgstr "Sipariş Noktası"
@@ -226,14 +241,14 @@ msgid "Product Template"
 msgstr "Ürün Şablonu"
 
 #. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Pull & Push"
-msgstr "Çekme & İtme"
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__propagate_date
+msgid "Propagate Rescheduling"
+msgstr "Yayılımı Yeniden Zamanlama"
 
 #. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Pull From"
-msgstr "Çekme"
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__propagate_cancel
+msgid "Propagate cancellation"
+msgstr "Yayılım iptali"
 
 #. module: purchase_stock
 #: model:ir.model,name:purchase_stock.model_purchase_order
@@ -264,11 +279,6 @@ msgid "Purchase order count"
 msgstr "Satın alma siparişi sayısı"
 
 #. module: purchase_stock
-#: selection:stock.rule,action:0
-msgid "Push To"
-msgstr "İtme"
-
-#. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
 msgid "Receipt"
 msgstr "Alım"
@@ -277,6 +287,11 @@ msgstr "Alım"
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_view_form_inherit
 msgid "Receive Products"
 msgstr "Ürün Kabulleri"
+
+#. module: purchase_stock
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__qty_received_method
+msgid "Received Qty Method"
+msgstr "Alınan Miktar Yöntemi"
 
 #. module: purchase_stock
 #: model:ir.actions.act_window,name:purchase_stock.purchase_open_picking
@@ -288,6 +303,11 @@ msgstr "Mal Kabul"
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_purchase
 msgid "Request your vendors to deliver to your customers"
 msgstr "Tedarikçiler müşterilerinize sizin adınıza direk teslimat yaparlar"
+
+#. module: purchase_stock
+#: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__propagate_date_minimum_delta
+msgid "Reschedule if Higher Than"
+msgstr "Şundan Daha Yüksekse Yeniden Planlayın"
 
 #. module: purchase_stock
 #: model:ir.model.fields,field_description:purchase_stock.field_purchase_order_line__move_ids
@@ -316,6 +336,7 @@ msgid "Stock Move"
 msgstr "Stok Hareketi"
 
 #. module: purchase_stock
+#: model:ir.model.fields.selection,name:purchase_stock.selection__purchase_order_line__qty_received_method__stock_moves
 #: model_terms:ir.ui.view,arch_db:purchase_stock.purchase_order_line_view_form_inherit
 msgid "Stock Moves"
 msgstr "Stok Hareketleri"
@@ -336,7 +357,12 @@ msgid "Technical field used to display the Drop Ship Address"
 msgstr "Teslimat Bırakma Adresini görüntülemek için kullanılan teknik alan"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:265
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order_line__propagate_date_minimum_delta
+msgid "The change must be higher than this value to be propagated"
+msgstr "Değişikliğin yayılması için bu değerden yüksek olması gerekir"
+
+#. module: purchase_stock
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid ""
 "The quantities on your purchase order indicate less than billed. You should "
@@ -346,14 +372,21 @@ msgstr ""
 "Geri ödeme istemeniz gerekir."
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/stock_rule.py:38
+#: model:ir.model.fields,help:purchase_stock.field_purchase_order_line__propagate_date
+msgid "The rescheduling is propagated to the next move."
+msgstr "Yeniden zamanlama bir sonraki hamleye yayılır."
+
+#. module: purchase_stock
+#: code:addons/purchase_stock/models/stock_rule.py:0
 #, python-format
 msgid ""
-"There is no vendor associated to the product %s. Please define a vendor for "
-"this product."
+"There is no matching vendor price to generate the purchase order for product"
+" %s (no vendor defined, minimum quantity not reached, dates not valid, ...)."
+" Go on the product form and complete the list of vendors."
 msgstr ""
-"Ürünle ilişkili bir tedarikçi bulunmuyor %s. Bu ürün için lütfen bir "
-"tedarikçi tanımlayın."
+" %s ürünü için satınalma siparişi oluşturmak için uygun tedarikçi fiyatı yok"
+" (tedarikçi tanımlanmamış, minimum miktara ulaşılmadı, tarihler geçerli "
+"değil, ...). Ürün formuna gidin ve tedarikçi listesini tamamlayın."
 
 #. module: purchase_stock
 #: model_terms:ir.ui.view,arch_db:purchase_stock.res_config_settings_view_form_purchase
@@ -381,7 +414,7 @@ msgid "Transfer"
 msgstr "Transfer"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:95
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid ""
 "Unable to cancel purchase order %s as some receptions have already been "
@@ -402,7 +435,7 @@ msgid "When products are bought, they can be delivered to this warehouse"
 msgstr "Ürünler satın alındığında bu depoya sevk edilebilir"
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/stock_rule.py:20
+#: code:addons/purchase_stock/models/stock_rule.py:0
 #, python-format
 msgid ""
 "When products are needed in <b>%s</b>, <br/> a request for quotation is "
@@ -412,7 +445,7 @@ msgstr ""
 "bir teklif talebi yaratılır."
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:257
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid ""
 "You cannot decrease the ordered quantity below the received quantity.\n"
@@ -422,7 +455,7 @@ msgstr ""
 " oluşturun."
 
 #. module: purchase_stock
-#: code:addons/purchase_stock/models/purchase.py:186
+#: code:addons/purchase_stock/models/purchase.py:0
 #, python-format
 msgid "You must set a Vendor Location for this partner %s"
 msgstr "Bu iş ortağı %s için bir tedarikçi konumu belirlemelisiniz"

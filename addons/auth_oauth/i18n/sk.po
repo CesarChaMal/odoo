@@ -1,20 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * auth_oauth
+# 	* auth_oauth
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2018
-# gebri <gebri@inmail.sk>, 2018
-# Jan Prokop, 2018
+# Martin Trigaux, 2019
+# Jaroslav Bosansky <jaro.bosansky@ekoenergo.sk>, 2019
+# gebri <gebri@inmail.sk>, 2019
+# Jan Prokop, 2019
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:34+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-10-18 09:46+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Rastislav Brencic <rastislav.brencic@azet.sk>, 2020\n"
 "Language-Team: Slovak (https://www.transifex.com/odoo/teams/41243/sk/)\n"
 "MIME-Version: 1.0\n"
@@ -34,7 +34,7 @@ msgid "<i class=\"fa fa-fw fa-arrow-right\"/>Tutorial"
 msgstr "<i class=\"fa fa-fw fa-arrow-right\"/>Príručka"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:100
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid "Access Denied"
 msgstr "Prístup zamietnutý"
@@ -167,7 +167,7 @@ msgid "OAuth Providers"
 msgstr "OAuth poskytovatelia"
 
 #. module: auth_oauth
-#: sql_constraint:res.users:0
+#: model:ir.model.constraint,message:auth_oauth.constraint_res_users_uniq_users_oauth_provider_oauth_uid
 msgid "OAuth UID must be unique per provider"
 msgstr "OAuth UID musí byť unikátne pre poskytovateľa"
 
@@ -217,7 +217,7 @@ msgid "Server uri"
 msgstr "Server uri"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:98
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid "Sign up is not allowed on this database."
 msgstr "Registrácia nie je povolená v tejto databáze."
@@ -230,7 +230,7 @@ msgstr "Systémový parameter"
 #. module: auth_oauth
 #: model:ir.model,name:auth_oauth.model_res_users
 msgid "Users"
-msgstr "Používatelia"
+msgstr "Užívatelia"
 
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_auth_oauth_provider__validation_endpoint
@@ -238,7 +238,7 @@ msgid "Validation URL"
 msgstr "Overovacia URL"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:102
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid ""
 "You do not have access to this database or your invitation has expired. "

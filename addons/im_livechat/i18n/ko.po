@@ -1,22 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * im_livechat
+# 	* im_livechat
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Link Up링크업 <linkup.way@gmail.com>, 2018
-# Seongseok Shin <shinss61@hotmail.com>, 2018
-# Mark Lee <odoos@soti.33mail.com>, 2018
+# Martin Trigaux, 2019
+# Link Up링크업 <linkup.way@gmail.com>, 2019
+# Seongseok Shin <shinss61@hotmail.com>, 2019
+# Mark Lee <odoos@soti.33mail.com>, 2019
 # Linkup <link-up@naver.com>, 2019
-# JH CHOI <hwangtog@gmail.com>, 2019
+# JH CHOI <hwangtog@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-09 10:32+0000\n"
-"PO-Revision-Date: 2018-08-24 09:19+0000\n"
-"Last-Translator: JH CHOI <hwangtog@gmail.com>, 2019\n"
+"POT-Creation-Date: 2019-10-01 12:11+0000\n"
+"PO-Revision-Date: 2019-08-26 09:11+0000\n"
+"Last-Translator: JH CHOI <hwangtog@gmail.com>, 2020\n"
 "Language-Team: Korean (https://www.transifex.com/odoo/teams/41243/ko/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -40,7 +40,6 @@ msgid "# of speakers"
 msgstr "# 대화자"
 
 #. module: im_livechat
-#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__rating_percentage_satisfaction
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid "% Happy"
 msgstr "% 좋음"
@@ -57,6 +56,11 @@ msgstr ""
 "* '버튼 숨기기'는 페이지의 채팅 버튼을 숨깁니다."
 
 #. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid ", on the"
+msgstr ", on the"
+
+#. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_kanban
 msgid "<i class=\"fa fa-user\" role=\"img\" aria-label=\"User\" title=\"User\"/>"
 msgstr "<i class=\"fa fa-user\" role=\"img\" aria-label=\"User\" title=\"User\"/>"
@@ -64,20 +68,48 @@ msgstr "<i class=\"fa fa-user\" role=\"img\" aria-label=\"User\" title=\"User\"/
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid ""
-"<span>Define rules for your live support channel. You can apply an action "
-"(disable the support, automatically open your support, or just make the "
-"button available) for the given URL, and per country.<br/>To identify the "
+"<span class=\"text-muted\">Define rules for your live support channel. You "
+"can apply an action for the given URL, and per country.<br/>To identify the "
 "country, GeoIP must be installed on your server, otherwise, the countries of"
 " the rule will not be taken into account.</span>"
 msgstr ""
-"<span>실시간 지원 채널에 대한 규칙을 정의하십시오. 지정된 URL 및 국가별로 작업을 적용할 수 있습니다(지원을 사용하지 않도록 "
-"설정하거나 지원을 자동으로 열거나 버튼을 사용 가능하게 설정). <br/>국가를 확인하려면 서버에 GeoIP을 설치해야 합니다. 그렇지 "
-"않으면 규칙에서 국가가 고려되지 않습니다.</span>"
+"<span class=\"text-muted\">실시간 지원 채널에 대한 규칙을 정의하십시오. 지정된 URL 및 국가별로 작업을 적용할 "
+"수 있습니다. <br/>국가를 식별하려면 서버에 GeoIP를 설치해야 합니다. 그렇지 않으면 규칙에서 국가가 고려되지 "
+"않습니다.</span>"
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid "<span style=\"font-size: 10px;\">Livechat Conversation</span><br/>"
+msgstr "<span style=\"font-size: 10px;\">실시간 채팅 대화</span><br/>"
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid "<span>Best regards,</span><br/><br/>"
+msgstr "<span>감사합니다.</span><br/><br/>"
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid "<span>Hello,</span><br/>Here's a copy of your conversation with"
+msgstr "<span>안녕하세요.</span><br/>대화 내용은 다음과 같습니다."
+
+#. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__is_without_answer
+msgid ""
+"A session is without answer if the operator did not answer. \n"
+"                                       If the visitor is also the operator, the session will always be answered."
+msgstr ""
+"운영자가 응답하지 않으면 세션에 응답이 없습니다.  \n"
+"                                        방문자도 운영자인 경우 세션이 항상 응답합니다. "
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__action
 msgid "Action"
 msgstr "추가 작업"
+
+#. module: im_livechat
+#: model:res.groups,name:im_livechat.im_livechat_group_manager
+msgid "Administrator"
+msgstr "관리자"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_form
@@ -96,7 +128,7 @@ msgstr "매트릭스 안에 있습니까?"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/js/im_livechat.js:60
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
 #, python-format
 msgid "Ask something ..."
 msgstr "무엇이든 물어보세요 ..."
@@ -105,10 +137,10 @@ msgstr "무엇이든 물어보세요 ..."
 #: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_form
 #: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_tree
 msgid "Attendees"
-msgstr "참석자"
+msgstr "참가자"
 
 #. module: im_livechat
-#: selection:im_livechat.channel.rule,action:0
+#: model:ir.model.fields.selection,name:im_livechat.selection__im_livechat_channel_rule__action__auto_popup
 msgid "Auto popup"
 msgstr "자동 팝업"
 
@@ -139,13 +171,18 @@ msgid "Average message"
 msgstr "평균 메시지"
 
 #. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__time_to_answer
+msgid "Average time in seconds to give the first answer to the visitor"
+msgstr "방문자에게 첫 번째 답변을 제공하는 데 걸린 초단위 평균 시간"
+
+#. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_report_operator__time_to_answer
 msgid "Average time to give the first answer to the visitor"
 msgstr "방문자에게 첫 번째 답변을 제공하는 데 걸린 평균 시간"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat.xml:13
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
 #, python-format
 msgid "Bad"
 msgstr "나쁨"
@@ -154,7 +191,7 @@ msgstr "나쁨"
 #: model:ir.actions.act_window,name:im_livechat.im_livechat_canned_response_action
 #: model:ir.ui.menu,name:im_livechat.canned_responses
 msgid "Canned Responses"
-msgstr "취소된 답변"
+msgstr "미리 준비된 답변"
 
 #. module: im_livechat
 #: model_terms:ir.actions.act_window,help:im_livechat.im_livechat_canned_response_action
@@ -174,10 +211,10 @@ msgstr ""
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator__livechat_channel_id
 #: model:ir.model.fields,field_description:im_livechat.field_mail_channel__livechat_channel_id
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_kanban
+#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_search
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_operator_view_search
 #: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_search
-#: selection:mail.channel,channel_type:0
 msgid "Channel"
 msgstr "채널"
 
@@ -207,21 +244,23 @@ msgid "Channels"
 msgstr "채널"
 
 #. module: im_livechat
-#: selection:mail.channel,channel_type:0
-msgid "Chat Discussion"
-msgstr "채팅 의논/토의"
-
-#. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__input_placeholder
 msgid "Chat Input Placeholder"
 msgstr "채팅 입력 자리 표시"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/js/im_livechat.js:62
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
 #, python-format
 msgid "Chat with one of our collaborators"
 msgstr "공동 작업자와 채팅"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
+#, python-format
+msgid "Close conversation"
+msgstr "대화 종료"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__technical_name
@@ -236,10 +275,28 @@ msgid "Configuration"
 msgstr "환경 설정"
 
 #. module: im_livechat
+#: model:ir.model,name:im_livechat.model_res_partner
+msgid "Contact"
+msgstr "연락처"
+
+#. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__channel_id
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator__channel_id
 msgid "Conversation"
 msgstr "대화"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
+#, python-format
+msgid "Conversation Sent"
+msgstr "대화 보내기"
+
+#. module: im_livechat
+#: code:addons/im_livechat/models/mail_channel.py:0
+#, python-format
+msgid "Conversation with %s"
+msgstr "%s와 대화"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
@@ -249,8 +306,19 @@ msgstr "이 코드를 &lt;head&gt; 태그 내로 웹사이트에 복사하고 �
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__country_ids
+#: model:ir.model.fields,field_description:im_livechat.field_mail_channel__country_id
 msgid "Country"
 msgstr "국가"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__country_id
+msgid "Country of the visitor"
+msgstr "방문자의 국가"
+
+#. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_mail_channel__country_id
+msgid "Country of the visitor of the channel"
+msgstr "채널 방문자의 국가"
 
 #. module: im_livechat
 #: model_terms:ir.actions.act_window,help:im_livechat.mail_channel_action
@@ -266,7 +334,7 @@ msgstr "새로운 미리 준비된 응답 만들기"
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__create_uid
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__create_uid
 msgid "Created by"
-msgstr "작성자"
+msgstr "작성인"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__create_date
@@ -276,9 +344,8 @@ msgstr "작성일"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_search
-#: model_terms:ir.ui.view,arch_db:im_livechat.rating_rating_view_search_livechat
 msgid "Creation Date"
-msgstr "작성 날짜"
+msgstr "작성일"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
@@ -296,6 +363,21 @@ msgstr "작성일(시간)"
 #: model:ir.ui.menu,name:im_livechat.rating_rating_menu_livechat
 msgid "Customer Ratings"
 msgstr "고객 평가"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__day_number
+msgid "Day Number"
+msgstr "일수"
+
+#. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__day_number
+msgid "Day number of the session (1 is Monday, 7 is Sunday)"
+msgstr "세션의 일수(1은 월요일, 7은 일요일)"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__days_of_activity
+msgid "Days of activity"
+msgstr "활동 날"
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__button_text
@@ -319,7 +401,7 @@ msgstr ""
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat.xml:7
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
 #, python-format
 msgid "Did we correctly answer your question ?"
 msgstr "우리가 당신의 질문에 제대로 대답했나요?"
@@ -327,7 +409,7 @@ msgstr "우리가 당신의 질문에 제대로 대답했나요?"
 #. module: im_livechat
 #: model:ir.model,name:im_livechat.model_mail_channel
 msgid "Discussion Channel"
-msgstr "토론 채널"
+msgstr "메일 및 채팅 채널"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__display_name
@@ -335,10 +417,10 @@ msgstr "토론 채널"
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__display_name
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator__display_name
 msgid "Display Name"
-msgstr "제목"
+msgstr "표시 이름"
 
 #. module: im_livechat
-#: selection:im_livechat.channel.rule,action:0
+#: model:ir.model.fields.selection,name:im_livechat.selection__im_livechat_channel_rule__action__display_button
 msgid "Display the button"
 msgstr "버튼 표시"
 
@@ -349,22 +431,13 @@ msgid "Duration of the conversation (in seconds)"
 msgstr "대화 지속 시간(초)"
 
 #. module: im_livechat
-#: model_terms:ir.actions.act_window,help:im_livechat.im_livechat_channel_action
-msgid ""
-"Each channel has it's own URL that you can send by email to\n"
-"                your customers in order to start chatting with you."
-msgstr ""
-"각 채널에는 고객과 채팅을 시작하기 위해 \n"
-"                   이메일로 보낼 수 있는 자체 URL이 있습니다."
-
-#. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_search
 msgid "Empty Sessions"
 msgstr "빈 세션"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat.xml:19
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
 #, python-format
 msgid "Explain your note"
 msgstr "노트 설명"
@@ -372,12 +445,12 @@ msgstr "노트 설명"
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid ""
-"For websites built with the Odoo CMS, please install the website_livechat "
-"module. Then go to Website &gt; Configuration &gt; Settings and select the "
-"Website Live Chat Channel you want to add on your website."
+"For websites built with the Odoo CMS, go to Website &gt; Configuration &gt; "
+"Settings and select the Website Live Chat Channel you want to add on your "
+"website."
 msgstr ""
-"Odoo CMS로 구축된 웹 사이트의 경우 website_livechat 모듈을 설치하십시오. 그런 다음 웹 사이트 &gt; 환경 설정 "
-"&gt; 설정으로 이동하여 웹 사이트에 추가할 웹 사이트 실시간 채팅 채널을 선택합니다."
+"Odoo CMS로 구축된 웹 사이트인 경우 웹 사이트 &gt; 환경 설정 &gt; 설정에서 설정하고 웹 사이트에 추가할 웹 사이트 실시간"
+" 채팅 채널을 선택하십시오."
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel_rule__sequence
@@ -390,7 +463,7 @@ msgstr ""
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat.xml:11
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
 #, python-format
 msgid "Good"
 msgstr "좋음"
@@ -408,7 +481,7 @@ msgid "Happy face"
 msgstr "행복한 표정"
 
 #. module: im_livechat
-#: selection:im_livechat.channel.rule,action:0
+#: model:ir.model.fields.selection,name:im_livechat.selection__im_livechat_channel_rule__action__hide_button
 msgid "Hide the button"
 msgstr "버튼 숨기기"
 
@@ -426,7 +499,7 @@ msgstr "세션 시작 시간"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/js/im_livechat.js:63
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
 #, python-format
 msgid "How may I help you?"
 msgstr "무엇을 도와 드릴까요?"
@@ -437,13 +510,6 @@ msgid "How to use the Website Live Chat widget?"
 msgstr "웹사이트 실시간 채팅 위젯을 어떻게 사용합니까?"
 
 #. module: im_livechat
-#. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat.xml:16
-#, python-format
-msgid "I don't want to rate this conversation"
-msgstr "이 대화를 평가하고 싶지 않습니다"
-
-#. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__id
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__id
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__id
@@ -452,9 +518,21 @@ msgid "ID"
 msgstr "ID"
 
 #. module: im_livechat
-#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__image
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__image_128
 msgid "Image"
 msgstr "이미지"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
+#, python-format
+msgid "Invalid email address"
+msgstr "잘못된 이메일 주소"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__is_anonymous
+msgid "Is visitor anonymous"
+msgstr "익명 방문자 가능 여부"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_kanban
@@ -478,7 +556,7 @@ msgstr "최근 24시간"
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel____last_update
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator____last_update
 msgid "Last Modified on"
-msgstr "최근 수정"
+msgstr "최근 수정일"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__write_uid
@@ -490,12 +568,12 @@ msgstr "최근 갱신한 사람"
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__write_date
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__write_date
 msgid "Last Updated on"
-msgstr "최근 갱신 날짜"
+msgstr "최근 갱신일"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_kanban
 msgid "Leave"
-msgstr "나오기"
+msgstr "나가기"
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
@@ -508,19 +586,21 @@ msgid "Listeners of a Channel"
 msgstr "채널 청취자"
 
 #. module: im_livechat
+#: model:ir.module.category,name:im_livechat.module_category_im_livechat
 #: model:ir.ui.menu,name:im_livechat.menu_livechat_root
 msgid "Live Chat"
 msgstr "실시간 채팅"
 
 #. module: im_livechat
-#: model:ir.module.category,name:im_livechat.module_category_im_livechat
-msgid "Live Support"
-msgstr "실시간 지원"
+#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_search
+msgid "LiveChat Channel Search"
+msgstr "실시간 채팅 채널 검색"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat_backend.xml:9
-#: code:addons/im_livechat/static/src/xml/im_livechat_backend.xml:21
+#: code:addons/im_livechat/static/src/xml/im_livechat_backend.xml:0
+#: code:addons/im_livechat/static/src/xml/im_livechat_backend.xml:0
+#: model_terms:ir.ui.view,arch_db:im_livechat.res_users_form_view
 #, python-format
 msgid "Livechat"
 msgstr "실시간 채팅"
@@ -537,9 +617,14 @@ msgid "Livechat Channel Rules"
 msgstr "실시간 채팅 규칙"
 
 #. module: im_livechat
-#: selection:mail.channel,channel_type:0
+#: model:ir.model.fields.selection,name:im_livechat.selection__mail_channel__channel_type__livechat
 msgid "Livechat Conversation"
 msgstr "실시간 채팅 대화"
+
+#. module: im_livechat
+#: model:ir.model.constraint,message:im_livechat.constraint_mail_channel_livechat_operator_id
+msgid "Livechat Operator ID is required for a channel of type livechat."
+msgstr "실시간 채팅 유형의 채널에는 실시간 채팅 운영자 ID가 필요합니다."
 
 #. module: im_livechat
 #: model:ir.model,name:im_livechat.model_im_livechat_report_channel
@@ -563,12 +648,6 @@ msgid "Livechat Support Operator Report"
 msgstr "실시간 채팅 지원 운영자 보고서"
 
 #. module: im_livechat
-#: model:ir.actions.act_window,name:im_livechat.im_livechat_report_channel_action
-#: model:ir.actions.act_window,name:im_livechat.im_livechat_report_operator_action
-msgid "Livechat Support Report Channel"
-msgstr "실시간 채팅 지원 보고서 채널"
-
-#. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_graph
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_pivot
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_operator_view_graph
@@ -577,29 +656,14 @@ msgid "Livechat Support Statistics"
 msgstr "실시간 채팅 지원 통계"
 
 #. module: im_livechat
-#: model:res.groups,name:im_livechat.im_livechat_group_manager
-msgid "Manager"
-msgstr "관리자"
+#: model:ir.model.fields,field_description:im_livechat.field_res_users__livechat_username
+msgid "Livechat Username"
+msgstr "실시간 채팅 사용자명"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__sequence
 msgid "Matching order"
 msgstr "일치하는 주문"
-
-#. module: im_livechat
-#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__image_medium
-msgid "Medium"
-msgstr "보통"
-
-#. module: im_livechat
-#: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__image_medium
-msgid ""
-"Medium-sized photo of the group. It is automatically resized as a 128x128px "
-"image, with aspect ratio preserved. Use this field in form views or some "
-"kanban views."
-msgstr ""
-"그룹의 중간 크기 사진. 가로 세로 비율이 보존 된 128x128px 이미지로 크기가 자동 조정됩니다. 양식보기 또는 일부 간이보기에서 "
-"이 필드를 사용하십시오."
 
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
@@ -622,24 +686,29 @@ msgid "No customer ratings on live chat session yet"
 msgstr "아직 실시간 채팅 세션에 대한 고객 등급은 없습니다"
 
 #. module: im_livechat
-#: code:addons/im_livechat/models/mail_channel.py:119
+#: code:addons/im_livechat/models/mail_channel.py:0
 #, python-format
 msgid "No history found"
-msgstr "기록이 없습니다"
+msgstr "이력이 없습니다"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/js/im_livechat.js:226
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
 #, python-format
 msgid ""
-"None of our collaborators seems to be available, please try again later."
-msgstr "현재 담당자가 없습니다, 나중에 다시 시도하십시오."
+"None of our collaborators seem to be available, please try again later."
+msgstr "사용할 수있는 공동 작업자가 없는 것 같습니다. 나중에 다시 시도하십시오."
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__nbr_channel
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_report_operator__nbr_channel
 msgid "Number of conversation"
 msgstr "대화 횟수"
+
+#. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__days_of_activity
+msgid "Number of days since the first session of the operator"
+msgstr "운영자의 첫 번째 세션 이후 일 수"
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__nbr_speaker
@@ -653,23 +722,47 @@ msgstr "대화 내 메시지 수"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/xml/im_livechat.xml:12
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
 #, python-format
 msgid "OK"
 msgstr "확인"
 
 #. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid "Odoo"
+msgstr "Odoo"
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.res_users_form_view_simple_modif
+msgid "Online Chat Name"
+msgstr "온라인 채팅 이름"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
+#, python-format
+msgid "Oops! Something went wrong."
+msgstr "이런! 문제가 발생했습니다"
+
+#. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__partner_id
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator__partner_id
+#: model:ir.model.fields,field_description:im_livechat.field_mail_channel__livechat_operator_id
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_operator_view_search
 msgid "Operator"
 msgstr "운영자"
 
 #. module: im_livechat
+#: model:ir.actions.act_window,name:im_livechat.im_livechat_report_operator_action
 #: model:ir.ui.menu,name:im_livechat.menu_reporting_livechat_operator
 msgid "Operator Analysis"
 msgstr "운영자 분석"
+
+#. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_mail_channel__livechat_operator_id
+msgid "Operator for this specific channel"
+msgstr "이 특정 채널의 운영자"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__user_ids
@@ -698,22 +791,40 @@ msgstr "Odoo에서 30분 이상 활동이 없는 운영자는 연결이 끊어�
 #. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid "Options"
-msgstr "옵션"
+msgstr "선택 사항"
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__rating_percentage_satisfaction
-msgid "Percentage of happy ratings over the past 7 days"
-msgstr "지난 7일 동안의 행복도 평가 비율"
-
-#. module: im_livechat
-#: model:ir.model,name:im_livechat.model_rating_rating
-#: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_tree
-msgid "Rating"
-msgstr "평가"
+msgid "Percentage of happy ratings"
+msgstr "행복도 비율"
 
 #. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/static/src/js/im_livechat.js:420
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
+#, python-format
+msgid "Please check your internet connection."
+msgstr "인터넷 연결을 확인하십시오."
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid "Powered by"
+msgstr "저작권자"
+
+#. module: im_livechat
+#: model:ir.model,name:im_livechat.model_rating_rating
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__rating
+#: model_terms:ir.ui.view,arch_db:im_livechat.mail_channel_view_tree
+msgid "Rating"
+msgstr "등급"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__rating_percentage_satisfaction
+msgid "Rating Satisfaction"
+msgstr "만족도 등급"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
 #, python-format
 msgid "Rating: %s"
 msgstr "평가 : %s"
@@ -734,9 +845,21 @@ msgid "Rating: Okay"
 msgstr "평가 : 보통"
 
 #. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__rating_ids
+msgid "Ratings"
+msgstr "등급"
+
+#. module: im_livechat
 #: model:ir.actions.act_window,name:im_livechat.rating_rating_action_view_livechat_rating
 msgid "Ratings for livechat channel"
 msgstr "실시간 채팅 채널 평가 등급"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
+#, python-format
+msgid "Receive a copy of this conversation"
+msgstr "이 대화의 사본을 받으십시오"
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel_rule__regex_url
@@ -761,6 +884,16 @@ msgid "Sad face"
 msgstr "슬픈 표정"
 
 #. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__rating_text
+msgid "Satisfaction Rate"
+msgstr "만족도"
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
+msgid "Save your Channel to get your configuration widget."
+msgstr "환경 설정 위젯을 얻으려면 채널을 저장하십시오."
+
+#. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__script_external
 msgid "Script (external)"
 msgstr "스크립트 (외부)"
@@ -777,7 +910,7 @@ msgid "Search report"
 msgstr "검색 보고서"
 
 #. module: im_livechat
-#: code:addons/im_livechat/models/mail_channel.py:107
+#: code:addons/im_livechat/models/mail_channel.py:0
 #, python-format
 msgid "See 15 last visited pages"
 msgstr "최근에 방문한 15 페이지 보기"
@@ -794,9 +927,20 @@ msgid "Session Form"
 msgstr "세션 양식"
 
 #. module: im_livechat
+#: model:ir.actions.act_window,name:im_livechat.im_livechat_report_channel_action
 #: model:ir.ui.menu,name:im_livechat.menu_reporting_livechat_channel
 msgid "Session Statistics"
 msgstr "세션 통계"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__is_unrated
+msgid "Session not rated"
+msgstr "평가되지 않은 세션"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__is_without_answer
+msgid "Session(s) without answer"
+msgstr "답이 없는 세션"
 
 #. module: im_livechat
 #: model:ir.actions.act_window,name:im_livechat.mail_channel_action_from_livechat_channel
@@ -812,32 +956,26 @@ msgid "Sessions History"
 msgstr "세션 기록"
 
 #. module: im_livechat
-#: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__image_small
-msgid ""
-"Small-sized photo of the group. It is automatically resized as a 64x64px "
-"image, with aspect ratio preserved. Use this field anywhere a small image is"
-" required."
-msgstr ""
-"연락처를 나타내는 작은 사진입니다. 이미지의 가로 세로 비율을 유지한 채 자동으로 64x64픽셀 이미지로 크기가 조정됩니다. 어디서나 "
-"작은 이미지가 필요할 때는 이 필드를 이용합니다."
-
-#. module: im_livechat
-#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
-#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_operator_view_search
-msgid "Start Date"
-msgstr "시작일"
-
-#. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__start_date
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator__start_date
 msgid "Start Date of session"
 msgstr "세션 시작일"
 
 #. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__start_hour
+msgid "Start Hour of session"
+msgstr "세션 시작 시간"
+
+#. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__start_date
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_report_operator__start_date
 msgid "Start date of the conversation"
 msgstr "대화 시작일"
+
+#. module: im_livechat
+#: model:ir.model.fields,help:im_livechat.field_im_livechat_report_channel__start_hour
+msgid "Start hour of the conversation"
+msgstr "대화 시작 시간"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__button_text
@@ -848,6 +986,13 @@ msgstr "버튼 글자"
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__input_placeholder
 msgid "Text that prompts the user to initiate the chat."
 msgstr "사용자가 채팅을 시작하도록 하는 문구입니다."
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
+#, python-format
+msgid "Thank you for your feedback"
+msgstr "의견을 보내 주셔서 감사합니다"
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel_rule__channel_id
@@ -887,11 +1032,11 @@ msgid "There is no rating for this channel at the moment"
 msgstr "현재 이 채널에 대한 평가가 없습니다."
 
 #. module: im_livechat
-#: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__image
-msgid ""
-"This field holds the image used as photo for the group, limited to "
-"1024x1024px."
-msgstr "이 필드는 1024x1024px로 제한된 그룹 사진으로 사용하는 이미지를 포함합니다."
+#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
+#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_operator_view_search
+#: model_terms:ir.ui.view,arch_db:im_livechat.rating_rating_view_search_livechat
+msgid "This Week"
+msgstr "이번 주"
 
 #. module: im_livechat
 #: model:ir.model.fields,help:im_livechat.field_im_livechat_channel__default_message
@@ -901,9 +1046,9 @@ msgid ""
 msgstr "이것은 새로운 대화를 시작할 때 방문자에게 표시되는 자동화된 '환영 메시지'입니다."
 
 #. module: im_livechat
-#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__image_small
-msgid "Thumbnail"
-msgstr "미리보기 이미지"
+#: model:ir.model.fields,help:im_livechat.field_res_users__livechat_username
+msgid "This username will be used as your name in the livechat channels."
+msgstr "이 사용자 이름이 실시간 채팅 채널에서 귀하의 이름으로 사용됩니다."
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_operator__time_to_answer
@@ -911,9 +1056,21 @@ msgid "Time to answer"
 msgstr "답변 시간"
 
 #. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__time_to_answer
+msgid "Time to answer (sec)"
+msgstr "답변 시간 (초)"
+
+#. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_report_channel_view_search
 msgid "Treated sessions"
 msgstr "처리된 세션"
+
+#. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
+#, python-format
+msgid "Try again"
+msgstr "다시 시도"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel_rule__regex_url
@@ -939,12 +1096,23 @@ msgid "User"
 msgstr "사용자"
 
 #. module: im_livechat
+#: model:ir.model,name:im_livechat.model_res_users
+msgid "Users"
+msgstr "사용자"
+
+#. module: im_livechat
 #. openerp-web
-#: code:addons/im_livechat/controllers/main.py:37
-#: code:addons/im_livechat/static/src/js/im_livechat.js:61
+#: code:addons/im_livechat/controllers/main.py:0
+#: code:addons/im_livechat/models/mail_channel.py:0
+#: code:addons/im_livechat/static/src/js/im_livechat.js:0
 #, python-format
 msgid "Visitor"
 msgstr "방문자"
+
+#. module: im_livechat
+#: model:ir.model.fields,field_description:im_livechat.field_im_livechat_report_channel__is_happy
+msgid "Visitor is Happy"
+msgstr "방문자가 행복해 합니다"
 
 #. module: im_livechat
 #: model:ir.model.fields,field_description:im_livechat.field_im_livechat_channel__web_page
@@ -987,6 +1155,11 @@ msgid "Your chatter history is empty"
 msgstr "대화 내역이 비어 있습니다"
 
 #. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_rule_view_form
+msgid "e.g. /page/contactus"
+msgstr "예. /page/contactus"
+
+#. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid "e.g. Hello, how may I help you?"
 msgstr "예 : 안녕하세요. 무얼 도와드릴까요?"
@@ -997,6 +1170,13 @@ msgid "e.g. YourWebsite.com"
 msgstr "예. YourWebsite.com"
 
 #. module: im_livechat
+#. openerp-web
+#: code:addons/im_livechat/static/src/xml/im_livechat.xml:0
+#, python-format
+msgid "mail@example.com"
+msgstr "mail@example.com"
+
+#. module: im_livechat
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_view_form
 msgid "or copy this url and send it by email to your customers or suppliers:"
 msgstr "아래 url을 복사해서 고객이나 공급업체에 이메일로 전송하십시오 :"
@@ -1005,3 +1185,8 @@ msgstr "아래 url을 복사해서 고객이나 공급업체에 이메일로 전
 #: model_terms:ir.ui.view,arch_db:im_livechat.im_livechat_channel_rule_view_form
 msgid "seconds"
 msgstr "초"
+
+#. module: im_livechat
+#: model_terms:ir.ui.view,arch_db:im_livechat.livechat_email_template
+msgid "{{author_name}}"
+msgstr "{{author_name}}"

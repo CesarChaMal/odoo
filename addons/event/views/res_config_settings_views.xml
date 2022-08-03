@@ -56,7 +56,8 @@
                                 </div>
                                 <div class="o_setting_right_pane">
                                     <label for="module_event_barcode"/>
-                                    <div class="text-muted">
+                                    <span class="fa fa-lg fa-building-o" title="Values set here are company-specific." groups="base.group_multi_company"/>
+                                    <div class="text-muted" name="event_barcode">
                                         Scan badges to confirm attendances
                                     </div>
                                 </div>
@@ -73,7 +74,7 @@
             <field name="res_model">res.config.settings</field>
             <field name="view_mode">form</field>
             <field name="target">inline</field>
-            <field name="context">{'module' : 'event'}</field>
+            <field name="context">{'module' : 'event', 'bin_size': False}</field>
         </record>
 
         <menuitem id="menu_event_global_settings" name="Settings"

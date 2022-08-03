@@ -1,20 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * account_check_printing
+# 	* account_check_printing
 # 
 # Translators:
-# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2019
-# aleksandar ivanov, 2019
-# Albena Mincheva <albena_vicheva@abv.bg>, 2019
-# Maria Boyadjieva <marabo2000@gmail.com>, 2019
+# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2020
+# aleksandar ivanov, 2020
+# Albena Mincheva <albena_vicheva@abv.bg>, 2020
+# Maria Boyadjieva <marabo2000@gmail.com>, 2020
 # Igor Sheludko <igor.sheludko@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:33+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-09-23 11:32+0000\n"
+"PO-Revision-Date: 2019-08-26 09:08+0000\n"
 "Last-Translator: Igor Sheludko <igor.sheludko@gmail.com>, 2020\n"
 "Language-Team: Bulgarian (https://www.transifex.com/odoo/teams/41243/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -24,13 +24,13 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_journal.py:58
+#: code:addons/account_check_printing/models/account_journal.py:0
 #, python-format
 msgid " : Check Number Sequence"
 msgstr ": Проверете последователността на номерата"
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_payment.py:63
+#: code:addons/account_check_printing/models/account_payment.py:0
 #, python-format
 msgid "A check memo cannot exceed 60 characters."
 msgstr "Бележката към чека не може да съдържа повече от 60 символа."
@@ -38,6 +38,11 @@ msgstr "Бележката към чека не може да съдържа п�
 #. module: account_check_printing
 #: model:ir.model,name:account_check_printing.model_account_chart_template
 msgid "Account Chart Template"
+msgstr ""
+
+#. module: account_check_printing
+#: model:ir.model,name:account_check_printing.model_account_reconciliation_widget
+msgid "Account Reconciliation widget"
 msgstr ""
 
 #. module: account_check_printing
@@ -56,7 +61,6 @@ msgstr ""
 
 #. module: account_check_printing
 #: model:ir.model.fields,field_description:account_check_printing.field_account_payment__check_amount_in_words
-#: model:ir.model.fields,field_description:account_check_printing.field_account_register_payments__check_amount_in_words
 msgid "Amount in Words"
 msgstr "Сумата с думи"
 
@@ -79,7 +83,6 @@ msgstr ""
 
 #. module: account_check_printing
 #: model:ir.model.fields,field_description:account_check_printing.field_account_payment__check_number
-#: model:ir.model.fields,field_description:account_check_printing.field_account_register_payments__check_number
 msgid "Check Number"
 msgstr "Отметнете номера"
 
@@ -112,7 +115,6 @@ msgstr ""
 #. module: account_check_printing
 #: model:ir.model.fields,help:account_check_printing.field_account_journal__check_manual_sequencing
 #: model:ir.model.fields,help:account_check_printing.field_account_payment__check_manual_sequencing
-#: model:ir.model.fields,help:account_check_printing.field_account_register_payments__check_manual_sequencing
 msgid "Check this option if your pre-printed checks are not numbered."
 msgstr ""
 "Отметнете тази опция, ако предварително отпечатаните Ви отметки не са "
@@ -129,17 +131,13 @@ msgid "Checks"
 msgstr "Проверки"
 
 #. module: account_check_printing
-#: model_terms:ir.ui.view,arch_db:account_check_printing.view_payment_check_printing_search
-msgid "Checks To Print"
-msgstr "Чекове за разпечатване"
-
-#. module: account_check_printing
 #: model:ir.model.fields,help:account_check_printing.field_account_journal__check_sequence_id
 msgid "Checks numbering sequence."
 msgstr "Последователност при номерирането на чековете"
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_journal.py:97
+#: code:addons/account_check_printing/models/account_journal.py:0
+#: model_terms:ir.ui.view,arch_db:account_check_printing.view_payment_check_printing_search
 #, python-format
 msgid "Checks to Print"
 msgstr "Чекове за разпечатване"
@@ -185,7 +183,7 @@ msgid "ID"
 msgstr "ИН"
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_payment.py:84
+#: code:addons/account_check_printing/models/account_payment.py:0
 #, python-format
 msgid ""
 "In order to print multiple checks at once, they must belong to the same bank"
@@ -217,7 +215,6 @@ msgstr "Последно актуализирано на"
 #. module: account_check_printing
 #: model:ir.model.fields,field_description:account_check_printing.field_account_journal__check_manual_sequencing
 #: model:ir.model.fields,field_description:account_check_printing.field_account_payment__check_manual_sequencing
-#: model:ir.model.fields,field_description:account_check_printing.field_account_register_payments__check_manual_sequencing
 msgid "Manual Numbering"
 msgstr "Механично номериране"
 
@@ -234,20 +231,16 @@ msgid "Next Check Number"
 msgstr "Следващ номер на чек"
 
 #. module: account_check_printing
-#: selection:res.company,account_check_printing_layout:0
-msgid "None"
-msgstr "Никакъв"
+#: code:addons/account_check_printing/models/account_journal.py:0
+#: code:addons/account_check_printing/wizard/print_prenumbered_checks.py:0
+#, python-format
+msgid "Next Check Number should only contains numbers."
+msgstr ""
 
 #. module: account_check_printing
-#: model:ir.model.fields,help:account_check_printing.field_account_register_payments__check_number
-msgid ""
-"Number of the check corresponding to this payment. If your pre-printed check"
-" are not already numbered, you can manage the numbering in the journal "
-"configuration page."
-msgstr ""
-"Номер на чека, съответстващ на това плащане. Ако предварително отпечатаният "
-"Ви чек вече не е номериран, можете да управлявате номерирането в "
-"конфигурационната страница на журнала."
+#: model:ir.model.fields.selection,name:account_check_printing.selection__res_company__account_check_printing_layout__disabled
+msgid "None"
+msgstr "Никакъв"
 
 #. module: account_check_printing
 #: model:ir.model,name:account_check_printing.model_account_payment
@@ -255,7 +248,7 @@ msgid "Payments"
 msgstr "Плащания"
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_payment.py:81
+#: code:addons/account_check_printing/models/account_payment.py:0
 #, python-format
 msgid ""
 "Payments to print as a checks must have 'Check' selected as payment method "
@@ -276,7 +269,7 @@ msgstr ""
 #. module: account_check_printing
 #: model_terms:ir.ui.view,arch_db:account_check_printing.print_pre_numbered_checks_view
 msgid "Print"
-msgstr "Печат"
+msgstr "Разпечатайте"
 
 #. module: account_check_printing
 #: model_terms:ir.ui.view,arch_db:account_check_printing.view_account_payment_form_inherited
@@ -295,7 +288,7 @@ msgid "Print Date Label"
 msgstr ""
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_payment.py:94
+#: code:addons/account_check_printing/models/account_payment.py:0
 #: model:ir.model,name:account_check_printing.model_print_prenumbered_checks
 #: model_terms:ir.ui.view,arch_db:account_check_printing.print_pre_numbered_checks_view
 #, python-format
@@ -303,8 +296,8 @@ msgid "Print Pre-numbered Checks"
 msgstr "Отпечатайте предварително номерирани чекове"
 
 #. module: account_check_printing
-#: model:ir.model,name:account_check_printing.model_account_register_payments
-msgid "Register Payments"
+#: model:ir.model,name:account_check_printing.model_account_payment_register
+msgid "Register Payment"
 msgstr "Регистрирай плащания"
 
 #. module: account_check_printing
@@ -349,7 +342,7 @@ msgstr ""
 "Можете да използвате това поле за бързо търсене."
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_journal.py:26
+#: code:addons/account_check_printing/models/account_journal.py:0
 #, python-format
 msgid ""
 "The last check number was %s. In order to avoid a check being rejected by "
@@ -399,7 +392,7 @@ msgid "Unmark Sent"
 msgstr "Отмаркирайте изпратено"
 
 #. module: account_check_printing
-#: code:addons/account_check_printing/models/account_payment.py:116
+#: code:addons/account_check_printing/models/account_payment.py:0
 #, python-format
 msgid ""
 "You have to choose a check layout. For this, go in Apps, search for 'Checks "
@@ -407,16 +400,16 @@ msgid ""
 msgstr ""
 
 #. module: account_check_printing
-#: selection:res.company,account_check_printing_layout:0
+#: model:ir.model.fields.selection,name:account_check_printing.selection__res_company__account_check_printing_layout__action_print_check_middle
 msgid "check in middle"
 msgstr ""
 
 #. module: account_check_printing
-#: selection:res.company,account_check_printing_layout:0
+#: model:ir.model.fields.selection,name:account_check_printing.selection__res_company__account_check_printing_layout__action_print_check_bottom
 msgid "check on bottom"
 msgstr ""
 
 #. module: account_check_printing
-#: selection:res.company,account_check_printing_layout:0
+#: model:ir.model.fields.selection,name:account_check_printing.selection__res_company__account_check_printing_layout__action_print_check_top
 msgid "check on top"
 msgstr ""

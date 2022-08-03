@@ -1,20 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * payment_authorize
+# 	* payment_authorize
 # 
 # Translators:
-# hoxhe Aits <hoxhe0@gmail.com>, 2018
-# Osama Ahmaro <osamaahmaro@gmail.com>, 2018
-# Shaima Safar <shaima.safar@open-inside.com>, 2018
 # Mustafa Rawi <mustafa@cubexco.com>, 2019
+# Akram Alfusayal <akram_ma@hotmail.com>, 2019
+# Osama Ahmaro <osamaahmaro@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:34+0000\n"
-"PO-Revision-Date: 2018-08-24 09:21+0000\n"
-"Last-Translator: Mustafa Rawi <mustafa@cubexco.com>, 2019\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:12+0000\n"
+"Last-Translator: Osama Ahmaro <osamaahmaro@gmail.com>, 2019\n"
 "Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -23,11 +22,16 @@ msgstr ""
 "Plural-Forms: nplurals=6; plural=n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 && n%100<=99 ? 4 : 5;\n"
 
 #. module: payment_authorize
-#: code:addons/payment_authorize/controllers/main.py:62
+#: code:addons/payment_authorize/controllers/main.py:0
 #, python-format
 msgid ""
 " If you don't have any account, ask your salesperson to grant you a portal "
 "access. "
+msgstr ""
+
+#. module: payment_authorize
+#: model:ir.model.fields,field_description:payment_authorize.field_payment_acquirer__authorize_client_key
+msgid "API Client Key"
 msgstr ""
 
 #. module: payment_authorize
@@ -46,14 +50,18 @@ msgid "API Transaction Key"
 msgstr "مفتاح معاملة واجهة برمجة التطبيقات API"
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Adyen"
-msgstr "Adyen"
-
-#. module: payment_authorize
-#: selection:payment.acquirer,provider:0
+#: model:ir.model.fields.selection,name:payment_authorize.selection__payment_acquirer__provider__authorize
 msgid "Authorize.Net"
 msgstr "Authorize.Net"
+
+#. module: payment_authorize
+#: code:addons/payment_authorize/models/authorize_request.py:0
+#, python-format
+msgid ""
+"Authorize.net Error:\n"
+"Code: %s\n"
+"Message: %s"
+msgstr ""
 
 #. module: payment_authorize
 #: model:ir.model.fields,field_description:payment_authorize.field_payment_token__authorize_profile
@@ -61,7 +69,7 @@ msgid "Authorize.net Profile ID"
 msgstr "معرف ملف Authorize.net الشخصي"
 
 #. module: payment_authorize
-#: code:addons/payment_authorize/models/payment.py:177
+#: code:addons/payment_authorize/models/payment.py:0
 #, python-format
 msgid ""
 "Authorize: received data with missing reference (%s) or trans_id (%s) or "
@@ -71,29 +79,9 @@ msgstr ""
 "(%s)"
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Buckaroo"
-msgstr "Buckaroo"
-
-#. module: payment_authorize
-#: model_terms:ir.ui.view,arch_db:payment_authorize.authorize_s2s_form
-msgid "CVC"
-msgstr "رمز التحقق من البطاقة"
-
-#. module: payment_authorize
-#: model_terms:ir.ui.view,arch_db:payment_authorize.authorize_s2s_form
-msgid "Card number"
-msgstr "رقم البطاقة"
-
-#. module: payment_authorize
-#: model_terms:ir.ui.view,arch_db:payment_authorize.authorize_s2s_form
-msgid "Cardholder name"
-msgstr "اسم حامل البطاقة"
-
-#. module: payment_authorize
-#: model_terms:ir.ui.view,arch_db:payment_authorize.authorize_s2s_form
-msgid "Expires (MM / YY)"
-msgstr "تنتهي صلاحيته في (MM / YY)"
+#: model_terms:ir.ui.view,arch_db:payment_authorize.acquirer_form_authorize
+msgid "Generate Client Key"
+msgstr ""
 
 #. module: payment_authorize
 #: model_terms:ir.ui.view,arch_db:payment_authorize.acquirer_form_authorize
@@ -101,7 +89,7 @@ msgid "How to get paid with Authorize.Net"
 msgstr "كيفية تلقي أموال من خلال Authorize.Net"
 
 #. module: payment_authorize
-#: code:addons/payment_authorize/models/payment.py:292
+#: code:addons/payment_authorize/models/payment.py:0
 #, python-format
 msgid ""
 "Invalid token found: the Authorize profile is missing.Please make sure the "
@@ -111,21 +99,6 @@ msgstr ""
 "رقم إشارة معالج كلمة السر."
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Manual Configuration"
-msgstr "الإعدادات اليدوية"
-
-#. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Ogone"
-msgstr "Ogone"
-
-#. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "PayUmoney"
-msgstr "PayUmoney"
-
-#. module: payment_authorize
 #: model:ir.model,name:payment_authorize.model_payment_acquirer
 msgid "Payment Acquirer"
 msgstr "معالج السداد"
@@ -133,7 +106,7 @@ msgstr "معالج السداد"
 #. module: payment_authorize
 #: model:ir.model,name:payment_authorize.model_payment_token
 msgid "Payment Token"
-msgstr "رمز السداد السري"
+msgstr "كلمة سر السداد"
 
 #. module: payment_authorize
 #: model:ir.model,name:payment_authorize.model_payment_transaction
@@ -141,18 +114,13 @@ msgid "Payment Transaction"
 msgstr "معاملة السداد"
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Paypal"
-msgstr "المستحق"
-
-#. module: payment_authorize
-#: code:addons/payment_authorize/controllers/main.py:66
+#: code:addons/payment_authorize/controllers/main.py:0
 #, python-format
 msgid "Please complete your profile. "
 msgstr "برجاء إكمال ملفك الشخصي. "
 
 #. module: payment_authorize
-#: code:addons/payment_authorize/controllers/main.py:61
+#: code:addons/payment_authorize/controllers/main.py:0
 #, python-format
 msgid "Please sign in to complete the payment."
 msgstr ""
@@ -169,23 +137,21 @@ msgid "Save Cards"
 msgstr "حفظ البطاقات"
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Sips"
-msgstr "Sips"
+#. openerp-web
+#: code:addons/payment_authorize/static/src/js/payment_form.js:0
+#: code:addons/payment_authorize/static/src/js/payment_form.js:0
+#, python-format
+msgid "Server Error"
+msgstr "خطأ في السيرفر"
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Stripe"
-msgstr "Stripe"
-
-#. module: payment_authorize
-#: code:addons/payment_authorize/models/payment.py:365
+#: code:addons/payment_authorize/models/payment.py:0
 #, python-format
 msgid "The Customer Profile creation in Authorize.NET failed."
 msgstr "فشلت عملية إنشاء حساب العميل الشخصي في Authorize.NET."
 
 #. module: payment_authorize
-#: code:addons/payment_authorize/controllers/main.py:58
+#: code:addons/payment_authorize/controllers/main.py:0
 #, python-format
 msgid ""
 "The transaction cannot be processed because some contact details are missing"
@@ -215,6 +181,22 @@ msgstr ""
 "متكررة)، ستحتاج لتحصيل رسوم تلقائيًا عند إصدار فاتورة."
 
 #. module: payment_authorize
-#: selection:payment.acquirer,provider:0
-msgid "Wire Transfer"
-msgstr "تحويل بنكي"
+#: code:addons/payment_authorize/models/payment.py:0
+#, python-format
+msgid ""
+"Unable to fetch Client Key, make sure the API Login and Transaction Key are "
+"correct."
+msgstr ""
+
+#. module: payment_authorize
+#: code:addons/payment_authorize/models/payment.py:0
+#, python-format
+msgid "Warning"
+msgstr "تحذير"
+
+#. module: payment_authorize
+#. openerp-web
+#: code:addons/payment_authorize/static/src/js/payment_form.js:0
+#, python-format
+msgid "We are not able to add your payment method at the moment."
+msgstr "لا يمكننا إضافة طريقة السداد التي اخترتها حاليًا."

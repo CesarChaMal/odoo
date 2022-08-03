@@ -1,17 +1,16 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * base_address_city
+# 	* base_address_city
 # 
 # Translators:
-# Martin Trigaux, 2019
 # Abu Zafar <azmikbal@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:48+0000\n"
-"PO-Revision-Date: 2018-08-24 09:16+0000\n"
+"POT-Creation-Date: 2019-08-12 11:31+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Abu Zafar <azmikbal@gmail.com>, 2021\n"
 "Language-Team: Bengali (https://www.transifex.com/odoo/teams/41243/bn/)\n"
 "MIME-Version: 1.0\n"
@@ -36,7 +35,7 @@ msgid "Cities"
 msgstr ""
 
 #. module: base_address_city
-#: code:addons/base_address_city/models/res_partner.py:29
+#: code:addons/base_address_city/models/res_partner.py:55
 #: model:ir.model,name:base_address_city.model_res_city
 #: model_terms:ir.ui.view,arch_db:base_address_city.view_city_filter
 #: model_terms:ir.ui.view,arch_db:base_address_city.view_city_tree
@@ -64,12 +63,12 @@ msgstr "দেশ"
 #. module: base_address_city
 #: model:ir.model.fields,field_description:base_address_city.field_res_city__create_uid
 msgid "Created by"
-msgstr "প্রস্তুতকারী"
+msgstr "দ্বারা সৃষ্টি"
 
 #. module: base_address_city
 #: model:ir.model.fields,field_description:base_address_city.field_res_city__create_date
 msgid "Created on"
-msgstr "তৈরিকৃত"
+msgstr "তৈরি"
 
 #. module: base_address_city
 #: model:ir.model.fields,field_description:base_address_city.field_res_city__display_name

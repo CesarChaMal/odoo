@@ -1,26 +1,26 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * analytic
+# 	* analytic
 # 
 # Translators:
-# kalatchev, 2019
-# Martin Trigaux, 2019
-# preslav <hackerz99999@gmail.com>, 2019
-# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2019
-# Kaloyan Naumov <kaloyan@lumnus.net>, 2019
-# Anton Vassilev, 2019
-# aleksandar ivanov, 2019
-# Albena Mincheva <albena_vicheva@abv.bg>, 2019
-# Maria Boyadjieva <marabo2000@gmail.com>, 2019
+# kalatchev, 2020
+# Martin Trigaux, 2020
+# preslav <hackerz99999@gmail.com>, 2020
+# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2020
+# Kaloyan Naumov <kaloyan@lumnus.net>, 2020
+# Anton Vassilev, 2020
+# aleksandar ivanov, 2020
+# Albena Mincheva <albena_vicheva@abv.bg>, 2020
+# Maria Boyadjieva <marabo2000@gmail.com>, 2020
 # Ivan Goychev <igoychev.projects@gmail.com>, 2020
 # Александра Николова <alexandra1nikolova@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-29 10:09+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-12-05 12:32+0000\n"
+"PO-Revision-Date: 2019-08-26 09:08+0000\n"
 "Last-Translator: Александра Николова <alexandra1nikolova@gmail.com>, 2020\n"
 "Language-Team: Bulgarian (https://www.transifex.com/odoo/teams/41243/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -149,6 +149,9 @@ msgid "Analytic Tags"
 msgstr "Аналитични маркери"
 
 #. module: analytic
+#: model_terms:ir.ui.view,arch_db:analytic.account_analytic_tag_form_view
+#: model_terms:ir.ui.view,arch_db:analytic.account_analytic_tag_view_search
+#: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_account_form
 #: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_account_search
 msgid "Archived"
 msgstr "Архивиран"
@@ -173,6 +176,11 @@ msgstr "Салдо"
 #: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_account_kanban
 msgid "Balance:"
 msgstr "Balance:"
+
+#. module: analytic
+#: model:ir.model.fields,field_description:analytic.field_account_analytic_line__product_uom_category_id
+msgid "Category"
+msgstr "Категория"
 
 #. module: analytic
 #: model:ir.actions.act_window,name:analytic.action_analytic_account_form
@@ -206,6 +214,16 @@ msgstr "Компания"
 #: model:ir.model.fields,field_description:analytic.field_account_analytic_group__complete_name
 msgid "Complete Name"
 msgstr "Пълно име"
+
+#. module: analytic
+#: model:ir.model.fields,help:analytic.field_account_analytic_line__product_uom_category_id
+msgid ""
+"Conversion between Units of Measure can only occur if they belong to the "
+"same category. The conversion will be made based on the ratios."
+msgstr ""
+"Преобразуването на мерните единици може да възникне, само ако те принадлежат"
+" към една и съща категория. Преобразуването ще се извърши въз основа на "
+"съотношенията."
 
 #. module: analytic
 #: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_account_form
@@ -264,6 +282,7 @@ msgstr "Клиент"
 
 #. module: analytic
 #: model:ir.model.fields,field_description:analytic.field_account_analytic_line__date
+#: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_line_filter
 msgid "Date"
 msgstr "Дата"
 
@@ -325,12 +344,8 @@ msgid "ID"
 msgstr "ИН"
 
 #. module: analytic
-#: model:ir.model.fields,help:analytic.field_account_analytic_account__message_unread
-msgid "If checked new messages require your attention."
-msgstr "Ако е отметнато, новите съобщения ще изискват вниманието Ви."
-
-#. module: analytic
 #: model:ir.model.fields,help:analytic.field_account_analytic_account__message_needaction
+#: model:ir.model.fields,help:analytic.field_account_analytic_account__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "Ако е отметнато, новите съобщения ще изискват вниманието Ви."
 
@@ -431,8 +446,8 @@ msgstr "Брой действия"
 
 #. module: analytic
 #: model:ir.model.fields,field_description:analytic.field_account_analytic_account__message_has_error_counter
-msgid "Number of error"
-msgstr "Номер на грешка"
+msgid "Number of errors"
+msgstr "Брой грешки"
 
 #. module: analytic
 #: model:ir.model.fields,help:analytic.field_account_analytic_account__message_needaction_counter
@@ -505,6 +520,11 @@ msgid "Search Analytic Lines"
 msgstr "Търсете в аналитични редове"
 
 #. module: analytic
+#: model_terms:ir.ui.view,arch_db:analytic.account_analytic_tag_view_search
+msgid "Search Analytic Tags"
+msgstr "Търсене на аналитични маркери"
+
+#. module: analytic
 #: model:ir.model.fields,help:analytic.field_account_analytic_tag__active
 msgid "Set active to false to hide the Analytic Tag without removing it."
 msgstr "Set active to false to hide the Analytic Tag without removing it."
@@ -515,18 +535,13 @@ msgid "Tags"
 msgstr "Маркери"
 
 #. module: analytic
-#: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_line_filter
-msgid "Tasks Date"
-msgstr ""
-
-#. module: analytic
-#: sql_constraint:account.analytic.distribution:0
+#: model:ir.model.constraint,message:analytic.constraint_account_analytic_distribution_check_percentage
 msgid ""
 "The percentage of an analytic distribution should be between 0 and 100."
 msgstr "Вероятността за затваряне на сделката трябва да бъде между 0% и 100%"
 
 #. module: analytic
-#: code:addons/analytic/models/analytic_account.py:195
+#: code:addons/analytic/models/analytic_account.py:0
 #, python-format
 msgid ""
 "The selected account belongs to another company that the one you're trying "
@@ -564,16 +579,6 @@ msgstr "Брояч на непрочетени съобщения"
 #: model:ir.model.fields,field_description:analytic.field_account_analytic_line__user_id
 msgid "User"
 msgstr "Потребител"
-
-#. module: analytic
-#: model:ir.model.fields,field_description:analytic.field_account_analytic_account__website_message_ids
-msgid "Website Messages"
-msgstr "Съобщения в уебсайт"
-
-#. module: analytic
-#: model:ir.model.fields,help:analytic.field_account_analytic_account__website_message_ids
-msgid "Website communication history"
-msgstr "История на комуникацията на уебсайт"
 
 #. module: analytic
 #: model_terms:ir.ui.view,arch_db:analytic.view_account_analytic_account_form

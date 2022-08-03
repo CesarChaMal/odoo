@@ -1,19 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * payment_adyen
+# 	* payment_adyen
 # 
 # Translators:
-# Nancy Momoland <thanhnguyen.icsc@gmail.com>, 2018
-# Duy BQ <duybq86@gmail.com>, 2018
+# thanhnguyen.icsc <thanhnguyen.icsc@gmail.com>, 2019
+# Duy BQ <duybq86@gmail.com>, 2019
 # Dung Nguyen Thi <dungnt@trobz.com>, 2019
 # Trần Hà <tranthuha13590@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:21+0000\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:12+0000\n"
 "Last-Translator: Trần Hà <tranthuha13590@gmail.com>, 2021\n"
 "Language-Team: Vietnamese (https://www.transifex.com/odoo/teams/41243/vi/)\n"
 "MIME-Version: 1.0\n"
@@ -23,42 +23,42 @@ msgstr ""
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: payment_adyen
-#: code:addons/payment_adyen/models/payment.py:187
+#: code:addons/payment_adyen/models/payment.py:0
 #, python-format
 msgid "; multiple order found"
 msgstr "; thấy một số đơn hàng"
 
 #. module: payment_adyen
-#: code:addons/payment_adyen/models/payment.py:185
+#: code:addons/payment_adyen/models/payment.py:0
 #, python-format
 msgid "; no order found"
 msgstr "; không tìm thấy đơn hàng"
 
 #. module: payment_adyen
-#: selection:payment.acquirer,provider:0
+#: model:ir.model.fields.selection,name:payment_adyen.selection__payment_acquirer__provider__adyen
 msgid "Adyen"
 msgstr "Adyen"
 
 #. module: payment_adyen
-#: code:addons/payment_adyen/models/payment.py:229
+#: code:addons/payment_adyen/models/payment.py:0
 #, python-format
 msgid "Adyen: feedback error"
 msgstr "Adyen: feedback error"
 
 #. module: payment_adyen
-#: code:addons/payment_adyen/models/payment.py:197
+#: code:addons/payment_adyen/models/payment.py:0
 #, python-format
 msgid "Adyen: invalid merchantSig, received %s, computed %s"
 msgstr "Adyen: invalid merchantSig, received %s, computed %s"
 
 #. module: payment_adyen
-#: code:addons/payment_adyen/models/payment.py:183
+#: code:addons/payment_adyen/models/payment.py:0
 #, python-format
 msgid "Adyen: received data for reference %s"
 msgstr "Adyen: received data for reference %s"
 
 #. module: payment_adyen
-#: code:addons/payment_adyen/models/payment.py:176
+#: code:addons/payment_adyen/models/payment.py:0
 #, python-format
 msgid ""
 "Adyen: received data with missing reference (%s) or missing pspReference "
@@ -68,24 +68,9 @@ msgstr ""
 "(%s)"
 
 #. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Authorize.Net"
-msgstr "Authorize.Net"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Buckaroo"
-msgstr "Buckaroo"
-
-#. module: payment_adyen
 #: model_terms:ir.ui.view,arch_db:payment_adyen.acquirer_form_adyen
 msgid "How to configure your Adyen account?"
 msgstr "How to configure your Adyen account?"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Manual Configuration"
-msgstr "Cấu hình thủ công"
 
 #. module: payment_adyen
 #: model:ir.model.fields,field_description:payment_adyen.field_payment_acquirer__adyen_merchant_account
@@ -93,39 +78,19 @@ msgid "Merchant Account"
 msgstr "Merchant Account"
 
 #. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Ogone"
-msgstr "Ogone"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "PayUmoney"
-msgstr "PayUmoney"
-
-#. module: payment_adyen
 #: model:ir.model,name:payment_adyen.model_payment_acquirer
 msgid "Payment Acquirer"
-msgstr "Dịch vụ thanh toán"
+msgstr "NCC dịch vụ Thanh toán"
 
 #. module: payment_adyen
 #: model:ir.model,name:payment_adyen.model_payment_transaction
 msgid "Payment Transaction"
-msgstr "Giao dịch Thanh toán"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Paypal"
-msgstr "Paypal"
+msgstr "Giao dịch thanh toán"
 
 #. module: payment_adyen
 #: model:ir.model.fields,field_description:payment_adyen.field_payment_acquirer__provider
 msgid "Provider"
 msgstr "Nhà cung cấp"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Sips"
-msgstr "Sips"
 
 #. module: payment_adyen
 #: model:ir.model.fields,field_description:payment_adyen.field_payment_acquirer__adyen_skin_code
@@ -136,13 +101,3 @@ msgstr "Skin Code"
 #: model:ir.model.fields,field_description:payment_adyen.field_payment_acquirer__adyen_skin_hmac_key
 msgid "Skin HMAC Key"
 msgstr "Skin HMAC Key"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Stripe"
-msgstr "Stripe"
-
-#. module: payment_adyen
-#: selection:payment.acquirer,provider:0
-msgid "Wire Transfer"
-msgstr "Chuyển khoản ngân hàng"

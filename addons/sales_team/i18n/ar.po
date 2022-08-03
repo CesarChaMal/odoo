@@ -1,32 +1,31 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sales_team
+# 	* sales_team
 # 
 # Translators:
-# Sadig Adam <sadig41@gmail.com>, 2018
-# Akram Alfusayal <akram_ma@hotmail.com>, 2018
-# amrnegm <amrnegm.01@gmail.com>, 2018
-# Martin Trigaux, 2018
-# Ali zuaby <ali@zuaby.net>, 2018
-# Walid Baruni <baroni@osoul.ly>, 2018
-# abdullah alsabi <alsabi.abdullah@gmail.com>, 2018
-# Mohammed Albasha <m.albasha.ma@gmail.com>, 2018
-# Ghaith Gammar <g.gammar@saharaifs.net>, 2018
-# amal ahmed <amalalhashemy88@hotmail.com>, 2018
-# Zuhair Hammadi <zuhair12@gmail.com>, 2018
-# Shaima Safar <shaima.safar@open-inside.com>, 2018
-# Mostafa Hanafy <mostafa.s.hanafy@gmail.com>, 2018
-# Osama Ahmaro <osamaahmaro@gmail.com>, 2018
-# Osoul <baruni@osoul.ly>, 2018
 # Mustafa Rawi <mustafa@cubexco.com>, 2019
+# Sadig Adam <sadig41@gmail.com>, 2019
+# Akram Alfusayal <akram_ma@hotmail.com>, 2019
+# amrnegm <amrnegm.01@gmail.com>, 2019
+# Martin Trigaux, 2019
+# Walid Baruni <baroni@osoul.ly>, 2019
+# abdullah alsabi <alsabi.abdullah@gmail.com>, 2019
+# Osoul <baruni@osoul.ly>, 2019
+# Mohammed Albasha <m.albasha.ma@gmail.com>, 2019
+# Zuhair Hammadi <zuhair12@gmail.com>, 2019
+# Shaima Safar <shaima.safar@open-inside.com>, 2019
+# Mostafa Hanafy <mostafa.s.hanafy@gmail.com>, 2019
+# Nisrine Tagri <nta@odoo.com>, 2019
+# Osama Ahmaro <osamaahmaro@gmail.com>, 2019
+# Tasneem Sarhan <tsa@odoo.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-09 10:32+0000\n"
-"PO-Revision-Date: 2018-08-24 09:25+0000\n"
-"Last-Translator: Mustafa Rawi <mustafa@cubexco.com>, 2019\n"
+"POT-Creation-Date: 2019-12-05 12:33+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
+"Last-Translator: Tasneem Sarhan <tsa@odoo.com>, 2020\n"
 "Language-Team: Arabic (https://www.transifex.com/odoo/teams/41243/ar/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -70,12 +69,25 @@ msgid "Activity Types"
 msgstr "أنواع النشاطات"
 
 #. module: sales_team
+#: model:ir.model.fields,help:sales_team.field_crm_team__member_ids
+msgid ""
+"Add members to automatically assign their documents to this sales team. You "
+"can only be member of one team."
+msgstr ""
+
+#. module: sales_team
+#: model:res.groups,name:sales_team.group_sale_manager
+msgid "Administrator"
+msgstr "مدير"
+
+#. module: sales_team
 #: model:crm.team,name:sales_team.crm_team_1
 msgid "America"
 msgstr "أمريكا"
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_salesteams_search
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
 msgid "Archived"
 msgstr "مؤرشف"
 
@@ -90,15 +102,16 @@ msgid "Avatar"
 msgstr "الصورة الرمزية"
 
 #. module: sales_team
-#: selection:crm.team,dashboard_graph_type:0
-msgid "Bar"
-msgstr "حانة"
-
-#. module: sales_team
-#: code:addons/sales_team/models/crm_team.py:274
+#: code:addons/sales_team/models/crm_team.py:0
 #, python-format
 msgid "Big Pretty Button :)"
 msgstr "زر كبير جميل :)"
+
+#. module: sales_team
+#: code:addons/sales_team/models/crm_team.py:0
+#, python-format
+msgid "Cannot delete default team \"%s\""
+msgstr ""
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__member_ids
@@ -108,27 +121,22 @@ msgstr "أعضاء القناة"
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__color
 msgid "Color Index"
-msgstr "مُعرف اللون"
+msgstr "معرف اللون"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__company_id
 msgid "Company"
-msgstr "المؤسسة"
+msgstr "الشركة"
 
 #. module: sales_team
 #: model:ir.ui.menu,name:sales_team.menu_sale_config
 msgid "Configuration"
-msgstr "الإعدادات"
+msgstr "إعداد"
 
 #. module: sales_team
 #: model:ir.model,name:sales_team.model_res_partner
 msgid "Contact"
 msgstr "جهة الاتصال"
-
-#. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__dashboard_graph_model
-msgid "Content"
-msgstr "المحتوى"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__create_uid
@@ -146,11 +154,6 @@ msgid "Currency"
 msgstr "العملة"
 
 #. module: sales_team
-#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
-msgid "Dashboard"
-msgstr "لوحة المعلومات"
-
-#. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__dashboard_button_name
 msgid "Dashboard Button"
 msgstr "زر لوحة المعلومات"
@@ -161,15 +164,11 @@ msgid "Dashboard Graph Data"
 msgstr "بيانات الرسم البياني للوحة المعلومات"
 
 #. module: sales_team
-#: selection:crm.team,dashboard_graph_group:0
-msgid "Day"
-msgstr "اليوم"
-
-#. module: sales_team
 #: model_terms:ir.actions.act_window,help:sales_team.crm_team_salesteams_act
+#: model_terms:ir.actions.act_window,help:sales_team.crm_team_salesteams_pipelines_act
 #: model_terms:ir.actions.act_window,help:sales_team.sales_team_config_action
-msgid "Define a new Sales Team"
-msgstr "تعريف فريق مبيعات جديد"
+msgid "Define a new sales team"
+msgstr ""
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__display_name
@@ -215,37 +214,18 @@ msgid "Followers (Partners)"
 msgstr "المتابعون (الشركاء)"
 
 #. module: sales_team
-#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
-msgid "Graph"
-msgstr "الرسم البياني"
-
-#. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_salesteams_search
 msgid "Group By..."
 msgstr "تجميع حسب.."
 
 #. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__dashboard_graph_group
-msgid "Group by"
-msgstr "تجميع حسب"
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__dashboard_graph_group
-msgid "How this channel's dashboard graph will group the results."
-msgstr "كيفية تجميع الرسم البياني الناتج في لوحة معلومات هذه القناة للنتائج."
-
-#. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__id
 msgid "ID"
-msgstr "المعرف"
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__message_unread
-msgid "If checked new messages require your attention."
-msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج لرؤيتها."
+msgstr "المُعرف"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team__message_needaction
+#: model:ir.model.fields,help:sales_team.field_crm_team__message_unread
 msgid "If checked, new messages require your attention."
 msgstr "إذا كان محددًا، فهناك رسائل جديدة تحتاج لرؤيتها."
 
@@ -256,6 +236,7 @@ msgstr "إذا كان محددًا، فقد حدث خطأ في تسليم بعض
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_res_partner__team_id
+#: model:ir.model.fields,help:sales_team.field_res_users__team_id
 msgid ""
 "If set, this Sales Team will be used for sales and assignations related to "
 "this partner"
@@ -272,11 +253,6 @@ msgstr ""
 "إذا تم تحويل قيمة الحقل نشط إلى خطأ، يمكنك إخفاء فريق المبيعات دون إزالته."
 
 #. module: sales_team
-#: selection:crm.team,dashboard_graph_model:0
-msgid "Invoices"
-msgstr "الفواتير"
-
-#. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_is_follower
 msgid "Is Follower"
 msgstr "متابع"
@@ -285,11 +261,6 @@ msgstr "متابع"
 #: model:ir.model.fields,field_description:sales_team.field_crm_team____last_update
 msgid "Last Modified on"
 msgstr "آخر تعديل في"
-
-#. module: sales_team
-#: selection:crm.team,dashboard_graph_period:0
-msgid "Last Month"
-msgstr "الشهر الماضي"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__write_uid
@@ -302,29 +273,9 @@ msgid "Last Updated on"
 msgstr "آخر تحديث في"
 
 #. module: sales_team
-#: selection:crm.team,dashboard_graph_period:0
-msgid "Last Week"
-msgstr "الأسبوع الماضي"
-
-#. module: sales_team
-#: selection:crm.team,dashboard_graph_period:0
-msgid "Last Year"
-msgstr "العام الماضي"
-
-#. module: sales_team
-#: selection:crm.team,dashboard_graph_type:0
-msgid "Line"
-msgstr "بند"
-
-#. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_main_attachment_id
 msgid "Main Attachment"
 msgstr "المرفق الرئيسي"
-
-#. module: sales_team
-#: model:res.groups,name:sales_team.group_sale_manager
-msgid "Manager"
-msgstr "المدير"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_has_error
@@ -337,30 +288,14 @@ msgid "Messages"
 msgstr "الرسائل"
 
 #. module: sales_team
-#: selection:crm.team,dashboard_graph_group:0
-msgid "Month"
-msgstr "الشهر"
-
-#. module: sales_team
-#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_salesteams_search
-msgid "My Favorites"
-msgstr "مفضلاتي"
-
-#. module: sales_team
-#: code:addons/sales_team/models/crm_team.py:260
-#, python-format
-msgid "Not Defined"
-msgstr "غير معرّف"
-
-#. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_needaction_counter
 msgid "Number of Actions"
 msgstr "عدد الإجراءات"
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__message_has_error_counter
-msgid "Number of error"
-msgstr "عدد الأخطاء"
+msgid "Number of errors"
+msgstr "عدد الاخطاء"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team__message_needaction_counter
@@ -378,37 +313,24 @@ msgid "Number of unread messages"
 msgstr "عدد الرسائل الجديدة"
 
 #. module: sales_team
-#: selection:crm.team,dashboard_graph_model:0
-msgid "Pipeline"
-msgstr "دورة المبيعات"
-
-#. module: sales_team
-#: selection:crm.team,team_type:0
+#: model:crm.team,name:sales_team.pos_sales_team
 msgid "Point of Sale"
 msgstr "نقطة البيع"
 
 #. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__reply_to
-msgid "Reply-To"
-msgstr "إرسال الرد إلى"
-
-#. module: sales_team
-#: selection:crm.team,dashboard_graph_model:0 selection:crm.team,team_type:0
-msgid "Sales"
-msgstr "المبيعات"
-
-#. module: sales_team
 #: model:ir.model,name:sales_team.model_crm_team
-msgid "Sales Channels"
-msgstr "قنوات المبيعات"
-
-#. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_crm_team__name
 #: model:ir.model.fields,field_description:sales_team.field_res_partner__team_id
+#: model:ir.model.fields,field_description:sales_team.field_res_users__team_id
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_tree
 msgid "Sales Team"
 msgstr "فريق المبيعات"
+
+#. module: sales_team
+#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
+msgid "Sales Team name..."
+msgstr ""
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_res_users__sale_team_id
@@ -420,19 +342,10 @@ msgstr ""
 "خلال علاقة واحد إلى متعدد العكسية"
 
 #. module: sales_team
+#: model:ir.actions.act_window,name:sales_team.crm_team_salesteams_act
 #: model:ir.actions.act_window,name:sales_team.sales_team_config_action
 msgid "Sales Teams"
 msgstr "فرق المبيعات"
-
-#. module: sales_team
-#: selection:crm.team,dashboard_graph_group:0
-msgid "Salesperson"
-msgstr "موظف المبيعات"
-
-#. module: sales_team
-#: model_terms:ir.ui.view,arch_db:sales_team.crm_team_view_form
-msgid "Salesteam name..."
-msgstr "اسم فريق المبيعات..."
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_salesteams_search
@@ -440,9 +353,9 @@ msgid "Salesteams Search"
 msgstr "البحث في فرق المبيعات"
 
 #. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__dashboard_graph_period
-msgid "Scale"
-msgstr "الميزان"
+#: model:ir.model.fields,field_description:sales_team.field_crm_team__sequence
+msgid "Sequence"
+msgstr "المسلسل"
 
 #. module: sales_team
 #: model_terms:ir.ui.view,arch_db:sales_team.crm_team_salesteams_view_kanban
@@ -466,14 +379,9 @@ msgid "Team Members"
 msgstr "أعضاء الفريق"
 
 #. module: sales_team
-#: model:ir.actions.act_window,name:sales_team.crm_team_salesteams_act
+#: model:ir.actions.act_window,name:sales_team.crm_team_salesteams_pipelines_act
 msgid "Team Pipelines"
 msgstr "دورة مبيعات الفريق"
-
-#. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__team_type
-msgid "Team Type"
-msgstr "نوع الفريق"
 
 #. module: sales_team
 #: model:ir.model.fields,help:sales_team.field_crm_team__color
@@ -481,44 +389,8 @@ msgid "The color of the channel"
 msgstr "لون القناة"
 
 #. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__reply_to
-msgid ""
-"The email address put in the 'Reply-To' of all emails sent by Odoo about "
-"cases in this Sales Team"
-msgstr ""
-"البريد الإلكتروني المُدرج في خانة 'إرسال الردود إلى' بكافة الرسائل المرسلة "
-"إلى أودو بشأن الحالات المسئول هذا فريق المبيعات هذا"
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__dashboard_graph_model
-msgid "The graph this channel will display in the Dashboard.\n"
-msgstr "الرسم البياني الذي ستعرضه هذه القناة في لوحة المعلومات.\n"
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__dashboard_graph_period
-msgid "The time period this channel's dashboard graph will consider."
-msgstr ""
-"الفترة الزمنية التي سيغطيها الرسم البياني الناتج في لوحة معلومات هذه القناة."
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__dashboard_graph_type
-msgid "The type of graph this channel will display in the dashboard."
-msgstr "نوع الرسم البياني الذي ستعرضه هذه القناة في لوحة المعلومات."
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__team_type
-msgid ""
-"The type of this channel, it will define the resources this channel uses."
-msgstr "نوع هذه القناة، سيحدد الموارد التي تستعملها القناة."
-
-#. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__dashboard_graph_type
-msgid "Type"
-msgstr "النوع"
-
-#. module: sales_team
-#: code:addons/sales_team/models/crm_team.py:151
-#: code:addons/sales_team/models/crm_team.py:178
+#: code:addons/sales_team/models/crm_team.py:0
+#: code:addons/sales_team/models/crm_team.py:0
 #, python-format
 msgid "Undefined graph model for Sales Team: %s"
 msgstr "نموذج رسم بياني غير محدد لفريق المبيعات: %s"
@@ -535,13 +407,12 @@ msgstr "عدد الرسائل الجديدة"
 
 #. module: sales_team
 #: model_terms:ir.actions.act_window,help:sales_team.crm_team_salesteams_act
+#: model_terms:ir.actions.act_window,help:sales_team.crm_team_salesteams_pipelines_act
 #: model_terms:ir.actions.act_window,help:sales_team.sales_team_config_action
 msgid ""
 "Use Sales Teams to organize your sales departments.\n"
-"                    Each channel will work with a separate pipeline."
+"                    Each team will work with a separate pipeline."
 msgstr ""
-"استخدم قنوات المبيعات لتنظيم أقسام مبيعاتك.\n"
-"                    ستتعامل كل قناة مع دور مبيعات منفصلة."
 
 #. module: sales_team
 #: model:ir.model.fields,field_description:sales_team.field_res_users__sale_team_id
@@ -565,24 +436,13 @@ msgstr "المستخدمون"
 
 #. module: sales_team
 #: model:crm.team,name:sales_team.salesteam_website_sales
-#: selection:crm.team,team_type:0
 msgid "Website"
 msgstr "الموقع الإلكتروني"
 
 #. module: sales_team
-#: model:ir.model.fields,field_description:sales_team.field_crm_team__website_message_ids
-msgid "Website Messages"
-msgstr "رسائل الموقع"
-
-#. module: sales_team
-#: model:ir.model.fields,help:sales_team.field_crm_team__website_message_ids
-msgid "Website communication history"
-msgstr "سجل تواصل الموقع"
-
-#. module: sales_team
-#: selection:crm.team,dashboard_graph_group:0
-msgid "Week"
-msgstr "الأسبوع"
+#: model:crm.team,name:sales_team.ebay_sales_team
+msgid "eBay"
+msgstr "eBay"
 
 #. module: sales_team
 #: model:res.groups,comment:sales_team.group_sale_salesman_all_leads

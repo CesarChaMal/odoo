@@ -9,6 +9,7 @@
 "a_1_112006","1112006","BNI Giro","account.data_account_type_liquidity",TRUE,"l10n_id_chart"
 "a_1_112007","1112007","Mandiri Giro","account.data_account_type_liquidity",TRUE,"l10n_id_chart"
 "a_1_121001","1121001","Piutang Usaha","account.data_account_type_receivable",TRUE,"l10n_id_chart"
+"a_1_1210011","11210011","Piutang Usaha (PoS)","account.data_account_type_receivable",TRUE,"l10n_id_chart"
 "a_1_121002","1121002","Piutang Karyawan","account.data_account_type_current_assets",TRUE,"l10n_id_chart"
 "a_1_211003","1211003","Piutang Owner","account.data_account_type_current_assets",TRUE,"l10n_id_chart"
 "a_1_211004","1211004","Piutang lainnya","account.data_account_type_current_assets",TRUE,"l10n_id_chart"

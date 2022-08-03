@@ -3,7 +3,7 @@
 # * pad_project
 # 
 # Translators:
-# Martin Trigaux, 2018
+# Martin Trigaux, 2019
 # Uuganbayar Batbaatar <uuganaaub33@gmail.com>, 2020
 # 
 msgid ""
@@ -11,7 +11,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server saas~11.5\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-09-18 09:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:21+0000\n"
+"PO-Revision-Date: 2019-08-26 09:12+0000\n"
 "Last-Translator: Uuganbayar Batbaatar <uuganaaub33@gmail.com>, 2020\n"
 "Language-Team: Mongolian (https://www.transifex.com/odoo/teams/41243/mn/)\n"
 "MIME-Version: 1.0\n"
@@ -38,7 +38,7 @@ msgstr "Даалгавар"
 #. module: pad_project
 #: model:ir.model.fields,field_description:pad_project.field_project_task__use_pad
 msgid "Use collaborative pad"
-msgstr "Хамтын хавтан ашиглах"
+msgstr "Хамтын хавтанг ашиглах"
 
 #. module: pad_project
 #: model:ir.model.fields,help:pad_project.field_project_project__use_pads
@@ -49,4 +49,4 @@ msgstr "Төсөл дээрх даалгаварын хамтын хавтанг
 #. module: pad_project
 #: model:ir.model.fields,field_description:pad_project.field_project_project__use_pads
 msgid "Use collaborative pads"
-msgstr "Хамтын хавтан ашиглах"
+msgstr "Хамтын хавтанг ашиглах"

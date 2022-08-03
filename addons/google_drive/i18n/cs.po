@@ -1,20 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * google_drive
+# 	* google_drive
 # 
 # Translators:
-# Jan Horzinka <jan.horzinka@centrum.cz>, 2018
-# Michal Veselý <michal@veselyberanek.net>, 2018
-# Martin Trigaux, 2018
+# Jan Horzinka <jan.horzinka@centrum.cz>, 2019
+# Michal Veselý <michal@veselyberanek.net>, 2019
+# Martin Trigaux, 2019
 # karolína schusterová <karolina.schusterova@vdp.sk>, 2021
 # trendspotter, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-10-08 06:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:18+0000\n"
+"POT-Creation-Date: 2019-10-07 07:12+0000\n"
+"PO-Revision-Date: 2019-08-26 09:10+0000\n"
 "Last-Translator: trendspotter, 2021\n"
 "Language-Team: Czech (https://www.transifex.com/odoo/teams/41243/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -39,6 +39,35 @@ msgstr ""
 "- Pokud vyberete možnost \"Sdílet se všemi uživateli\", zobrazí se odkaz na dokument Google v možnostech \"Více\" pro všechny uživatele v příležitostech Oddělení prodeje.<br/>\n"
 "- Pokud nezvolíte možnost \"Sdílet se všemi uživateli\", odkaz na dokument Google v možnostech \"Více\" se nezobrazí pro ostatní uživatele v příležitostech oddělení prodeje.<br/>\n"
 "- Pokud není filtr zadán, odkaz na dokument google se zobrazí v možnosti \"Více\" pro všechny uživatele u všech příležitostí."
+
+#. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.res_config_settings_view_form
+msgid "<i class=\"fa fa-arrow-right\"/> Reset token"
+msgstr "<i class=\"fa fa-arrow-right\"/> Resetovat token"
+
+#. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.res_config_settings_view_form
+msgid "<i class=\"fa fa-arrow-right\"/> Set up token"
+msgstr "<i class=\"fa fa-arrow-right\"/> Nastavit token"
+
+#. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.res_config_settings_view_form
+msgid ""
+"<i class=\"fa fa-exclamation-triangle text-warning\"/> &amp;nbsp; No refresh"
+" token set"
+msgstr ""
+"<i class=\"fa fa-exclamation-triangle text-warning\"/> &amp;nbsp; Není "
+"nastaven žádný obnovovací token"
+
+#. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.res_config_settings_view_form
+msgid "<i class=\"text-success fa fa-check\"/> &amp;nbsp; Refresh token set"
+msgstr "<i class=\"text-success fa fa-check\"/> &amp;nbsp; Obnovit sadu tokenů"
+
+#. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.google_drive_auth_code_wizard
+msgid "<span>Get an authorization code and set it in the field below.</span>"
+msgstr "<span>Získejte autorizační kód a nastavte jej do pole níže.</span>"
 
 #. module: google_drive
 #: model_terms:ir.ui.view,arch_db:google_drive.view_google_drive_config_kanban
@@ -66,7 +95,12 @@ msgid "Add a new template"
 msgstr "Přidejte novou šablonu"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:42
+#: model_terms:ir.ui.view,arch_db:google_drive.google_drive_config_view_search
+msgid "Archived"
+msgstr "Archivováno"
+
+#. module: google_drive
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid "At least one key cannot be found in your Google Drive name pattern."
 msgstr "Ve vzoru názvu vašeho disku Google nelze najít alespoň jeden klíč."
@@ -75,6 +109,11 @@ msgstr "Ve vzoru názvu vašeho disku Google nelze najít alespoň jeden klíč.
 #: model:ir.model.fields,field_description:google_drive.field_res_config_settings__google_drive_authorization_code
 msgid "Authorization Code"
 msgstr "Autorizační kód"
+
+#. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.google_drive_auth_code_wizard
+msgid "Cancel"
+msgstr "Zrušit"
 
 #. module: google_drive
 #: model:ir.model.fields,help:google_drive.field_google_drive_config__name_template
@@ -91,9 +130,14 @@ msgid "Config Settings"
 msgstr "Nastavení konfigurace"
 
 #. module: google_drive
+#: model_terms:ir.ui.view,arch_db:google_drive.google_drive_auth_code_wizard
+msgid "Confirm"
+msgstr "Potvrdit"
+
+#. module: google_drive
 #: model:ir.model.fields,field_description:google_drive.field_google_drive_config__create_uid
 msgid "Created by"
-msgstr "Vytvořil(a)"
+msgstr "Vytvořeno od"
 
 #. module: google_drive
 #: model:ir.model.fields,field_description:google_drive.field_google_drive_config__create_date
@@ -101,7 +145,7 @@ msgid "Created on"
 msgstr "Vytvořeno"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:161
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid "Creating google drive may only be done by one at a time."
 msgstr "Vytvoření disku Google může provádět pouze jeden po druhém."
@@ -124,7 +168,7 @@ msgstr "Zákazník"
 #. module: google_drive
 #: model:ir.model.fields,field_description:google_drive.field_google_drive_config__display_name
 msgid "Display Name"
-msgstr "Zobrazovaný název"
+msgstr "Zobrazované jméno"
 
 #. module: google_drive
 #: model:ir.model.fields,field_description:google_drive.field_google_drive_config__filter_id
@@ -132,8 +176,8 @@ msgid "Filter"
 msgstr "Filtr"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:61
-#: code:addons/google_drive/models/google_drive.py:82
+#: code:addons/google_drive/models/google_drive.py:0
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid "Go to the configuration panel"
 msgstr "Přejít na panel konfigurace"
@@ -160,8 +204,8 @@ msgid "Google Drive Templates"
 msgstr "Šablony disků Google"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:63
-#: code:addons/google_drive/models/google_drive.py:84
+#: code:addons/google_drive/models/google_drive.py:0
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid "Google Drive is not yet configured. Please contact your administrator."
 msgstr "Disk Google ještě není nakonfigurován. Obraťte se na svého správce."
@@ -213,10 +257,15 @@ msgid "Model"
 msgstr "Model"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:203
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid "Please enter a valid Google Document URL."
 msgstr "Zadejte platnou adresu URL dokumentu Google."
+
+#. module: google_drive
+#: model:ir.model.fields,field_description:google_drive.field_res_config_settings__is_google_drive_token_generated
+msgid "Refresh Token Generated"
+msgstr "Byl vygenerován obnovovací token"
 
 #. module: google_drive
 #: model:ir.model.fields,field_description:google_drive.field_google_drive_config__model
@@ -229,7 +278,18 @@ msgid "Resource Id"
 msgstr "ID zdroje"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:81
+#: model_terms:ir.ui.view,arch_db:google_drive.google_drive_config_view_search
+msgid "Search Google Drive Config"
+msgstr "Prohledat konfiguraci disku Google"
+
+#. module: google_drive
+#: code:addons/google_drive/models/res_config_settings.py:0
+#, python-format
+msgid "Set up refresh token"
+msgstr "Nastavit obnovovací token"
+
+#. module: google_drive
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid ""
 "Something went wrong during the token generation. Please request again an "
@@ -254,7 +314,7 @@ msgid "Templates"
 msgstr "Šablony"
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:99
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid "The Google Template cannot be found. Maybe it has been deleted."
 msgstr "Šablonu Google nelze najít. Možná to bylo smazáno."
@@ -274,7 +334,7 @@ msgid ""
 msgstr ""
 
 #. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:135
+#: code:addons/google_drive/models/google_drive.py:0
 #, python-format
 msgid ""
 "The permission 'reader' for 'anyone with the link' has not been written on "
@@ -283,17 +343,19 @@ msgstr ""
 "Oprávnění „čtenář“ pro „kohokoli s odkazem“ nebylo v dokumentu napsáno"
 
 #. module: google_drive
+#: code:addons/google_drive/models/google_drive.py:0
+#, python-format
+msgid ""
+"There is no refresh code set for Google Drive. You can set it up from the "
+"configuration panel."
+msgstr ""
+"Pro Disk Google není nastaven žádný obnovovací kód. Můžete jej nastavit z "
+"konfiguračního panelu."
+
+#. module: google_drive
 #: model:ir.model.fields,field_description:google_drive.field_res_config_settings__google_drive_uri
 msgid "URI"
 msgstr "URI"
-
-#. module: google_drive
-#: code:addons/google_drive/models/google_drive.py:60
-#, python-format
-msgid ""
-"You haven't configured 'Authorization Code' generated from google, Please "
-"generate and configure it ."
-msgstr ""
 
 #. module: google_drive
 #: model_terms:ir.ui.view,arch_db:google_drive.view_google_drive_config_form

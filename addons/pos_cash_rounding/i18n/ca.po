@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * pos_cash_rounding
+# 	* pos_cash_rounding
 # 
 # Translators:
 # Quim - eccit <quim@eccit.com>, 2020
@@ -8,10 +8,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0+e\n"
+"Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-25 08:38+0000\n"
-"PO-Revision-Date: 2020-05-14 12:49+0000\n"
+"POT-Creation-Date: 2020-01-15 14:05+0000\n"
+"PO-Revision-Date: 2020-03-12 07:02+0000\n"
 "Last-Translator: jabelchi, 2021\n"
 "Language-Team: Catalan (https://www.transifex.com/odoo/teams/41243/ca/)\n"
 "MIME-Version: 1.0\n"
@@ -41,7 +41,7 @@ msgid "Cash rounding"
 msgstr "Arrodoniment d'efectiu"
 
 #. module: pos_cash_rounding
-#: code:addons/pos_cash_rounding/models/pos_config.py:19
+#: code:addons/pos_cash_rounding/models/pos_config.py:0
 #, python-format
 msgid "Cash rounding strategy must be: 'Add a rounding line'"
 msgstr ""
@@ -62,7 +62,7 @@ msgstr ""
 #. module: pos_cash_rounding
 #: model:ir.model.fields,field_description:pos_cash_rounding.field_account_cash_rounding__loss_account_id
 msgid "Loss Account"
-msgstr "Compta de pèrdues"
+msgstr "Compte de pèrdues"
 
 #. module: pos_cash_rounding
 #: model:ir.model.fields,field_description:pos_cash_rounding.field_pos_config__only_round_cash_method
@@ -96,16 +96,9 @@ msgstr "Compte de guanys"
 
 #. module: pos_cash_rounding
 #. openerp-web
-#: code:addons/pos_cash_rounding/static/src/xml/pos.xml:19
+#: code:addons/pos_cash_rounding/static/src/xml/pos.xml:0
 #, python-format
 msgid "ROUNDED"
-msgstr ""
-
-#. module: pos_cash_rounding
-#. openerp-web
-#: code:addons/pos_cash_rounding/static/src/xml/pos.xml:7
-#, python-format
-msgid "ROUNDED:"
 msgstr ""
 
 #. module: pos_cash_rounding
@@ -126,7 +119,7 @@ msgid "Total Paid (with rounding)"
 msgstr "Total pagat (amb arrodoniment)"
 
 #. module: pos_cash_rounding
-#: code:addons/pos_cash_rounding/models/account_cash_rounding.py:20
+#: code:addons/pos_cash_rounding/models/account_cash_rounding.py:0
 #, python-format
 msgid ""
 "You are not allowed to change the cash rounding configuration while a pos "

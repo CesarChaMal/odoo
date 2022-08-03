@@ -33,16 +33,15 @@ class Partner(models.Model):
     street_number2 = fields.Char('Door', compute='_split_street', help="Door Number",
                                  inverse='_set_street', store=True)
 
-    def _address_fields(self):
-        """Returns the list of address fields that are synced from the parent."""
-        return super(Partner, self)._address_fields() + self.get_street_fields()
+    def _formatting_address_fields(self):
+        """Returns the list of address fields usable to format addresses."""
+        return super(Partner, self)._formatting_address_fields() + self.get_street_fields()
 
     def get_street_fields(self):
         """Returns the fields that can be used in a street format.
         Overwrite this function if you want to add your own fields."""
         return STREET_FIELDS
 
-    @api.multi
     def _set_street(self):
         """Updates the street field.
         Writes the `street` field on the partners when one of the sub-fields in STREET_FIELDS
@@ -78,8 +77,7 @@ class Partner(models.Model):
 
             # add trailing chars in street_format
             street_value += street_format[previous_pos:]
-            if partner.street != street_value:
-                partner.street = street_value
+            partner.street = street_value
 
     def _split_street_with_params(self, street_raw, street_format):
         street_fields = self.get_street_fields()
@@ -130,7 +128,6 @@ class Partner(models.Model):
         return vals
 
 
-    @api.multi
     @api.depends('street')
     def _split_street(self):
         """Splits street value into sub-fields.
@@ -149,6 +146,8 @@ class Partner(models.Model):
             # assign the values to the fields
             for k, v in vals.items():
                 partner[k] = v
+            for k in set(street_fields) - set(vals):
+                partner[k] = None
 
     def write(self, vals):
         res = super(Partner, self).write(vals)

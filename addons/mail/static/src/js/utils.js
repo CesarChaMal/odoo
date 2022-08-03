@@ -17,6 +17,14 @@ function parseAndTransform(htmlString, transformFunction) {
     return _parseAndTransform(children, transformFunction)
                 .replace(new RegExp(openToken, "g"), "&lt;");
 }
+/**
+ * @param {Node[]} nodes
+ * @param {function} transformFunction with:
+ *   param node
+ *   param function
+ *   return string
+ * @return {string}
+ */
 function _parseAndTransform(nodes, transformFunction) {
     return _.map(nodes, function (node) {
         return transformFunction(node, function () {
@@ -29,10 +37,18 @@ function _parseAndTransform(nodes, transformFunction) {
 // Adapted to make http(s):// not required if (and only if) www. is given. So `should.notmatch` does not match.
 // And further extended to include Latin-1 Supplement, Latin Extended-A, Latin Extended-B and Latin Extended Additional.
 var urlRegexp = /\b(?:https?:\/\/\d{1,3}(?:\.\d{1,3}){3}|(?:https?:\/\/|(?:www\.))[-a-z0-9@:%._+~#=\u00C0-\u024F\u1E00-\u1EFF]{2,256}\.[a-z]{2,13})\b(?:[-a-z0-9@:%_+.~#?&'$//=;\u00C0-\u024F\u1E00-\u1EFF]*)/gi;
+/**
+ * @param {string} text
+ * @param {Object} [attrs={}]
+ * @return {string} linkified text
+ */
 function linkify(text, attrs) {
     attrs = attrs || {};
     if (attrs.target === undefined) {
         attrs.target = '_blank';
+    }
+    if (attrs.target === '_blank') {
+      attrs.rel = 'noreferrer noopener';
     }
     attrs = _.map(attrs, function (value, key) {
         return key + '="' + _.escape(value) + '"';
@@ -45,11 +61,41 @@ function linkify(text, attrs) {
 
 function addLink(node, transformChildren) {
     if (node.nodeType === 3) {  // text node
-        return linkify(node.data);
+        const linkified = linkify(node.data);
+        if (linkified !== node.data) {
+            const div = document.createElement('div');
+            div.innerHTML = linkified;
+            for (const childNode of [...div.childNodes]) {
+                node.parentNode.insertBefore(childNode, node);
+            }
+            node.parentNode.removeChild(node);
+            return linkified;
+        }
+        return node.textContent;
     }
     if (node.tagName === "A") return node.outerHTML;
-    node.innerHTML = transformChildren();
+    transformChildren();
     return node.outerHTML;
+}
+
+/**
+ * @param {string} htmlString
+ * @return {string}
+ */
+function htmlToTextContentInline(htmlString) {
+    const fragment = document.createDocumentFragment();
+    const div = document.createElement('div');
+    fragment.appendChild(div);
+    try {
+        div.innerHTML = htmlString;
+    } catch (e) {
+        div.innerHTML = `<pre>${htmlString}</pre>`;
+    }
+    return div
+        .textContent
+        .trim()
+        .replace(/[\n\r]/g, '')
+        .replace(/\s\s+/g, ' ');
 }
 
 function stripHTML(node, transformChildren) {
@@ -90,25 +136,6 @@ function getTextToHTML(text) {
         .replace(/[\n\r]/g,'<br/>');
 }
 
-var accentedLettersMapping = {
-    'a': '[àáâãäå]',
-    'ae': 'æ',
-    'c': 'ç',
-    'e': '[èéêë]',
-    'i': '[ìíîï]',
-    'n': 'ñ',
-    'o': '[òóôõö]',
-    'oe': 'œ',
-    'u': '[ùúûűü]',
-    'y': '[ýÿ]',
-};
-function unaccent(str) {
-    _.each(accentedLettersMapping, function (value, key) {
-        str = str.replace(new RegExp(value, 'g'), key);
-    });
-    return str;
-}
-
 function timeFromNow(date) {
     if (moment().diff(date, 'seconds') < 45) {
         return _t("now");
@@ -116,16 +143,26 @@ function timeFromNow(date) {
     return date.fromNow();
 }
 
+function o_clearTimeout(id) {
+    return clearTimeout(id);
+}
+
+function o_setTimeout(func, delay) {
+    return setTimeout(func, delay);
+}
+
 return {
     addLink: addLink,
     getTextToHTML: getTextToHTML,
+    htmlToTextContentInline,
     inline: inline,
     linkify: linkify,
     parseAndTransform: parseAndTransform,
     parseEmail: parseEmail,
     stripHTML: stripHTML,
     timeFromNow: timeFromNow,
-    unaccent: unaccent,
+    clearTimeout: o_clearTimeout,
+    setTimeout: o_setTimeout,
 };
 
 });

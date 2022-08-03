@@ -5,7 +5,6 @@ from collections import defaultdict
 import logging
 
 from odoo import api, models
-from odoo.http import request
 
 _logger = logging.getLogger(__name__)
 
@@ -13,8 +12,8 @@ _logger = logging.getLogger(__name__)
 class AccountChartTemplate(models.Model):
     _inherit = 'account.chart.template'
 
-    def load_for_current_company(self, sale_tax_rate, purchase_tax_rate):
-        res = super(AccountChartTemplate, self).load_for_current_company(sale_tax_rate, purchase_tax_rate)
+    def _load(self, sale_tax_rate, purchase_tax_rate, company):
+        res = super(AccountChartTemplate, self)._load(sale_tax_rate, purchase_tax_rate, company)
         # Copy chart of account translations when loading chart of account
         for chart_template in self.filtered('spoken_languages'):
             external_id = self.env['ir.model.data'].search([
@@ -25,19 +24,9 @@ class AccountChartTemplate(models.Model):
             if module and module.state == 'installed':
                 langs = chart_template._get_langs()
                 if langs:
-                    # do not use `request.env` here, it can cause deadlocks
-                    if request and request.session.uid:
-                        current_user = self.env['res.users'].browse(request.uid)
-                        company = current_user.company_id
-                    else:
-                        # fallback to company of current user, most likely __system__
-                        # (won't work well for multi-company)
-                        company = self.env.user.company_id
-
                     chart_template._process_single_company_coa_translations(company.id, langs)
         return res
 
-    @api.multi
     def process_translations(self, langs, in_field, in_ids, out_ids):
         """
         This method copies translations values of templates into new Accounts/Taxes/Journals for languages selected
@@ -71,7 +60,6 @@ class AccountChartTemplate(models.Model):
                 counter += 1
         return True
 
-    @api.multi
     def process_coa_translations(self):
         company_obj = self.env['res.company']
         for chart_template_id in self:
@@ -106,17 +94,14 @@ class AccountChartTemplate(models.Model):
                 langs.append(lang)
         return langs
 
-    @api.multi
     def _process_accounts_translations(self, company_id, langs, field):
         in_ids, out_ids = self._get_template_from_model(company_id, 'account.account')
         return self.process_translations(langs, field, in_ids, out_ids)
 
-    @api.multi
     def _process_taxes_translations(self, company_id, langs, field):
         in_ids, out_ids = self._get_template_from_model(company_id, 'account.tax')
         return self.process_translations(langs, field, in_ids, out_ids)
 
-    @api.multi
     def _process_fiscal_pos_translations(self, company_id, langs, field):
         in_ids, out_ids = self._get_template_from_model(company_id, 'account.fiscal.position')
         return self.process_translations(langs, field, in_ids, out_ids)
@@ -158,10 +143,9 @@ class BaseLanguageInstall(models.TransientModel):
     """ Install Language"""
     _inherit = "base.language.install"
 
-    @api.multi
     def lang_install(self):
         self.ensure_one()
-        already_installed = self.env['res.lang'].search_count([('code', '=', self.lang)])
+        already_installed = self.lang in [code for code, _ in self.env['res.lang'].get_installed()]
         res = super(BaseLanguageInstall, self).lang_install()
         if already_installed:
             # update of translations instead of new installation

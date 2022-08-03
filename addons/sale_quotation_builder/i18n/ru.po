@@ -1,21 +1,23 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sale_quotation_builder
+# 	* sale_quotation_builder
 # 
 # Translators:
-# Viktor Pogrebniak <vp@aifil.ru>, 2018
-# Collex100, 2018
-# Martin Trigaux, 2018
-# Алексей <noosvet@gmail.com>, 2018
+# Martin Trigaux, 2019
+# Collex100, 2019
+# Алексей <noosvet@gmail.com>, 2019
+# Viktor Pogrebniak <vp@aifil.ru>, 2019
 # Vasiliy Korobatov <korobatov@gmail.com>, 2019
+# Oleg Kuryan <oleg@ventor.tech>, 2019
+# Константин Коровин <korovin74@gmail.com>, 2019
 # Ivan Yelizariev // IEL <yelizariev@itpp.dev>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 08:21+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
+"POT-Creation-Date: 2019-08-26 08:17+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
 "Last-Translator: Ivan Yelizariev // IEL <yelizariev@itpp.dev>, 2020\n"
 "Language-Team: Russian (https://www.transifex.com/odoo/teams/41243/ru/)\n"
 "MIME-Version: 1.0\n"
@@ -25,16 +27,9 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n%100>=11 && n%100<=14)? 2 : 3);\n"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "&amp;times;"
 msgstr "&amp;times;"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid ""
-",\n"
-"                an awesome"
-msgstr ", замечательный"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -82,6 +77,11 @@ msgid "About us"
 msgstr "О нас"
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "An awesome"
+msgstr ""
+
+#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid ""
 "As a leading professional services firm,\n"
@@ -92,12 +92,7 @@ msgstr ""
 "обязательствах, которые мы предоставляем с сильными услугами."
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
-msgid "Back"
-msgstr "Назад"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "Close"
 msgstr "Закрыть"
 
@@ -108,8 +103,8 @@ msgstr "Настройки конфигурации"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_template_view_form_inherit_sale_quotation_builder
-msgid "Edit Template"
-msgstr "Редактировать шаблон"
+msgid "Design Template"
+msgstr ""
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -140,11 +135,6 @@ msgstr ""
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Odoo"
-msgstr "Odoo"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
 msgid "Open Source CRM"
 msgstr "CRM с открытым исходным кодом"
 
@@ -169,11 +159,6 @@ msgid "Our Service"
 msgstr "Наш сервис"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Powered by"
-msgstr "На базе"
-
-#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid "Price"
 msgstr "Цена"
@@ -194,16 +179,19 @@ msgstr ""
 "фокусом на производстве, производительности и мастерства."
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
 msgid "Product:"
 msgstr "Товар:"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_description
 msgid "Quotation Description"
 msgstr "Описание коммерческого предложения"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_only_description
 msgid "Quotation Only Description"
 msgstr "Только описание коммерческого предложения"
@@ -230,8 +218,8 @@ msgstr "Опции продажи"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order
-msgid "Sale Order"
-msgstr "Заказ"
+msgid "Sales Order"
+msgstr "Заказ на продажу"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order_line
@@ -244,6 +232,7 @@ msgid "Terms &amp; Conditions"
 msgstr "Сроки и условия"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_sale_order_template_line__website_description
 msgid "The quotation description (not used on eCommerce)"
@@ -251,6 +240,7 @@ msgstr ""
 "Описание коммерческого предложения (не используется в электронной коммерции)"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_description
 msgid ""
 "This field uses the Quotation Only Description if it is defined, otherwise "
@@ -271,6 +261,11 @@ msgstr ""
 "настроить его в соответствии с вашими собственных нужд из приложения "
 "<i>Продажи</i> используя меню: Настройка / Шаблоны коммерческого "
 "предложения."
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+msgid "This is a preview of the sale order template."
+msgstr ""
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -315,3 +310,8 @@ msgstr ""
 "                        всех продуктов в предложении. Таблица содержания\n"
 "                        с лева создается автоматически используя стили которые вы\n"
 "                        использовали в вашем описании (заглавие 1, заглавие 2, ...)"
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "portal"
+msgstr ""

@@ -1,19 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * auth_oauth
+# 	* auth_oauth
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Cristopher Cravioto <ccr@odoo.com>, 2018
+# Martin Trigaux, 2019
+# Cristopher Cravioto <ccr@odoo.com>, 2019
 # Jon Perez <jop@odoo.com>, 2019
 # Platon BJS <raul.caballero.girol@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:34+0000\n"
-"PO-Revision-Date: 2018-08-24 09:15+0000\n"
+"POT-Creation-Date: 2019-10-18 09:46+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Platon BJS <raul.caballero.girol@gmail.com>, 2019\n"
 "Language-Team: Spanish (https://www.transifex.com/odoo/teams/41243/es/)\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgid "<i class=\"fa fa-fw fa-arrow-right\"/>Tutorial"
 msgstr "<i class=\"fa fa-fw fa-arrow-right\"/>Tutorial"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:100
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid "Access Denied"
 msgstr "Acceso denegado"
@@ -41,7 +41,7 @@ msgstr "Acceso denegado"
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_res_config_settings__auth_oauth_google_enabled
 msgid "Allow users to sign in with Google"
-msgstr "Permitir a los usuarios ingresar con Google"
+msgstr "Permitir a los usuarios acceder con Google"
 
 #. module: auth_oauth
 #: model_terms:ir.ui.view,arch_db:auth_oauth.res_config_settings_view_form
@@ -72,7 +72,7 @@ msgstr "Clase CSS"
 #: model:ir.model.fields,field_description:auth_oauth.field_auth_oauth_provider__client_id
 #: model:ir.model.fields,field_description:auth_oauth.field_res_config_settings__auth_oauth_google_client_id
 msgid "Client ID"
-msgstr "Id. de cliente"
+msgstr "ID de cliente"
 
 #. module: auth_oauth
 #: model_terms:ir.ui.view,arch_db:auth_oauth.res_config_settings_view_form
@@ -102,7 +102,7 @@ msgstr "URL de los datos"
 #. module: auth_oauth
 #: model:ir.model.fields,field_description:auth_oauth.field_auth_oauth_provider__display_name
 msgid "Display Name"
-msgstr "Nombre a mostrar"
+msgstr "Nombre mostrado"
 
 #. module: auth_oauth
 #: model_terms:ir.ui.view,arch_db:auth_oauth.res_config_settings_view_form
@@ -166,7 +166,7 @@ msgid "OAuth Providers"
 msgstr "Proveedores OAuth"
 
 #. module: auth_oauth
-#: sql_constraint:res.users:0
+#: model:ir.model.constraint,message:auth_oauth.constraint_res_users_uniq_users_oauth_provider_oauth_uid
 msgid "OAuth UID must be unique per provider"
 msgstr "El id. de usuario OAuth debe ser único por proveedor"
 
@@ -216,7 +216,7 @@ msgid "Server uri"
 msgstr "Servidor uri"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:98
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid "Sign up is not allowed on this database."
 msgstr "No se permiten registros en esta base de datos."
@@ -237,7 +237,7 @@ msgid "Validation URL"
 msgstr "URL de validación"
 
 #. module: auth_oauth
-#: code:addons/auth_oauth/controllers/main.py:102
+#: code:addons/auth_oauth/controllers/main.py:0
 #, python-format
 msgid ""
 "You do not have access to this database or your invitation has expired. "

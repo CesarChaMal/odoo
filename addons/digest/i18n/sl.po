@@ -1,21 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * digest
+# 	* digest
 # 
 # Translators:
-# Martin Trigaux, 2019
-# laznikd <laznik@mentis.si>, 2019
-# matjaz k <matjaz@mentis.si>, 2019
-# Boris Kodelja <boris@hbs.si>, 2019
-# Jasmina Macur <jasmina@hbs.si>, 2019
+# Martin Trigaux, 2020
+# laznikd <laznik@mentis.si>, 2020
+# matjaz k <matjaz@mentis.si>, 2020
+# Boris Kodelja <boris@hbs.si>, 2020
+# Tadej Lupšina <tadej@hbs.si>, 2020
+# Jasmina Macur <jasmina@hbs.si>, 2020
 # Matjaz Mozetic <m.mozetic@matmoz.si>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-11-14 07:34+0000\n"
-"PO-Revision-Date: 2018-08-24 09:17+0000\n"
+"POT-Creation-Date: 2019-08-26 08:16+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Matjaz Mozetic <m.mozetic@matmoz.si>, 2020\n"
 "Language-Team: Slovenian (https://www.transifex.com/odoo/teams/41243/sl/)\n"
 "MIME-Version: 1.0\n"
@@ -25,9 +26,32 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n%100==1 ? 0 : n%100==2 ? 1 : n%100==3 || n%100==4 ? 2 : 3);\n"
 
 #. module: digest
+#: model:mail.template,subject:digest.digest_mail_template
+msgid "${'%s: %s' % (ctx.get('user', user).company_id.name, object.name)}"
+msgstr ""
+
+#. module: digest
+#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_0
+msgid "${', '.join(users.mapped('name'))} signed up. Say hello in the"
+msgstr ""
+
+#. module: digest
+#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_0
+msgid ""
+"% set users = object.env['res.users'].search([('share', '=' , False)], limit=10, order='id desc')\n"
+"    % set channel_id = object.env.ref('mail.channel_all_employees').id\n"
+"    <strong style=\"font-size: 16px;\">Did you know...?</strong>"
+msgstr ""
+
+#. module: digest
+#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_1
+msgid ""
+"<strong style=\"font-size: 16px;\">Get things done with activities</strong>"
+msgstr ""
+
+#. module: digest
 #: model:mail.template,body_html:digest.digest_mail_template
 msgid ""
-"\n"
 "<table style=\"width: 100%; border-spacing: 0; font-family: Helvetica,Arial,Verdana,sans-serif;\">\n"
 "    <tr>\n"
 "        <td align=\"center\" valign=\"top\" style=\"border-collapse: collapse; padding: 0\">\n"
@@ -39,12 +63,15 @@ msgid ""
 "            % set kpis = data.yesterday.keys()\n"
 "            <table style=\"width: 100%; max-width: 600px; border-spacing: 0; border: 1px solid #e7e7e7; border-bottom: none; color: #6e7172; line-height: 23px; text-align: left;\">\n"
 "                <tr>\n"
-"                    <td style=\"border-collapse: collapse; padding: 10px 40px; text-align: left;\">\n"
-"                        <strong style=\"margin-left: -22px; color: #000000; font-size: 22px; line-height: 32px;\">${company.name} at a glance</strong>\n"
-"                        <div style=\"color: #000000; font-size: 15px; margin-left:-22px;\">${datetime.date.today().strftime('%B %d, %Y')}</div>\n"
+"                    <td style=\"border-collapse: collapse; padding: 10px 20px; text-align: left;\">\n"
+"                        <strong style=\"color: #000000; font-size: 22px; line-height: 32px;\">${object.name}</strong>\n"
+"                        <div style=\"color: #000000; font-size: 15px;\">${datetime.date.today().strftime('%B %d, %Y')}</div>\n"
 "                    </td>\n"
-"                    <td style=\"text-align: right; padding: 10px 40px\">\n"
+"                    <td style=\"text-align: right; padding: 10px 20px\">\n"
 "                        <img style=\"padding: 0px; margin: 0px; height: auto; width: 80px;\" src=\"/logo.png?company=${company.id}\"/>\n"
+"                        <div style=\"padding-top: 5px;\">\n"
+"                            <a href=\"/web/login\" style=\"background-color: #875A7B; margin-left: 5px; padding: 8px 16px 8px 16px; text-decoration: none; color: #fff; border-radius: 5px; font-size:13px;\">Connect</a>\n"
+"                        </div>\n"
 "                    </td>\n"
 "                </tr>\n"
 "                <tr><td colspan=\"2\" style=\"text-align: center;\">\n"
@@ -75,10 +102,10 @@ msgid ""
 "                                                    <span style=\"color: #888888; display: inline-block; font-size: 12px; line-height: 18px; text-transform: uppercase;\">Yesterday</span>\n"
 "                                                    % if data['yesterday'][kpi]['margin'] != 0.0:\n"
 "                                                        <span style=\"color: #888888; display: block; font-size: 12px; line-height: 18px; text-transform: uppercase;\">\n"
-"                                                            % if data['yesterday'][kpi]['margin'] > 0.0:\n"
+"                                                            % if data['yesterday'][kpi]['margin'] is greaterthan(0.0):\n"
 "                                                                <span style=\"color: #0bbc22;\">▲</span>${\"%.2f\" % data['yesterday'][kpi]['margin']} %\n"
 "                                                            % endif\n"
-"                                                            % if data['yesterday'][kpi]['margin'] < 0.0:\n"
+"                                                            % if data['yesterday'][kpi]['margin'] is lessthan(0.0):\n"
 "                                                                <span style=\"color: #ff0000;\">▼</span>${\"%.2f\" % data['yesterday'][kpi]['margin']} %\n"
 "                                                            % endif\n"
 "                                                        </span>\n"
@@ -95,10 +122,10 @@ msgid ""
 "                                                    <span style=\"color: #888888; display: inline-block; font-size: 12px; line-height: 18px; text-transform: uppercase;\">Last 7 Days</span>\n"
 "                                                    % if data['lastweek'][kpi]['margin'] != 0.0:\n"
 "                                                        <span style=\"color: #888888; display: block; font-size: 12px; line-height: 18px; text-transform: uppercase;\">\n"
-"                                                            % if data['lastweek'][kpi]['margin'] > 0.0:\n"
+"                                                            % if data['lastweek'][kpi]['margin'] is greaterthan(0.0):\n"
 "                                                                <span style=\"color: #0bbc22;\">▲</span>${\"%.2f\" % data['lastweek'][kpi]['margin']} %\n"
 "                                                            % endif\n"
-"                                                            % if data['lastweek'][kpi]['margin'] < 0.0:\n"
+"                                                            % if data['lastweek'][kpi]['margin'] is lessthan(0.0):\n"
 "                                                                <span style=\"color: #ff0000;\">▼</span>${\"%.2f\" % data['lastweek'][kpi]['margin']} %\n"
 "                                                            %endif\n"
 "                                                        </span>\n"
@@ -107,18 +134,18 @@ msgid ""
 "                                            </tr>\n"
 "                                        </table>\n"
 "                                    </td>\n"
-"                                    <td style=\"border-collapse: collapse; margin: 0; padding: 0; border-top: 2px solid #56b3b5;\">\n"
+"                                    <td style=\"border-collapse: collapse; margin: 0; padding: 15px; border-top: 2px solid #56b3b5;\">\n"
 "                                        <table style=\"width: 100%; max-width: 199px; border-spacing: 0; margin: 0; padding: 0;\">\n"
 "                                            <tr>\n"
-"                                                <td style=\"border-collapse: collapse; margin: 0; padding: 20; text-align: center;\">\n"
+"                                                <td style=\"border-collapse: collapse; margin: 0; text-align: center;\">\n"
 "                                                    <span style=\"color: #56b3b5; font-size: 35px; font-weight: bold; text-decoration: none; line-height: 36px\">${data['lastmonth'][kpi][kpi]}</span><br/>\n"
 "                                                    <span style=\"color: #888888; display: inline-block; font-size: 12px; line-height: 18px; text-transform: uppercase;\">Last 30 Days</span>\n"
 "                                                    % if data['lastmonth'][kpi]['margin'] != 0.0:\n"
 "                                                        <span style=\"color: #888888; display: block; font-size: 12px; line-height: 18px; text-transform: uppercase;\">\n"
-"                                                             % if data['lastmonth'][kpi]['margin'] > 0.0:\n"
+"                                                             % if data['lastmonth'][kpi]['margin'] is greaterthan(0.0):\n"
 "                                                                <span style=\"color: #0bbc22;\">▲</span>${\"%.2f\" % data['lastmonth'][kpi]['margin']} %\n"
 "                                                            % endif\n"
-"                                                            % if data['lastmonth'][kpi]['margin'] < 0.0:\n"
+"                                                            % if data['lastmonth'][kpi]['margin'] is lessthan(0.0):\n"
 "                                                                <span style=\"color: #ff0000;\">▼</span>${\"%.2f\" % data['lastmonth'][kpi]['margin']} %\n"
 "                                                            %endif\n"
 "                                                        </span>\n"
@@ -136,7 +163,7 @@ msgid ""
 "            % if tips:\n"
 "                <table style=\"width: 100%; max-width: 600px; margin-top: 5px; border: 1px solid #e7e7e7;\">\n"
 "                    <tr>\n"
-"                        <td style=\"border-collapse: collapse; background-color: #ffffff; line-height: 21px; padding: 0px 20px;\"><br/>\n"
+"                        <td style=\"border-collapse: collapse; background-color: #ffffff; line-height: 21px; padding: 0px 20px 20px;\"><br/>\n"
 "                            <div style=\"color: #3d466e; line-height: 23px;\">${tips | safe}</div>\n"
 "                        </td>\n"
 "                    </tr>\n"
@@ -149,7 +176,7 @@ msgid ""
 "                    </td>\n"
 "                </tr>\n"
 "                <tr>\n"
-"                    <td>\n"
+"                    <td style=\"padding-bottom:20px;\">\n"
 "                        <div style=\"text-align: center;\"><a href=\"https://play.google.com/store/apps/details?id=com.odoo.mobile\" target=\"_blank\"><img src=\"/digest/static/src/img/google_play.png\" style=\"display: inline-block; height: 30px; margin-left: auto; margin-right: 12px;\"/></a><a href=\"https://itunes.apple.com/us/app/odoo/id1272543640\" target=\"_blank\"><img src=\"/digest/static/src/img/app_store.png\" style=\"display: inline-block; height: 30px; margin-left: 12px; margin-right: auto;\"/></a>\n"
 "                        </div>\n"
 "                    </td>\n"
@@ -160,10 +187,10 @@ msgid ""
 "                    <td style=\"border-collapse: collapse; margin: 0; padding: 10px 20px;\">\n"
 "                        % if user.has_group('base.group_system'):\n"
 "                            <div style=\"margin-top: 20px;\"> \n"
-"                                Want to customize the email?\n"
+"                                Want to customize this email?\n"
 "                                <a href=\"/web#view_type=form&amp;model=digest.digest&amp;id=${object.id}\" target=\"_blank\" style=\"color: #875A7B;\">Choose the metrics you care about</a>\n"
 "                            </div>\n"
-"                            <br />\n"
+"                            <br/>\n"
 "                        % endif\n"
 "                        <p style=\"font-size: 11px; margin-top: 10px;\">\n"
 "                            <strong>\n"
@@ -176,27 +203,7 @@ msgid ""
 "            </table>\n"
 "        </td>\n"
 "    </tr>\n"
-"</table>\n"
-"        "
-msgstr ""
-
-#. module: digest
-#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_0
-msgid "${', '.join(users.mapped('name'))} signed up. Say hello in the"
-msgstr ""
-
-#. module: digest
-#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_0
-msgid ""
-"% set users = object.env['res.users'].search([], limit=10, order='id desc')\n"
-"    % set channel_id = object.env.ref('mail.channel_all_employees').id\n"
-"    <strong style=\"font-size: 16px;\">Did you know...?</strong>"
-msgstr ""
-
-#. module: digest
-#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_1
-msgid ""
-"<strong style=\"font-size: 16px;\">Get things done with activities</strong>"
+"</table>"
 msgstr ""
 
 #. module: digest
@@ -205,7 +212,7 @@ msgid "Activate"
 msgstr "Aktiviraj"
 
 #. module: digest
-#: selection:digest.digest,state:0
+#: model:ir.model.fields.selection,name:digest.selection__digest_digest__state__activated
 msgid "Activated"
 msgstr "Aktivirano"
 
@@ -219,7 +226,7 @@ msgstr ""
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_tip__group_id
 msgid "Authorized Group"
-msgstr "Pooblaščena skupina"
+msgstr "Avtorizirana skupina"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__available_fields
@@ -229,17 +236,17 @@ msgstr "Razpoložljiva polja"
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__company_id
 msgid "Company"
-msgstr "Družba"
+msgstr "Podjetje"
 
 #. module: digest
 #: model:ir.model,name:digest.model_res_config_settings
 msgid "Config Settings"
-msgstr "Uredi nastavitve"
+msgstr "Urejanje nastavitev"
 
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.res_config_settings_view_form
 msgid "Configure Digest Emails"
-msgstr "Nastavi e-poštne povzetke"
+msgstr "Nastavi preneseno e-pošto"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__kpi_res_users_connected
@@ -275,23 +282,23 @@ msgstr "Valuta"
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
 msgid "Deactivate for everyone"
-msgstr "Onemogoči za vse"
+msgstr "Izklopite za vse"
 
 #. module: digest
-#: selection:digest.digest,state:0
+#: model:ir.model.fields.selection,name:digest.selection__digest_digest__state__deactivated
 msgid "Deactivated"
 msgstr "Onemogočeno"
 
 #. module: digest
 #: model:ir.model,name:digest.model_digest_digest
 msgid "Digest"
-msgstr "Povzemanje"
+msgstr "Prenesena"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_res_config_settings__digest_id
 #: model_terms:ir.ui.view,arch_db:digest.res_config_settings_view_form
 msgid "Digest Email"
-msgstr "E-poštni povzetek"
+msgstr "Prenesena e-pošta"
 
 #. module: digest
 #: model:ir.actions.act_window,name:digest.digest_digest_action
@@ -301,7 +308,7 @@ msgstr "E-poštni povzetek"
 #: model:ir.model.fields,field_description:digest.field_res_config_settings__digest_emails
 #: model:ir.ui.menu,name:digest.digest_menu
 msgid "Digest Emails"
-msgstr "E-poštni povzetki"
+msgstr "Prenešena e-pošta"
 
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.portal_digest_unsubscribed
@@ -317,7 +324,7 @@ msgstr "Priporočila za povzemanje"
 #: model:ir.model.fields,field_description:digest.field_digest_digest__display_name
 #: model:ir.model.fields,field_description:digest.field_digest_tip__display_name
 msgid "Display Name"
-msgstr "Prikazani naziv"
+msgstr "Naziv prikaza"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__template_id
@@ -337,7 +344,7 @@ msgstr "Združi po"
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
 msgid "How to customize your digest?"
-msgstr "Kako prilagoditi svoje povzetke?"
+msgstr "Kako prilagoditi svojo zbirko?"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__id
@@ -348,7 +355,7 @@ msgstr "ID"
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
 msgid "In order to build your customized digest, follow these steps:"
-msgstr "Če želite sestaviti povzetek po meri, sledite tem korakom:"
+msgstr "Če želite sestaviti zbirko po meri, sledite tem korakom:"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__is_subscribed
@@ -400,7 +407,7 @@ msgid "Messages"
 msgstr "Sporočila"
 
 #. module: digest
-#: selection:digest.digest,periodicity:0
+#: model:ir.model.fields.selection,name:digest.selection__digest_digest__periodicity__monthly
 msgid "Monthly"
 msgstr "Mesečno"
 
@@ -430,13 +437,14 @@ msgid "Periodicity"
 msgstr "Periodičnost"
 
 #. module: digest
-#: selection:digest.digest,periodicity:0
+#: model:ir.model.fields.selection,name:digest.selection__digest_digest__periodicity__quarterly
 msgid "Quarterly"
 msgstr "Četrtletno"
 
 #. module: digest
 #: model:ir.model.fields,field_description:digest.field_digest_digest__user_ids
 #: model:ir.model.fields,field_description:digest.field_digest_tip__user_ids
+#: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
 msgid "Recipients"
 msgstr "Prejemniki"
 
@@ -471,6 +479,11 @@ msgid "Tip description"
 msgstr ""
 
 #. module: digest
+#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_2
+msgid "To reach your full potential with Odoo, have a look at our"
+msgstr ""
+
+#. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
 msgid "Unsubscribe me"
 msgstr "Odjavi me"
@@ -491,14 +504,14 @@ msgid "Users having already received this tip"
 msgstr ""
 
 #. module: digest
-#: selection:digest.digest,periodicity:0
+#: model:ir.model.fields.selection,name:digest.selection__digest_digest__periodicity__weekly
 msgid "Weekly"
 msgstr "Tedensko"
 
 #. module: digest
 #: model:digest.digest,name:digest.digest_digest_default
-msgid "Weekly Digest"
-msgstr "Tedensko povzemanje"
+msgid "Weekly Stats in Odoo"
+msgstr ""
 
 #. module: digest
 #: model_terms:digest.tip,tip_description:digest.digest_tip_mail_0
@@ -526,6 +539,16 @@ msgstr ""
 "Morda boste želeli dodati nova izračunana polja s programom Odoo Studio:"
 
 #. module: digest
+#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_2
+msgid "and discover new tools to work better and faster."
+msgstr ""
+
+#. module: digest
+#: model_terms:digest.tip,tip_description:digest.digest_tip_mail_2
+msgid "apps videos"
+msgstr ""
+
+#. module: digest
 #: model_terms:digest.tip,tip_description:digest.digest_tip_mail_0
 msgid "company's discussion channel."
 msgstr ""
@@ -539,7 +562,7 @@ msgid ""
 msgstr ""
 "najprej ustvarite logično polje imenovano\n"
 "                                                <code>kpi_myfield</code>\n"
-"                                                in ga prikažite v zavihku ključnih kazalnikov;"
+"                                                in ga prikaži na kartici KPI;"
 
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
@@ -549,8 +572,8 @@ msgid ""
 "                                                that will compute your customized KPI."
 msgstr ""
 "nato ustvarite izračunano polje imenovano\n"
-"                                                <code>kpi_myfield_value</code>,\n"
-"                                                ki bo obdelalo vaše prilagojene ključne kazalnike."
+"                                                <code>kpi_myfield_value</code>\n"
+"                                                ,ki bo izračunal vaš prilagojen KPI."
 
 #. module: digest
 #: model_terms:ir.ui.view,arch_db:digest.digest_digest_view_form
@@ -559,6 +582,6 @@ msgid ""
 "                                                <code>digest</code>\n"
 "                                                object:"
 msgstr ""
-"ustvariti morate 2 polji na\n"
-"                                                <code>povzetem</code>\n"
+"ustvariti morate 2 polja na\n"
+"                                                <code>prenešenem</code>\n"
 "                                                objektu:"

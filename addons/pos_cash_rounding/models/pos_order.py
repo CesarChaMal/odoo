@@ -2,109 +2,102 @@
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
 from odoo import models, fields
-from odoo.tools import float_is_zero, float_round, float_compare
+from odoo.tools import float_is_zero, float_round
 
 class PosOrder(models.Model):
     _inherit = "pos.order"
 
 
-    def test_paid(self):
-        if self.config_id.cash_rounding:
-            total = float_round(self.amount_total, precision_rounding=self.config_id.rounding_method.rounding, rounding_method=self.config_id.rounding_method.rounding_method)
-            return float_is_zero(total - self.amount_paid, precision_rounding=self.config_id.currency_id.rounding)
-        else:
-            return super(PosOrder, self).test_paid()
+    def _get_rounded_amount(self, amount):
+        if self.config_id.cash_rounding and (
+                not self.config_id.only_round_cash_method or self.payment_ids.filtered(lambda p: p.payment_method_id.is_cash_count)):
+            amount = float_round(amount, precision_rounding=self.config_id.rounding_method.rounding, rounding_method=self.config_id.rounding_method.rounding_method)
+        return super(PosOrder, self)._get_rounded_amount(amount)
 
-    def _prepare_invoice(self):
-        vals = super(PosOrder, self)._prepare_invoice()
-        vals['cash_rounding_id'] = self.config_id.rounding_method.id if self.config_id.cash_rounding else False
+    def _prepare_invoice_vals(self):
+        vals = super(PosOrder, self)._prepare_invoice_vals()
+        if self.config_id.cash_rounding and (
+                not self.config_id.only_round_cash_method or self.payment_ids.filtered(lambda p: p.payment_method_id.is_cash_count)):
+            vals['invoice_cash_rounding_id'] = self.config_id.rounding_method.id
         return vals
 
-    def _create_invoice(self):
-        invoice = super(PosOrder, self)._create_invoice()
-        if invoice.cash_rounding_id:
-            invoice._onchange_cash_rounding()
-        return invoice
-
-
-    def _get_amount_receivable(self, move_lines):
+    def _create_invoice(self, move_vals):
+        new_move = super(PosOrder, self)._create_invoice(move_vals)
         if self.config_id.cash_rounding:
-            res = {}
-            cur = self.pricelist_id.currency_id
-            cur_company = self.company_id.currency_id
-            if cur != cur_company:
-                date_order = date_order = self.date_order.date() if self.date_order else fields.Date.today()
-                amount = cur._convert(self.amount_paid, cur_company, self.company_id, date_order)
-                res['amount'] = amount
-                res['amount_currency'] = self.amount_paid
+            rounding_applied = float_round(self.amount_paid - self.amount_total, precision_rounding=new_move.currency_id.rounding)
+            rounding_line = new_move.line_ids.filtered(lambda line: line.is_rounding_line)
+            if rounding_line and rounding_line.debit > 0:
+                rounding_line_difference = rounding_line.debit + rounding_applied
+            elif rounding_line and rounding_line.credit > 0:
+                rounding_line_difference = -rounding_line.credit + rounding_applied
             else:
-                res['amount'] = self.amount_paid
-                res['amount_currency'] = False
-            return res
-        else:
-            return super(PosOrder, self)._get_amount_receivable(move_lines)
+                rounding_line_difference = rounding_applied
+            if rounding_applied:
+                if rounding_applied > 0.0:
+                    account_id = new_move.invoice_cash_rounding_id._get_loss_account_id().id
+                else:
+                    account_id = new_move.invoice_cash_rounding_id._get_profit_account_id().id
+                if rounding_line:
+                    if rounding_line_difference:
+                        rounding_line.with_context(check_move_validity=False).write({
+                            'debit': rounding_applied < 0.0 and -rounding_applied or 0.0,
+                            'credit': rounding_applied > 0.0 and rounding_applied or 0.0,
+                            'account_id': account_id,
+                            'price_unit': rounding_applied,
+                        })
+                else:
+                    self.env['account.move.line'].with_context(check_move_validity=False).create({
+                         'debit': rounding_applied < 0.0 and -rounding_applied or 0.0,
+                         'credit': rounding_applied > 0.0 and rounding_applied or 0.0,
+                         'quantity': 1.0,
+                         'amount_currency': rounding_applied,
+                         'partner_id': new_move.partner_id.id,
+                         'move_id': new_move.id,
+                         'currency_id': new_move.currency_id if new_move.currency_id != new_move.company_id.currency_id else False,
+                         'company_id': new_move.company_id.id,
+                         'company_currency_id': new_move.company_id.currency_id.id,
+                         'is_rounding_line': True,
+                         'sequence': 9999,
+                         'name': new_move.invoice_cash_rounding_id.name,
+                         'account_id': account_id,
+                     })
+            else:
+                if rounding_line:
+                    rounding_line.with_context(check_move_validity=False).unlink()
+            if rounding_line_difference:
+                existing_terms_line = new_move.line_ids.filtered(
+                    lambda line: line.account_id.user_type_id.type in ('receivable', 'payable'))
+                if existing_terms_line.debit > 0:
+                    existing_terms_line_new_val = float_round(
+                        existing_terms_line.debit + rounding_line_difference,
+                        precision_rounding=new_move.currency_id.rounding)
+                else:
+                    existing_terms_line_new_val = float_round(
+                        -existing_terms_line.credit + rounding_line_difference,
+                        precision_rounding=new_move.currency_id.rounding)
+                existing_terms_line.write({
+                    'debit': existing_terms_line_new_val > 0.0 and existing_terms_line_new_val or 0.0,
+                    'credit': existing_terms_line_new_val < 0.0 and -existing_terms_line_new_val or 0.0,
+                })
 
-    def _prepare_account_move_and_lines(self, session=None, move=None):
-        res = super(PosOrder, self)._prepare_account_move_and_lines(session, move)
-        unpaid_order = self.filtered(lambda o: o.account_move.id == res['move'].id)
-        if unpaid_order:
-            config_id = unpaid_order[0].config_id
-            if config_id.cash_rounding and config_id.rounding_method:
-                difference = 0.0
-                converted_amount = 0.0
-                config_id = unpaid_order[0].config_id
-                company_id = unpaid_order[0].company_id
-                different_currency = config_id.currency_id if config_id.currency_id.id != company_id.currency_id.id else False
-                for order in unpaid_order:
-                    order_difference = order.amount_paid - order.amount_total
-                    difference += order_difference
-                    if config_id.currency_id.id != company_id.currency_id.id:
-                        converted_paid = different_currency._convert(order.amount_paid,  company_id.currency_id, company_id, order.date_order)
-                        converted_total = different_currency._convert(order.amount_total,  company_id.currency_id, company_id, order.date_order)
-                        converted_amount += converted_paid - converted_total
-                    else:
-                        converted_amount += order_difference
-                if difference:
-                    profit_account = config_id.rounding_method._get_profit_account_id().id
-                    loss_account = config_id.rounding_method._get_loss_account_id().id
-                    difference_move_line = {
-                        'name': 'Rounding Difference',
-                        'partner_id': False,
-                        'move_id': res['move'].id,
-                    }
-                    grouped_data_key = False
-                    if float_compare(0.0, difference, precision_rounding=config_id.currency_id.rounding) > 0:
-                        difference_move_line.update({
-                            'account_id': loss_account,
-                            'credit': 0.0,
-                            'debit': -converted_amount,
-                        })
-                        if different_currency:
-                            difference_move_line.update({
-                                'currency_id': different_currency.id,
-                                'amount_currency': -difference
-                            })
-                        grouped_data_key = ('difference_rounding',
-                                False,
-                                loss_account,
-                                True,
-                                different_currency.id if different_currency else False)
-                    if float_compare(0.0, difference, precision_rounding=config_id.currency_id.rounding) < 0:
-                        difference_move_line.update({
-                            'account_id': profit_account,
-                            'credit': converted_amount,
-                            'debit': 0.0,
-                        })
-                        if different_currency:
-                            difference_move_line.update({
-                                'currency_id': different_currency.id,
-                                'amount_currency': difference
-                            })
-                        grouped_data_key = ('difference_rounding',
-                                False,
-                                profit_account,
-                                False,
-                                different_currency.id if different_currency else False)
-                    if grouped_data_key:
-                        res['grouped_data'][grouped_data_key] = [difference_move_line]
+                new_move._recompute_payment_terms_lines()
+        return new_move
+
+    def _get_amount_receivable(self):
+        if self.config_id.cash_rounding and (
+                not self.config_id.only_round_cash_method or self.payment_ids.filtered(lambda p: p.payment_method_id.is_cash_count)):
+            return self.amount_paid
+        return super(PosOrder, self)._get_amount_receivable()
+
+    def _is_pos_order_paid(self):
+        res = super(PosOrder, self)._is_pos_order_paid()
+        if not res and self.config_id.cash_rounding:
+            currency = self.currency_id
+            if self.config_id.rounding_method.rounding_method == "HALF-UP":
+                maxDiff = currency.round(self.config_id.rounding_method.rounding / 2)
+            else:
+                maxDiff = currency.round(self.config_id.rounding_method.rounding)
+
+            diff = currency.round(self.amount_total - self.amount_paid)
+            res = abs(diff) <= maxDiff
         return res

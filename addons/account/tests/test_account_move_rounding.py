@@ -20,6 +20,7 @@ class TestAccountMoveRounding(AccountingTestCase):
         })
         self.account_type = self.env['account.account.type'].create(
             {'name': 'BAAH',
+             'internal_group': 'asset',
              'type': 'receivable'
         })
         self.journal = self.env['account.journal'].create({
@@ -43,7 +44,8 @@ class TestAccountMoveRounding(AccountingTestCase):
         In other words, we don't fall victim of the limitation introduced by 9d87d15db6dd40
 
         Here the rounding should be done according to company_currency_id, which is a related
-        on company_id.currency_id. In principle, it should not be necessary to add it to the create values,
+        on move_id.company_id.currency_id.
+        In principle, it should not be necessary to add it to the create values,
         since it is supposed to be computed by the ORM...
         """
         move1 = self.env['account.move'].create({
@@ -64,7 +66,7 @@ class TestAccountMoveRounding(AccountingTestCase):
         })
 
         self.assertEqual(
-            [(0.0, 33.33), (33.33, 0.0)],
+            [(33.33, 0.0), (0.0, 33.33)],
             move2.line_ids.mapped(lambda x: (x.debit, x.credit)),
             "Quantities should have been rounded according to the currency."
         )

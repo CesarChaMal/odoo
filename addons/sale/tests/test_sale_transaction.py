@@ -42,11 +42,10 @@ class TestSaleTransaction(AccountingTestCase):
         self.assertTrue(self.transaction.payment_id)
         self.assertEqual(self.transaction.payment_id.state, 'posted')
 
-        invoice_ids = self.order.action_invoice_create()
-        invoice = self.env['account.invoice'].browse(invoice_ids)
-        invoice.action_invoice_open()
+        invoice = self.order._create_invoices()
+        invoice.post()
 
-        self.assertEqual(invoice.state, 'paid')
+        self.assertEqual(invoice.invoice_payment_state, 'paid')
 
     def test_sale_transaction_mismatch(self):
         """Test that a transaction for the incorrect amount does not validate the SO."""

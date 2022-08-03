@@ -1,20 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * base_gengo
+# 	* base_gengo
 # 
 # Translators:
-# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2019
-# aleksandar ivanov, 2019
-# Maria Boyadjieva <marabo2000@gmail.com>, 2019
-# Daria Stefanova <daria@clearlypro.eu>, 2019
+# Rosen Vladimirov <vladimirov.rosen@gmail.com>, 2020
+# aleksandar ivanov, 2020
+# Maria Boyadjieva <marabo2000@gmail.com>, 2020
+# Daria Stefanova <daria@clearlypro.eu>, 2020
 # Igor Sheludko <igor.sheludko@gmail.com>, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server 13.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-22 11:11+0000\n"
-"PO-Revision-Date: 2018-08-24 09:16+0000\n"
+"POT-Creation-Date: 2019-11-22 08:19+0000\n"
+"PO-Revision-Date: 2019-08-26 09:09+0000\n"
 "Last-Translator: Igor Sheludko <igor.sheludko@gmail.com>, 2020\n"
 "Language-Team: Bulgarian (https://www.transifex.com/odoo/teams/41243/bg/)\n"
 "MIME-Version: 1.0\n"
@@ -71,7 +71,7 @@ msgid "Base Gengo Translations"
 msgstr ""
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__both
 msgid "Both"
 msgstr "и двата"
 
@@ -174,7 +174,7 @@ msgid "Gengo Translation Service Level"
 msgstr "Ниво на преводаческа услуга в Gengo"
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:85
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "Gengo `Public Key` or `Private Key` are missing. Enter your Gengo "
@@ -185,7 +185,7 @@ msgstr ""
 " параметри`."
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:96
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "Gengo connection failed with this message:\n"
@@ -193,6 +193,13 @@ msgid ""
 msgstr ""
 "Gengo връзката с  не бе успешна с това съобщение:\n"
 "``%s``"
+
+#. module: base_gengo
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
+#, python-format
+msgid ""
+"Gengo library not installed. Contact your system administrator to use it."
+msgstr ""
 
 #. module: base_gengo
 #: model:ir.actions.act_window,name:base_gengo.action_wizard_base_gengo_translations
@@ -256,7 +263,7 @@ msgid "Private Key"
 msgstr "Частен Ключ"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__pro
 msgid "Pro"
 msgstr "Професионалист"
 
@@ -266,7 +273,7 @@ msgid "Public Key"
 msgstr "Публичен Ключ"
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__receive
 msgid "Receive Translation"
 msgstr "Получете превод"
 
@@ -283,12 +290,12 @@ msgid "Send"
 msgstr "Изпратете"
 
 #. module: base_gengo
-#: selection:base.gengo.translations,sync_type:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__base_gengo_translations__sync_type__send
 msgid "Send New Terms"
 msgstr "Изпратете нови термини"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__standard
 msgid "Standard"
 msgstr "Стандартен"
 
@@ -298,7 +305,7 @@ msgid "Sync Type"
 msgstr "Вид синхонизиране"
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:115
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid ""
 "The number of terms to sync should be between 1 to 200 to work with Gengo "
@@ -323,7 +330,7 @@ msgstr ""
 "до Gengo"
 
 #. module: base_gengo
-#: code:addons/base_gengo/wizard/base_gengo_translations.py:110
+#: code:addons/base_gengo/wizard/base_gengo_translations.py:0
 #, python-format
 msgid "This language is not supported by the Gengo translation services."
 msgstr "Този език не се поддържа от преводаческите услуги на Gengo."
@@ -339,12 +346,12 @@ msgid "Translation"
 msgstr "Превод"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__machine
 msgid "Translation By Machine"
 msgstr "Превод от машина"
 
 #. module: base_gengo
-#: selection:ir.translation,gengo_translation:0
+#: model:ir.model.fields.selection,name:base_gengo.selection__ir_translation__gengo_translation__ultra
 msgid "Ultra"
 msgstr "Ултра"
 

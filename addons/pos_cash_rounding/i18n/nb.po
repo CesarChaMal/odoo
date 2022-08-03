@@ -1,6 +1,6 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * pos_cash_rounding
+# 	* pos_cash_rounding
 # 
 # Translators:
 # Martin Trigaux, 2020
@@ -8,10 +8,10 @@
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0+e\n"
+"Project-Id-Version: Odoo Server 13.0+e\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-02-25 08:38+0000\n"
-"PO-Revision-Date: 2020-05-14 12:49+0000\n"
+"POT-Creation-Date: 2020-01-15 14:05+0000\n"
+"PO-Revision-Date: 2020-03-12 07:02+0000\n"
 "Last-Translator: Marius Stedjan <marius@stedjan.com>, 2021\n"
 "Language-Team: Norwegian Bokmål (https://www.transifex.com/odoo/teams/41243/nb/)\n"
 "MIME-Version: 1.0\n"
@@ -28,20 +28,20 @@ msgstr "Kontantavrunding"
 #. module: pos_cash_rounding
 #: model:ir.model.fields,field_description:pos_cash_rounding.field_pos_config__cash_rounding
 msgid "Cash Rounding"
-msgstr "Kontantavrunding"
+msgstr "Avrunding"
 
 #. module: pos_cash_rounding
 #: model_terms:ir.ui.view,arch_db:pos_cash_rounding.res_config_view_form_inherit_pos_cash_rounding
 msgid "Cash Roundings"
-msgstr "Kontantavrundinger"
+msgstr "Avrundinger"
 
 #. module: pos_cash_rounding
 #: model:ir.model.fields,field_description:pos_cash_rounding.field_pos_config__rounding_method
 msgid "Cash rounding"
-msgstr "Kontantavrunding"
+msgstr "Avrunding"
 
 #. module: pos_cash_rounding
-#: code:addons/pos_cash_rounding/models/pos_config.py:19
+#: code:addons/pos_cash_rounding/models/pos_config.py:0
 #, python-format
 msgid "Cash rounding strategy must be: 'Add a rounding line'"
 msgstr "Strategi for avrunding må være: 'Legg til avrundingslinje\""
@@ -60,7 +60,7 @@ msgstr ""
 #. module: pos_cash_rounding
 #: model:ir.model.fields,field_description:pos_cash_rounding.field_account_cash_rounding__loss_account_id
 msgid "Loss Account"
-msgstr "Tap konto."
+msgstr "Tapskonto"
 
 #. module: pos_cash_rounding
 #: model:ir.model.fields,field_description:pos_cash_rounding.field_pos_config__only_round_cash_method
@@ -75,36 +75,29 @@ msgstr "Betalinger"
 #. module: pos_cash_rounding
 #: model:ir.model,name:pos_cash_rounding.model_pos_config
 msgid "Point of Sale Configuration"
-msgstr "Kassekonfigurasjon"
+msgstr "Kassapunkt"
 
 #. module: pos_cash_rounding
 #: model:ir.model,name:pos_cash_rounding.model_pos_order
 msgid "Point of Sale Orders"
-msgstr "Kasseordrer"
+msgstr "Kassaordrer"
 
 #. module: pos_cash_rounding
 #: model:ir.model,name:pos_cash_rounding.model_pos_session
 msgid "Point of Sale Session"
-msgstr "Kasseøkt"
+msgstr "Kassaøkt"
 
 #. module: pos_cash_rounding
 #: model_terms:ir.ui.view,arch_db:pos_cash_rounding.pos_rounding_form_view_inherited
 msgid "Profit Account"
-msgstr "Fortjeneste konto."
+msgstr "Fortjenestekonto"
 
 #. module: pos_cash_rounding
 #. openerp-web
-#: code:addons/pos_cash_rounding/static/src/xml/pos.xml:19
+#: code:addons/pos_cash_rounding/static/src/xml/pos.xml:0
 #, python-format
 msgid "ROUNDED"
 msgstr "AVRUNDET"
-
-#. module: pos_cash_rounding
-#. openerp-web
-#: code:addons/pos_cash_rounding/static/src/xml/pos.xml:7
-#, python-format
-msgid "ROUNDED:"
-msgstr ""
 
 #. module: pos_cash_rounding
 #: model_terms:ir.ui.view,arch_db:pos_cash_rounding.pos_config_view_form_inherit_cash_rounding
@@ -124,7 +117,7 @@ msgid "Total Paid (with rounding)"
 msgstr "Totalt Betalt (avrundet)"
 
 #. module: pos_cash_rounding
-#: code:addons/pos_cash_rounding/models/account_cash_rounding.py:20
+#: code:addons/pos_cash_rounding/models/account_cash_rounding.py:0
 #, python-format
 msgid ""
 "You are not allowed to change the cash rounding configuration while a pos "

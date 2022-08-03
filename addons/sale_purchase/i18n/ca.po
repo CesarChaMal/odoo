@@ -1,22 +1,22 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sale_purchase
+# 	* sale_purchase
 # 
 # Translators:
-# Martin Trigaux, 2018
-# RGB Consulting <odoo@rgbconsulting.com>, 2018
-# Quim - eccit <quim@eccit.com>, 2018
-# Manel Fernandez <manelfera@outlook.com>, 2018
-# M Palau <mpalau@tda.ad>, 2019
-# Arnau Ros, 2019
+# Martin Trigaux, 2020
+# RGB Consulting <odoo@rgbconsulting.com>, 2020
+# Quim - eccit <quim@eccit.com>, 2020
+# Manel Fernandez Ramirez <manelfera@outlook.com>, 2020
+# M Palau <mpalau@tda.ad>, 2020
+# Arnau Ros, 2020
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
-"Last-Translator: Arnau Ros, 2019\n"
+"POT-Creation-Date: 2019-08-26 08:17+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
+"Last-Translator: Arnau Ros, 2020\n"
 "Language-Team: Catalan (https://www.transifex.com/odoo/teams/41243/ca/)\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
@@ -43,14 +43,14 @@ msgstr "Excepció(ns) ocorregudes en l'ordre(s) de compra"
 #: model_terms:ir.ui.view,arch_db:sale_purchase.exception_purchase_on_sale_cancellation
 #: model_terms:ir.ui.view,arch_db:sale_purchase.exception_purchase_on_sale_quantity_decreased
 msgid "Exception(s) occurred on the sale order(s):"
-msgstr "Excepció(ns) ocorregudes en les ordres de venda"
+msgstr "Excepció(ns) ocorregudes en les ordre(s) de venda:"
 
 #. module: sale_purchase
 #: model_terms:ir.ui.view,arch_db:sale_purchase.exception_purchase_on_sale_cancellation
 #: model_terms:ir.ui.view,arch_db:sale_purchase.exception_purchase_on_sale_quantity_decreased
 #: model_terms:ir.ui.view,arch_db:sale_purchase.exception_sale_on_purchase_cancellation
 msgid "Exception(s):"
-msgstr "Excepció(ns)"
+msgstr "Excepció(ns):"
 
 #. module: sale_purchase
 #: model:ir.model.fields,field_description:sale_purchase.field_sale_order_line__purchase_line_ids
@@ -82,7 +82,7 @@ msgid "Number of generated purchase items"
 msgstr ""
 
 #. module: sale_purchase
-#: code:addons/sale_purchase/models/sale_order.py:91
+#: code:addons/sale_purchase/models/sale_order.py:0
 #, python-format
 msgid "Ordered quantity decreased!"
 msgstr "La quantitat demanada ha disminuït!"
@@ -98,7 +98,7 @@ msgid "Product Template"
 msgstr "Plantilla de producte"
 
 #. module: sale_purchase
-#: sql_constraint:product.template:0
+#: model:ir.model.constraint,message:sale_purchase.constraint_product_template_service_to_purchase
 msgid "Product that is not a service can not create RFQ."
 msgstr ""
 
@@ -133,11 +133,6 @@ msgstr ""
 "l'ordre, o quan incrementi la quantitat"
 
 #. module: sale_purchase
-#: model:ir.model,name:sale_purchase.model_sale_order
-msgid "Quotation"
-msgstr "Pressupost"
-
-#. module: sale_purchase
 #: model_terms:ir.ui.view,arch_db:sale_purchase.product_template_form_view_inherit
 msgid "Reordering"
 msgstr ""
@@ -148,12 +143,17 @@ msgid "Sale Order"
 msgstr "Comanda de venda"
 
 #. module: sale_purchase
+#: model:ir.model,name:sale_purchase.model_sale_order
+msgid "Sales Order"
+msgstr "Comanda de venda"
+
+#. module: sale_purchase
 #: model:ir.model,name:sale_purchase.model_sale_order_line
 msgid "Sales Order Line"
 msgstr "Línia comanda de venda"
 
 #. module: sale_purchase
-#: code:addons/sale_purchase/models/sale_order.py:273
+#: code:addons/sale_purchase/models/sale_order.py:0
 #, python-format
 msgid ""
 "There is no vendor associated to the product %s. Please define a vendor for "
@@ -163,7 +163,7 @@ msgstr ""
 " per aquest producte."
 
 #. module: sale_purchase
-#: code:addons/sale_purchase/models/sale_order.py:92
+#: code:addons/sale_purchase/models/sale_order.py:0
 #, python-format
 msgid ""
 "You are decreasing the ordered quantity! Do not forget to manually update "

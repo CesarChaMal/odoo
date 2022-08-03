@@ -1,19 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sale_quotation_builder
+# 	* sale_quotation_builder
 # 
 # Translators:
-# Ladislav Tomm <tomm@helemik.cz>, 2018
-# Martin Trigaux, 2018
+# Martin Trigaux, 2019
+# Ladislav Tomm <tomm@helemik.cz>, 2019
 # Rastislav Brencic <rastislav.brencic@azet.sk>, 2020
 # trendspotter <jirka.p@volny.cz>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 08:21+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
+"POT-Creation-Date: 2019-08-26 08:17+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
 "Last-Translator: trendspotter <jirka.p@volny.cz>, 2021\n"
 "Language-Team: Czech (https://www.transifex.com/odoo/teams/41243/cs/)\n"
 "MIME-Version: 1.0\n"
@@ -23,16 +23,9 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n >= 2 && n <= 4 && n % 1 == 0) ? 1: (n % 1 != 0 ) ? 2 : 3;\n"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "&amp;times;"
 msgstr "&amp;times;"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid ""
-",\n"
-"                an awesome"
-msgstr ""
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -76,6 +69,11 @@ msgid "About us"
 msgstr "O nás"
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "An awesome"
+msgstr "Úžasný"
+
+#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid ""
 "As a leading professional services firm,\n"
@@ -87,12 +85,7 @@ msgstr ""
 "                                     nasadení velmi kvalitnych služeb."
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
-msgid "Back"
-msgstr "Zpět"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "Close"
 msgstr "Zavřít"
 
@@ -103,8 +96,8 @@ msgstr "Nastavení konfigurace"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_template_view_form_inherit_sale_quotation_builder
-msgid "Edit Template"
-msgstr "Upravit šablonu"
+msgid "Design Template"
+msgstr "Šablona návrhu"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -116,7 +109,7 @@ msgid ""
 "                                guarantees, your team, SLA, terms and conditions, etc."
 msgstr ""
 "Skvělé šablony nabídek budou výrazně\n"
-"                                <strong>zvyšte svoji úspěšnost</strong>. \n"
+"                                <strong>zvyšovat vaši úspěšnost</strong>. \n"
 "První část je obvykle o vaší společnosti,\n"
 "vaše reference, vaše metodologie nebo\n"
 "záruky, váš tým, SLA, podmínky atd."
@@ -129,11 +122,6 @@ msgid ""
 "                        template (from the Configuration menu), all future quotations will\n"
 "                        use this modified template."
 msgstr ""
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Odoo"
-msgstr "Odoo"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
@@ -161,11 +149,6 @@ msgid "Our Service"
 msgstr "Naše služby"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Powered by"
-msgstr "Založeno na"
-
-#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid "Price"
 msgstr "Cena"
@@ -173,7 +156,7 @@ msgstr "Cena"
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_product_template
 msgid "Product Template"
-msgstr "Šablona výrobku"
+msgstr "Šablona produktu"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -184,16 +167,19 @@ msgid ""
 msgstr ""
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
 msgid "Product:"
 msgstr "Výrobek:"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_description
 msgid "Quotation Description"
 msgstr "Popis nabídky"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_only_description
 msgid "Quotation Only Description"
 msgstr ""
@@ -220,13 +206,13 @@ msgstr ""
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order
-msgid "Sale Order"
+msgid "Sales Order"
 msgstr "Prodejní objednávka"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Řádek potvrzení objednávky"
+msgstr "Řádek zakázky"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -234,12 +220,14 @@ msgid "Terms &amp; Conditions"
 msgstr "Smluvní podmínky"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_sale_order_template_line__website_description
 msgid "The quotation description (not used on eCommerce)"
 msgstr "Popis pro nabídky (nepoužívá se v e-shopu)"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_description
 msgid ""
 "This field uses the Quotation Only Description if it is defined, otherwise "
@@ -260,6 +248,11 @@ msgstr ""
 "                                jej přizpůsobit tak, aby vyhovovali vašim vlastním <i>prodejním</i>\n"
 "                                aplikacím pomocí nabídky: Konfigurace /\n"
 "                                Šablony nabídek."
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+msgid "This is a preview of the sale order template."
+msgstr "Toto je náhled šablony prodejní objednávky."
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -296,4 +289,9 @@ msgid ""
 "                        of all products in the proposal. The table of content\n"
 "                        on the left is generated automatically using the styles you\n"
 "                        used in your description (heading 1, heading 2, ...)"
+msgstr ""
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "portal"
 msgstr ""

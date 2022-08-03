@@ -3,8 +3,9 @@
 # * l10n_multilang
 # 
 # Translators:
-# Martin Trigaux, 2018
-# Hamid Darabi, 2018
+# Martin Trigaux, 2020
+# Hamid Darabi, 2020
+# Pouya Malekinejad <pouya.malekinejad@gmail.com>, 2020
 # Hamed Mohammadi <hamed@dehongi.com>, 2020
 # Far Hariri <fhari1234@gmail.com>, 2021
 # 
@@ -13,7 +14,7 @@ msgstr ""
 "Project-Id-Version: Odoo Server 12.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2018-10-08 14:33+0000\n"
-"PO-Revision-Date: 2018-10-08 14:34+0000\n"
+"PO-Revision-Date: 2019-08-26 09:11+0000\n"
 "Last-Translator: Far Hariri <fhari1234@gmail.com>, 2021\n"
 "Language-Team: Persian (https://www.transifex.com/odoo/teams/41243/fa/)\n"
 "MIME-Version: 1.0\n"
@@ -47,7 +48,7 @@ msgstr ""
 #: model:ir.model,name:l10n_multilang.model_account_analytic_account
 #: model:ir.model.fields,field_description:l10n_multilang.field_account_analytic_account__name
 msgid "Analytic Account"
-msgstr "حساب تحلیلی"
+msgstr "مرکز هزینه/درآمد"
 
 #. module: l10n_multilang
 #: model:ir.model,name:l10n_multilang.model_res_country_state

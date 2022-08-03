@@ -1,19 +1,19 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sale_quotation_builder
+# 	* sale_quotation_builder
 # 
 # Translators:
-# Yihya Hugirat <hugirat@gmail.com>, 2018
-# hed shefetr <hed@laylinetech.com>, 2018
-# Martin Trigaux, 2018
+# Yihya Hugirat <hugirat@gmail.com>, 2019
+# hed shefetr <hed@laylinetech.com>, 2019
+# Amit Spilman <amit@laylinetech.com>, 2019
 # ZVI BLONDER <ZVIBLONDER@gmail.com>, 2019
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-12-19 08:21+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
+"POT-Creation-Date: 2019-08-26 08:17+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
 "Last-Translator: ZVI BLONDER <ZVIBLONDER@gmail.com>, 2019\n"
 "Language-Team: Hebrew (https://www.transifex.com/odoo/teams/41243/he/)\n"
 "MIME-Version: 1.0\n"
@@ -23,18 +23,9 @@ msgstr ""
 "Plural-Forms: nplurals=4; plural=(n == 1 && n % 1 == 0) ? 0 : (n == 2 && n % 1 == 0) ? 1: (n % 10 == 0 && n % 1 == 0 && n > 10) ? 2 : 3;\n"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "&amp;times;"
 msgstr "וזמנים"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid ""
-",\n"
-"                an awesome"
-msgstr ""
-",\n"
-"                מדהים"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -86,6 +77,11 @@ msgid "About us"
 msgstr "עלינו"
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "An awesome"
+msgstr "מדהים"
+
+#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid ""
 "As a leading professional services firm,\n"
@@ -94,15 +90,10 @@ msgid ""
 msgstr ""
 "כחברת שירותים מקצועיים מובילה,\n"
 "                                אנו יודעים שכל העניין בהצלחה קשור\n"
-"                                למחויבות שלנו לתת שירותים חזקים."
+"                                למחויבות שלנו לתת שירות טוב."
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
-msgid "Back"
-msgstr "חזור"
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 msgid "Close"
 msgstr "סגור"
 
@@ -113,8 +104,8 @@ msgstr "הגדרות תצורה"
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_template_view_form_inherit_sale_quotation_builder
-msgid "Edit Template"
-msgstr "ערוך תבנית"
+msgid "Design Template"
+msgstr "עצב תבנית"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -140,14 +131,9 @@ msgid ""
 "                        use this modified template."
 msgstr ""
 "אם תערוך הצעת מחיר מתוך 'תצוגה מקדימה' של הצעת מחיר, \n"
-"                        תעדכן הצעת מחיר זו בלבד. אם אתה עורך את תבנית\n"
-"                        הצעת המחיר(מתפריט התצורה), כל הצעות המחיר העתידיות\n"
-"                        ישתמשו בתבנית זו ששונתה."
-
-#. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Odoo"
-msgstr "Odoo"
+"                        הצעת מחיר זו בלבד תתעדכן. אם תערוך את תבנית\n"
+"                        הצעת המחיר (מתפריט התצורה), כל הצעות המחיר העתידיות\n"
+"                        ישתמשו בתבנית זו."
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
@@ -157,7 +143,7 @@ msgstr "ניהול קשרי לקוחות קוד פתוח"
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
 msgid "Optional Product:"
-msgstr "מוצר אופציונלי"
+msgstr "מוצר אופציונלי:"
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -175,11 +161,6 @@ msgid "Our Service"
 msgstr "השירות שלנו"
 
 #. module: sale_quotation_builder
-#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
-msgid "Powered by"
-msgstr "מופעל ע\"י"
-
-#. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
 msgid "Price"
 msgstr "מחיר"
@@ -187,7 +168,7 @@ msgstr "מחיר"
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_product_template
 msgid "Product Template"
-msgstr "תבנית לפריט"
+msgstr "תבנית מוצר "
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -198,22 +179,25 @@ msgid ""
 msgstr ""
 "איכות המוצר היא הבסיס עליו אנו מסתמכים\n"
 "                                אנו בונים זאת עם מיקוד בלתי נלאה\n"
-"                                בבד, ביצועים ואומנות."
+"                                בבד, בביצועים ובאומנות."
 
 #. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.sale_order_portal_content_inherit_sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
 msgid "Product:"
 msgstr "מוצר:"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_description
 msgid "Quotation Description"
-msgstr "הצעת מחיר תיאור"
+msgstr "תיאור הצעת מחיר"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,field_description:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,field_description:sale_quotation_builder.field_product_template__quotation_only_description
 msgid "Quotation Only Description"
-msgstr "הצעת מחיר רק תיאור"
+msgstr "הצעת מחיר תיאור בלבד"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order_template
@@ -237,7 +221,7 @@ msgstr "אפשרויות מכירה"
 
 #. module: sale_quotation_builder
 #: model:ir.model,name:sale_quotation_builder.model_sale_order
-msgid "Sale Order"
+msgid "Sales Order"
 msgstr "הזמנת לקוח"
 
 #. module: sale_quotation_builder
@@ -251,19 +235,21 @@ msgid "Terms &amp; Conditions"
 msgstr "תנאים והגבלות"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_only_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_sale_order_template_line__website_description
 msgid "The quotation description (not used on eCommerce)"
 msgstr "תיאור הצעת המחיר (לא משמש במסחר אלקטרוני)"
 
 #. module: sale_quotation_builder
+#: model:ir.model.fields,help:sale_quotation_builder.field_product_product__quotation_description
 #: model:ir.model.fields,help:sale_quotation_builder.field_product_template__quotation_description
 msgid ""
 "This field uses the Quotation Only Description if it is defined, otherwise "
 "it will try to read the eCommerce Description."
 msgstr ""
-"שדה זה משתמש בהצעת מחיר רק תיאור אם זה מוגדר, אחרת זה ינסה לקרוא את תיאור "
-"המסחר האלקטרוני"
+"שדה זה משתמש בתיאור הצעת מחיר אם הוא מוגדר, אחרת הוא ינסה לקרוא את תיאור "
+"המסחר האלקטרוני."
 
 #. module: sale_quotation_builder
 #: model_terms:sale.order.template,website_description:sale_quotation_builder.sale_order_template_default
@@ -277,6 +263,11 @@ msgstr ""
 "                                להתאים אותה כך שתתאים לצרכים שלך  מיישום ה<i>מכירות</i>\n"
 "                                , באמצעות התפריט: תצורה /\n"
 "                                ,תבניות הצעת מחיר."
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
+msgid "This is a preview of the sale order template."
+msgstr "זוהי תצוגה מקדימה של תבנית הזמנת הלקוח."
 
 #. module: sale_quotation_builder
 #: model_terms:ir.ui.view,arch_db:sale_quotation_builder.so_template
@@ -317,8 +308,13 @@ msgid ""
 "                        on the left is generated automatically using the styles you\n"
 "                        used in your description (heading 1, heading 2, ...)"
 msgstr ""
-"אתה יכול <strong>להגדיר תיאור לכל מוצר</strong>. Odoo יצור \n"
+"אתה יכול <strong>להגדיר תיאור לכל מוצר</strong>. Odoo ייצור \n"
 "                        אוטומטית הצעת מחיר עם התיאורים של כל המוצרים.\n"
 "                        תוכן העניינים\n"
 "                        נוצר אוטומטית בעזרת הסגנונות שבהם השתמשת בתיאור שלך (כותרת 1, כותרת 2, ...)\n"
 "                        "
+
+#. module: sale_quotation_builder
+#: model_terms:ir.ui.view,arch_db:sale_quotation_builder.brand_promotion
+msgid "portal"
+msgstr "פורטל"

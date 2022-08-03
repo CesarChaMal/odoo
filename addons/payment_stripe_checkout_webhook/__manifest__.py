@@ -20,7 +20,7 @@ The webhook should be configured to send its events to
 <base_url>/payment/stripe/webhook and should only subscribe to
 checkout.session.completed events to avoid spamming the Odoo server with
 useless notifications.""",
-    'depends': ['payment_stripe', 'payment_stripe_sca'],
+    'depends': ['payment_stripe'],
     'data': [
         'views/payment_views.xml',
     ],

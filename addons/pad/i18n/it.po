@@ -1,19 +1,20 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * pad
+# 	* pad
 # 
 # Translators:
-# Francesco Garganese <francesco.garganese@aeromnia.aero>, 2018
-# Martin Trigaux, 2018
-# Paolo Valier, 2018
+# Francesco Garganese <francesco.garganese@aeromnia.aero>, 2019
+# Martin Trigaux, 2019
+# Paolo Valier, 2019
+# Stefano Consolaro <stefano.consolaro@mymage.it>, 2019
 # Sergio Zanchetta <primes2h@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server 12.0\n"
+"Project-Id-Version: Odoo Server saas~12.4\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-01-22 11:12+0000\n"
-"PO-Revision-Date: 2018-08-24 09:21+0000\n"
+"POT-Creation-Date: 2019-08-12 11:32+0000\n"
+"PO-Revision-Date: 2019-08-26 09:12+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/odoo/teams/41243/it/)\n"
 "MIME-Version: 1.0\n"
@@ -66,7 +67,7 @@ msgstr "Ultima modifica il"
 
 #. module: pad
 #. openerp-web
-#: code:addons/pad/static/src/js/pad.js:147
+#: code:addons/pad/static/src/js/pad.js:149
 #, python-format
 msgid "Loading"
 msgstr "Caricamento"
@@ -131,14 +132,14 @@ msgstr "Commuta pad"
 
 #. module: pad
 #. openerp-web
-#: code:addons/pad/static/src/js/pad.js:166
+#: code:addons/pad/static/src/js/pad.js:168
 #, python-format
 msgid "This pad will be initialized on first edit"
-msgstr "Questo pad verrà inizializzato alla prima modifica"
+msgstr "Questo pad sarà inizializzato alla prima modifica"
 
 #. module: pad
 #. openerp-web
-#: code:addons/pad/static/src/js/pad.js:160
+#: code:addons/pad/static/src/js/pad.js:162
 #, python-format
 msgid "Unable to load pad"
 msgstr "Impossibile caricare il pad"

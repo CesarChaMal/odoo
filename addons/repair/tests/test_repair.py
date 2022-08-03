@@ -4,7 +4,7 @@
 from datetime import datetime
 
 from odoo.addons.account.tests.account_test_classes import AccountingTestCase
-from odoo.tests import tagged
+from odoo.tests import tagged, Form
 
 
 @tagged('post_install', '-at_install')
@@ -59,7 +59,7 @@ class TestRepair(AccountingTestCase):
             'price_unit': price_unit,
             'repair_id': repair_id,
             'location_id': self.env.ref('stock.stock_location_stock').id,
-            'location_dest_id': self.env.ref('stock.location_production').id,
+            'location_dest_id': product_to_add.property_stock_production.id,
         })
 
     def _create_simple_fee(self, repair_id=False, qty=0.0, price_unit=0.0):
@@ -77,7 +77,7 @@ class TestRepair(AccountingTestCase):
         repair = self._create_simple_repair_order('after_repair')
         self._create_simple_operation(repair_id=repair.id, qty=1.0, price_unit=50.0)
         # I confirm Repair order taking Invoice Method 'After Repair'.
-        repair.sudo(self.res_repair_user.id).action_repair_confirm()
+        repair.with_user(self.res_repair_user).action_repair_confirm()
 
         # I check the state is in "Confirmed".
         self.assertEqual(repair.state, "confirmed", 'Repair order should be in "Confirmed" state.')
@@ -104,16 +104,33 @@ class TestRepair(AccountingTestCase):
         self.assertEqual(len(repair.invoice_id), 1, "No invoice exists for this repair order")
         self.assertEqual(len(repair.move_id.move_line_ids[0].consume_line_ids), 1, "Consume lines should be set")
 
+        # Check the invoice content
+        self.assertEqual(repair.invoice_id.state, 'draft')
+        self.assertEqual(len(repair.invoice_id.invoice_line_ids), 1)
+        self.assertEqual(repair.invoice_id.amount_total, 50.0)
+
     def test_01_repair_b4inv(self):
         repair = self._create_simple_repair_order('b4repair')
         # I confirm Repair order for Invoice Method 'Before Repair'.
-        repair.sudo(self.res_repair_user.id).action_repair_confirm()
+
+        self._create_simple_fee(repair_id=repair.id, qty=1.0, price_unit=30.0)
+        self.assertEqual(repair.amount_total, 30, "Amount_total should be 30")
+
+        self._create_simple_operation(repair_id=repair.id, qty=1.0, price_unit=12.0)
+        self.assertEqual(repair.amount_total, 42, "Amount_total should be 42")
+
+        repair.with_user(self.res_repair_user).action_repair_confirm()
 
         # I click on "Create Invoice" button of this wizard to make invoice.
         repair.action_repair_invoice_create()
 
         # I check that invoice is created for this Repair order.
         self.assertEqual(len(repair.invoice_id), 1, "No invoice exists for this repair order")
+
+        # Check the invoice content
+        self.assertEqual(repair.invoice_id.state, 'draft')
+        self.assertEqual(len(repair.invoice_id.invoice_line_ids), 2)
+        self.assertEqual(repair.invoice_id.amount_total, 42.0)
 
     def test_02_repair_noneinv(self):
         repair = self._create_simple_repair_order('none')
@@ -128,7 +145,7 @@ class TestRepair(AccountingTestCase):
         self.assertEqual(repair.amount_total, 26, "Amount_total should be 26")
 
         # I confirm Repair order for Invoice Method 'No Invoice'.
-        repair.sudo(self.res_repair_user.id).action_repair_confirm()
+        repair.with_user(self.res_repair_user).action_repair_confirm()
 
         # I start the repairing process by clicking on "Start Repair" button for Invoice Method 'No Invoice'.
         repair.action_repair_start()
@@ -145,9 +162,48 @@ class TestRepair(AccountingTestCase):
                          'Repaired product went to the wrong location')
         self.assertEqual(repair.operations.move_id.location_id.id, self.env.ref('stock.stock_location_stock').id,
                          'Consumed product was taken in the wrong location')
-        self.assertEqual(repair.operations.move_id.location_dest_id.id, self.env.ref('stock.location_production').id,
+        self.assertEqual(repair.operations.move_id.location_dest_id.id, self.env.ref('product.product_product_5').property_stock_production.id,
                          'Consumed product went to the wrong location')
 
         # I define Invoice Method 'No Invoice' option in this repair order.
         # So, I check that Invoice has not been created for this repair order.
         self.assertNotEqual(len(repair.invoice_id), 1, "Invoice should not exist for this repair order")
+
+    def test_03_repair_multicompany(self):
+        """ This test ensures that the correct taxes are selected when the user fills in the RO form """
+
+        company01 = self.env.company
+        company02 = self.env['res.company'].create({
+            'name': 'SuperCompany',
+        })
+
+        tax01 = self.env["account.tax"].create({
+            "name": "C01 Tax",
+            "amount": "0.00",
+            "company_id": company01.id
+        })
+        tax02 = self.env["account.tax"].create({
+            "name": "C02 Tax",
+            "amount": "0.00",
+            "company_id": company02.id
+        })
+
+        super_product = self.env['product.template'].create({
+            "name": "SuperProduct",
+            "taxes_id": [(4, tax01.id), (4, tax02.id)],
+        })
+        super_variant = super_product.product_variant_id
+        self.assertEqual(super_variant.taxes_id, tax01 | tax02)
+
+        ro_form = Form(self.env['repair.order'])
+        ro_form.product_id = super_variant
+        ro_form.partner_id = company01.partner_id
+        with ro_form.operations.new() as ro_line:
+            ro_line.product_id = super_variant
+        with ro_form.fees_lines.new() as fee_line:
+            fee_line.product_id = super_variant
+        repair_order = ro_form.save()
+
+        # tax02 should not be present since it belongs to the second company.
+        self.assertEqual(repair_order.operations.tax_id, tax01)
+        self.assertEqual(repair_order.fees_lines.tax_id, tax01)

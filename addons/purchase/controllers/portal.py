@@ -7,7 +7,7 @@ from collections import OrderedDict
 from odoo import http
 from odoo.exceptions import AccessError, MissingError
 from odoo.http import request
-from odoo.tools import image_resize_image
+from odoo.tools import image_process
 from odoo.tools.translate import _
 from odoo.addons.portal.controllers.portal import pager as portal_pager, CustomerPortal
 from odoo.addons.web.controllers.main import Binary
@@ -16,8 +16,8 @@ from odoo.addons.web.controllers.main import Binary
 
 class CustomerPortal(CustomerPortal):
 
-    def _prepare_portal_layout_values(self):
-        values = super(CustomerPortal, self)._prepare_portal_layout_values()
+    def _prepare_home_portal_values(self):
+        values = super(CustomerPortal, self)._prepare_home_portal_values()
         values['purchase_count'] = request.env['purchase.order'].search_count([
             ('state', 'in', ['purchase', 'done', 'cancel'])
         ]) if request.env['purchase.order'].check_access_rights('read', raise_exception=False) else 0
@@ -28,7 +28,7 @@ class CustomerPortal(CustomerPortal):
         def resize_to_48(b64source):
             if not b64source:
                 b64source = base64.b64encode(Binary().placeholder())
-            return image_resize_image(b64source, size=(48, 48))
+            return image_process(b64source, size=(48, 48))
 
         values = {
             'order': order,
@@ -44,7 +44,7 @@ class CustomerPortal(CustomerPortal):
 
         domain = []
 
-        archive_groups = self._get_archive_groups('purchase.order', domain)
+        archive_groups = self._get_archive_groups('purchase.order', domain) if values.get('my_details') else []
         if date_begin and date_end:
             domain += [('create_date', '>', date_begin), ('create_date', '<=', date_end)]
 

@@ -28,7 +28,7 @@ class SipsController(http.Controller):
 
     @http.route([
         '/payment/sips/ipn/'],
-        type='http', auth='none', methods=['POST'], csrf=False)
+        type='http', auth='public', methods=['POST'], csrf=False)
     def sips_ipn(self, **post):
         """ Sips IPN. """
         _logger.info('Beginning Sips IPN form_feedback with post data %s', pprint.pformat(post))  # debug
@@ -42,7 +42,7 @@ class SipsController(http.Controller):
         return ''
 
     @http.route([
-        '/payment/sips/dpn'], type='http', auth="none", methods=['POST'], csrf=False, save_session=False)
+        '/payment/sips/dpn'], type='http', auth="public", methods=['POST'], csrf=False, save_session=False)
     def sips_dpn(self, **post):
         """ Sips DPN
         The session cookie created by Odoo has not the attribute SameSite. Most of browsers will force this attribute

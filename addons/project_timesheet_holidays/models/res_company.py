@@ -10,9 +10,9 @@ class Company(models.Model):
 
     leave_timesheet_project_id = fields.Many2one(
         'project.project', string="Internal Project",
-        help="Default project value for timesheet generated from leave type.")
+        help="Default project value for timesheet generated from time off type.")
     leave_timesheet_task_id = fields.Many2one(
-        'project.task', string="Leave Task",
+        'project.task', string="Time Off Task",
         domain="[('project_id', '=', leave_timesheet_project_id)]")
 
     @api.constrains('leave_timesheet_project_id')
@@ -28,7 +28,10 @@ class Company(models.Model):
     @api.model
     def create(self, values):
         company = super(Company, self).create(values)
-        company._create_leave_project_task()
+        # use sudo as the user could have the right to create a company
+        # but not to create a project. On the other hand, when the company
+        # is created, it is not in the allowed_company_ids on the env
+        company.sudo()._create_leave_project_task()
         return company
 
     def _create_leave_project_task(self):
@@ -45,7 +48,7 @@ class Company(models.Model):
                 })
             if not company.leave_timesheet_task_id:
                 task = self.env['project.task'].sudo().create({
-                    'name': _('Leaves'),
+                    'name': _('Time Off'),
                     'project_id': company.leave_timesheet_project_id.id,
                     'active': False,
                     'company_id': company.id,

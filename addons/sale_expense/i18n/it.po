@@ -1,17 +1,17 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# * sale_expense
+# 	* sale_expense
 # 
 # Translators:
-# Martin Trigaux, 2018
+# Stefano Consolaro <stefano.consolaro@mymage.it>, 2019
 # Sergio Zanchetta <primes2h@gmail.com>, 2021
 # 
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~11.5\n"
+"Project-Id-Version: Odoo Server saas~12.5\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-09-18 09:49+0000\n"
-"PO-Revision-Date: 2018-08-24 09:24+0000\n"
+"POT-Creation-Date: 2019-08-26 08:17+0000\n"
+"PO-Revision-Date: 2019-08-26 09:14+0000\n"
 "Last-Translator: Sergio Zanchetta <primes2h@gmail.com>, 2021\n"
 "Language-Team: Italian (https://www.transifex.com/odoo/teams/41243/it/)\n"
 "MIME-Version: 1.0\n"
@@ -36,9 +36,9 @@ msgid "Activate Expense Emails"
 msgstr "Attiva e-mail per spese"
 
 #. module: sale_expense
-#: model:ir.model,name:sale_expense.model_account_analytic_line
-msgid "Analytic Line"
-msgstr "Riga analitica"
+#: model:ir.model.fields,field_description:sale_expense.field_hr_expense__can_be_reinvoiced
+msgid "Can be reinvoiced"
+msgstr "Può essere rifatturata"
 
 #. module: sale_expense
 #: model:ir.model,name:sale_expense.model_hr_expense
@@ -53,18 +53,37 @@ msgid "Expenses"
 msgstr "Spese"
 
 #. module: sale_expense
+#: model:ir.model.fields,help:sale_expense.field_hr_expense__sale_order_id
+msgid ""
+"If the product has an expense policy, it will be reinvoiced on this sales "
+"order"
+msgstr ""
+"Se il prodotto ha una politica per le spese, verrà rifatturata su questo "
+"ordine di vendita"
+
+#. module: sale_expense
 #: model_terms:ir.ui.view,arch_db:sale_expense.product_product_view_form_inherit_sale_expense
 msgid "Invoicing"
 msgstr "Fatturazione"
 
 #. module: sale_expense
-#: model:ir.model,name:sale_expense.model_sale_order
-msgid "Quotation"
-msgstr "Preventivo"
+#: model:ir.model,name:sale_expense.model_account_move_line
+msgid "Journal Item"
+msgstr "Movimento contabile"
+
+#. module: sale_expense
+#: model:ir.model,name:sale_expense.model_product_template
+msgid "Product Template"
+msgstr "Modello prodotto"
 
 #. module: sale_expense
 #: model:ir.model.fields,field_description:sale_expense.field_hr_expense__sale_order_id
-msgid "Sale Order"
+msgid "Reinvoice Customer"
+msgstr "Rifattura a cliente"
+
+#. module: sale_expense
+#: model:ir.model,name:sale_expense.model_sale_order
+msgid "Sales Order"
 msgstr "Ordine di vendita"
 
 #. module: sale_expense
