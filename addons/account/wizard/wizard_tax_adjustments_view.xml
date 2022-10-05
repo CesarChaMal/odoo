@@ -10,15 +10,11 @@
                 <field name="reason" class="oe_inline" placeholder="Reason..."/>
             </h1>
             <group>
-                <field name="report_id" invisible="1"/>
-                <field name="tax_report_line_id" options="{'no_open': True, 'no_create': True}"/>
-            </group>
-            <group>
                 <group>
                     <field name="amount"/>
                 </group>
                 <group>
-                    <field name="adjustment_type"/>
+                    <field name="tax_id" widget="selection"/>
                 </group>
                 <group string="Accounts">
                     <field name="debit_account_id"/>
@@ -30,8 +26,8 @@
                 </group>
             </group>
             <footer>
-                <button name="create_move" string="Create and post move" type="object" default_focus="1" class="oe_highlight" data-hotkey="q"/>
-                <button string="Cancel" class="btn btn-secondary" special="cancel" data-hotkey="z" />
+                <button name="create_move" string="Create and post move" type="object" default_focus="1" class="oe_highlight"/>
+                <button string="Cancel" class="btn btn-default" special="cancel" />
             </footer>
         </form>
         </field>

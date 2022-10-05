@@ -4,35 +4,23 @@
 {
     'name': 'Google Calendar',
     'version': '1.0',
-    'category': 'Productivity',
-    'description': "",
+    'category': 'Extra Tools',
+    'description': """
+The module adds the possibility to synchronize Google Calendar with Odoo
+===========================================================================
+""",
+    'website': 'https://www.odoo.com/page/crm',
     'depends': ['google_account', 'calendar'],
+    'qweb': ['static/src/xml/*.xml'],
     'data': [
         'data/google_calendar_data.xml',
+        'data/google_calendar_data.xml',
         'security/ir.model.access.csv',
-        'wizard/reset_account_views.xml',
-        'views/res_config_settings_views.xml',
+        'views/res_config_views.xml',
         'views/res_users_views.xml',
-        'views/google_calendar_views.xml',
-        ],
+        'views/google_calendar_templates.xml',
+    ],
     'demo': [],
     'installable': True,
     'auto_install': False,
-    'assets': {
-        'web.assets_backend': [
-            'google_calendar/static/src/js/google_calendar_popover.js',
-            'google_calendar/static/src/js/google_calendar.js',
-            'google_calendar/static/src/scss/google_calendar.scss',
-        ],
-        'web.qunit_suite_tests': [
-            'google_calendar/static/tests/**/*',
-        ],
-        'web.qunit_mobile_suite_tests': [
-            'google_calendar/static/tests/mock_server.js',
-        ],
-        'web.assets_qweb': [
-            'google_calendar/static/src/xml/*.xml',
-        ],
-    },
-    'license': 'LGPL-3',
 }

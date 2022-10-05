@@ -2,9 +2,8 @@
 <openerp>
 <data>
 <template id="report_saledetails">
-    <t t-set="company" t-value="env.company"/>
-    <t t-call="web.html_container">
-    <t t-call="web.internal_layout">
+    <t t-call="report.html_container">
+    <t t-call="report.internal_layout">
         <div class="page">
 
             <div class="text-center">
@@ -15,7 +14,7 @@
 
             <!-- Orderlines -->
             <h3>Products</h3>
-            <table  class="table table-sm">
+            <table  class="table table-condensed">
                 <thead><tr>
                     <th>Product</th>
                     <th>Quantity</th>
@@ -23,11 +22,10 @@
                 </tr></thead>
                 <tbody>
                 <tr t-foreach='products' t-as='line'>
-                    <t t-set="internal_reference" t-value="line['code'] and '[%s] ' % line['code'] or ''" />
-                    <td><t t-esc="internal_reference" /><t t-esc="line['product_name']" /></td>
+                    <td><t t-esc="line['product_name']" /></td>
                     <td>
                         <t t-esc="line['quantity']" />
-                        <t t-if='line["uom"] != "Units"'>
+                        <t t-if='line["uom"] != "Unit(s)"'>
                             <t t-esc='line["uom"]' /> 
                         </t>
                     </td>
@@ -44,7 +42,7 @@
             <br/>
 
             <h3>Payments</h3>
-            <table  class="table table-sm">
+            <table  class="table table-condensed">
                 <thead><tr>
                     <th>Name</th>
                     <th>Total</th>
@@ -60,7 +58,7 @@
             <br/>
 
             <h3>Taxes</h3>
-            <table  class="table table-sm">
+            <table  class="table table-condensed">
                 <thead><tr>
                     <th>Name</th>
                     <th>Tax Amount</th>

@@ -1,131 +1,69 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
+# -*- coding: utf-8 -*-
 
-from unittest.mock import patch
+from lxml import objectify
+import urlparse
 
-from werkzeug.exceptions import Forbidden
-
-from odoo.exceptions import UserError
-from odoo.tests import tagged
-from odoo.tools import mute_logger
-
-from odoo.addons.payment import utils as payment_utils
-from odoo.addons.payment.tests.http_common import PaymentHttpCommon
+from odoo.addons.payment.tests.common import PaymentAcquirerCommon
 from odoo.addons.payment_adyen.controllers.main import AdyenController
-from odoo.addons.payment_adyen.tests.common import AdyenCommon
 
 
-@tagged('post_install', '-at_install')
-class AdyenTest(AdyenCommon, PaymentHttpCommon):
+class AdyenCommon(PaymentAcquirerCommon):
 
-    def test_processing_values(self):
-        tx = self.create_transaction(flow='direct')
-        with mute_logger('odoo.addons.payment.models.payment_transaction'), \
-            patch(
-                'odoo.addons.payment.utils.generate_access_token',
-                new=self._generate_test_access_token
-            ):
-            processing_values = tx._get_processing_values()
+    def setUp(self):
+        super(AdyenCommon, self).setUp()
 
-        converted_amount = 111111
-        self.assertEqual(
-            payment_utils.to_minor_currency_units(self.amount, self.currency),
-            converted_amount,
-        )
-        self.assertEqual(processing_values['converted_amount'], converted_amount)
-        with patch(
-            'odoo.addons.payment.utils.generate_access_token', new=self._generate_test_access_token
-        ):
-            self.assertTrue(payment_utils.check_access_token(
-                processing_values['access_token'], self.reference, converted_amount, self.partner.id
-            ))
+        # some CC (always use expiration date 06 / 2016, cvc 737, cid 7373 (amex))
+        self.amex = (('370000000000002', '7373'))
+        self.dinersclub = (('36006666333344', '737'))
+        self.discover = (('6011601160116611', '737'), ('644564456445644', '737'))
+        self.jcb = (('3530111333300000', '737'))
+        self.mastercard = (('5555444433331111', '737'), ('5555555555554444', '737'))
+        self.visa = (('4111 1111 1111 1111', '737'), ('4444333322221111', '737'))
+        self.mcdebit = (('5500000000000004', '737'))
+        self.visadebit = (('4400000000000008', '737'))
+        self.maestro = (('6731012345678906', '737'))
+        self.laser = (('630495060000000000', '737'))
+        self.hipercard = (('6062828888666688', '737'))
+        self.dsmastercard = (('521234567890 1234', '737', 'user', 'password'))
+        self.dsvisa = (('4212345678901237', '737', 'user', 'password'))
+        self.mistercash = (('6703444444444449', None, 'user', 'password'))
 
-    def test_token_activation(self):
-        """Activation of disabled adyen tokens is forbidden"""
-        token = self.create_token(active=False)
-        with self.assertRaises(UserError):
-            token._handle_reactivation_request()
 
-    @mute_logger('odoo.addons.payment_adyen.models.payment_transaction')
-    def test_send_refund_request(self):
-        self.acquirer.support_refund = 'full_only'  # Should simply not be False
-        tx = self.create_transaction(
-            'redirect', state='done', acquirer_reference='source_reference'
-        )
-        tx._reconcile_after_done()  # Create the payment
+class AdyenForm(AdyenCommon):
 
-        # Send the refund request
-        with patch(
-            'odoo.addons.payment_adyen.models.payment_acquirer.PaymentAcquirer._adyen_make_request',
-            new=lambda *args, **kwargs: {'pspReference': "refund_reference", 'status': "received"}
-        ):
-            tx._send_refund_request()
+    def test_10_adyen_form_render(self):
+        # be sure not to do stupid things
+        adyen = self.env.ref('payment.payment_acquirer_adyen')
+        self.assertEqual(adyen.environment, 'test', 'test without test environment')
 
-        refund_tx = self.env['payment.transaction'].search([('source_transaction_id', '=', tx.id)])
-        self.assertTrue(
-            refund_tx,
-            msg="Refunding an Adyen transaction should always create a refund transaction."
-        )
-        self.assertNotEqual(
-            refund_tx.acquirer_reference,
-            tx.acquirer_reference,
-            msg="The acquirer reference of the refund transaction should different from that of "
-                "the source transaction."
-        )
+        # ----------------------------------------
+        # Test: button direct rendering
+        # ----------------------------------------
 
-    @mute_logger('odoo.addons.payment_adyen.controllers.main')
-    def test_webhook_notification_confirms_transaction(self):
-        """ Test the processing of a webhook notification. """
-        tx = self.create_transaction('direct')
-        url = self._build_url(AdyenController._webhook_url)
-        with patch(
-            'odoo.addons.payment_adyen.controllers.main.AdyenController'
-            '._verify_notification_signature'
-        ):
-            self._make_json_request(url, data=self.webhook_notification_batch_data)
-        self.assertEqual(tx.state, 'done')
+        base_url = self.env['ir.config_parameter'].get_param('web.base.url')
+        form_values = {
+            'merchantAccount': 'OpenERPCOM',
+            'merchantReference': 'test_ref0',
+            'skinCode': 'cbqYWvVL',
+            'paymentAmount': '1',
+            'currencyCode': 'EUR',
+            'resURL': '%s' % urlparse.urljoin(base_url, AdyenController._return_url),
+        }
 
-    @mute_logger('odoo.addons.payment_adyen.controllers.main')
-    def test_webhook_notification_triggers_signature_check(self):
-        """ Test that receiving a webhook notification triggers a signature check. """
-        self.create_transaction('direct')
-        url = self._build_url(AdyenController._webhook_url)
-        with patch(
-            'odoo.addons.payment_adyen.controllers.main.AdyenController'
-            '._verify_notification_signature'
-        ) as signature_check_mock, patch(
-            'odoo.addons.payment.models.payment_transaction.PaymentTransaction'
-            '._handle_notification_data'
-        ):
-            self._make_json_request(url, data=self.webhook_notification_batch_data)
-            self.assertEqual(signature_check_mock.call_count, 1)
+        # render the button
+        res = adyen.render(
+            'test_ref0', 0.01, self.currency_euro.id,
+            partner_id=None,
+            partner_values=self.buyer_values)
 
-    def test_accept_webhook_notification_with_valid_signature(self):
-        """ Test the verification of a webhook notification with a valid signature. """
-        tx = self.create_transaction('direct')
-        self._assert_does_not_raise(
-            Forbidden,
-            AdyenController._verify_notification_signature,
-            self.webhook_notification_payload,
-            tx,
-        )
-
-    @mute_logger('odoo.addons.payment_adyen.controllers.main')
-    def test_reject_webhook_notification_with_missing_signature(self):
-        """ Test the verification of a webhook notification with a missing signature. """
-        payload = dict(self.webhook_notification_payload, additionalData={'hmacSignature': None})
-        tx = self.create_transaction('direct')
-        self.assertRaises(Forbidden, AdyenController._verify_notification_signature, payload, tx)
-
-    @mute_logger('odoo.addons.payment_adyen.controllers.main')
-    def test_reject_webhook_notification_with_invalid_signature(self):
-        """ Test the verification of a webhook notification with an invalid signature. """
-        payload = dict(self.webhook_notification_payload, additionalData={'hmacSignature': 'dummy'})
-        tx = self.create_transaction('direct')
-        self.assertRaises(Forbidden, AdyenController._verify_notification_signature, payload, tx)
-
-    def test_adyen_neutralize(self):
-        self.env['payment.acquirer']._neutralize()
-
-        self.assertEqual(self.acquirer.adyen_merchant_account, False)
-        self.assertEqual(self.acquirer.adyen_api_key, False)
-        self.assertEqual(self.acquirer.adyen_hmac_key, False)
+        # check form result
+        tree = objectify.fromstring(res)
+        self.assertEqual(tree.get('action'), 'https://test.adyen.com/hpp/pay.shtml', 'adyen: wrong form POST url')
+        for form_input in tree.input:
+            if form_input.get('name') in ['submit', 'shipBeforeDate', 'sessionValidity', 'shopperLocale', 'merchantSig']:
+                continue
+            self.assertEqual(
+                form_input.get('value'),
+                form_values[form_input.get('name')],
+                'adyen: wrong value for input %s: received %s instead of %s' % (form_input.get('name'), form_input.get('value'), form_values[form_input.get('name')])
+            )

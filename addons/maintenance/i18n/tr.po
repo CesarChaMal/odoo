@@ -1,103 +1,46 @@
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* maintenance
-# 
+# * hr_equipment
+#
 # Translators:
-# Fırat Kaya <firat.kaya@mechsoft.com.tr>, 2017
-# Esin Kandemir <esaykandemir@gmail.com>, 2017
-# gezgin biri <gezginbiri@hotmail.com>, 2017
-# Levent Karakaş <levent@mektup.at>, 2018
-# Ayhan KIZILTAN <akiziltan76@hotmail.com>, 2018
-# Ahmet Altinisik <aaltinisik@altinkaya.com.tr>, 2018
-# Mehmet Demirel <mdemirell@gmail.com>, 2018
-# Ramiz Deniz Öner <deniz@denizoner.com>, 2018
-# UNIBRAVO SOFTWARE <unibravo@gmail.com>, 2018
-# Gökhan Erdoğdu <gokhan.erdogdu@mechsoft.com.tr>, 2019
-# Buket Şeker <buket_skr@hotmail.com>, 2019
-# Abdullah Onur Uğur <aonurugur@outlook.com>, 2019
-# Yedigen, 2019
-# abc Def <hdogan1974@gmail.com>, 2020
-# Tugay Hatıl <tugayh@projetgrup.com>, 2020
-# Ediz Duman <neps1192@gmail.com>, 2020
-# Nadir Gazioglu <nadirgazioglu@gmail.com>, 2021
-# Ozlem Cikrikci <ozlemc@eskayazilim.com.tr>, 2021
-# Martin Trigaux, 2021
-# Murat Kaplan <muratk@projetgrup.com>, 2021
-# Ertuğrul Güreş <ertugrulg@projetgrup.com>, 2021
-# Cem Uygur <cemuygur.beb@gmail.com>, 2021
-# Umur Akın <umura@projetgrup.com>, 2021
-# 
+# AYHAN KIZILTAN <akiziltan76@hotmail.com>, 2016
+# Cem Uygur <cemuygur.beb@gmail.com>, 2016
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~14.5\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-09-14 10:28+0000\n"
-"PO-Revision-Date: 2016-08-05 13:05+0000\n"
-"Last-Translator: Umur Akın <umura@projetgrup.com>, 2021\n"
-"Language-Team: Turkish (https://www.transifex.com/odoo/teams/41243/tr/)\n"
+"POT-Creation-Date: 2016-08-18 14:08+0000\n"
+"PO-Revision-Date: 2016-06-26 13:00+0000\n"
+"Last-Translator: Cem Uygur <cemuygur.beb@gmail.com>\n"
+"Language-Team: Turkish (http://www.transifex.com/odoo/odoo-9/language/tr/)\n"
+"Language: tr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: tr\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_kanban
 msgid "<b>Category:</b>"
 msgstr "<b>Kategori:</b>"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_kanban
 msgid "<b>Model Number:</b>"
 msgstr "<b>Model Numarası:</b>"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_kanban
 msgid "<b>Request to:</b>"
-msgstr "<b>Talep:</b>"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_kanban
 msgid "<b>Serial Number:</b>"
 msgstr "<b>Seri Numarası:</b>"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Manage\" title=\"Manage\"/>"
-msgstr "<i class=\"fa fa-ellipsis-v\" role=\"img\" aria-label=\"Manage\" title=\"Manage\"/>"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "<span class=\"badge badge-warning float-right\">Canceled</span>"
-msgstr "<span class=\"badge badge-warning float-right\">İptal Edildi</span>"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "<span class=\"ml8\">hours</span>"
-msgstr "<span class=\"ml8\">saatler</span>"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "<span>Reporting</span>"
-msgstr "<span>Raporlama</span>"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "<span>Requests</span>"
-msgstr "<span>Requests</span>"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.view_maintenance_equipment_category_kanban
-msgid "<strong>Equipments:</strong>"
-msgstr "<strong>Ekipmanlar:</strong>"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.view_maintenance_equipment_category_kanban
-msgid "<strong>Maintenance:</strong>"
-msgstr "<strong>Bakım:</strong>"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_defaults
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_defaults
 msgid ""
 "A Python dictionary that will be evaluated to provide default values when "
 "creating new records for this alias."
@@ -105,1283 +48,777 @@ msgstr ""
 "Bir Piton sözlüğü, bu rumuz için yeni kayıtlar oluştururken varsayılan "
 "değerleri sağlamak için değerlendirilir."
 
-#. module: maintenance
-#: model:maintenance.equipment,name:maintenance.equipment_computer3
-#: model:maintenance.equipment,name:maintenance.equipment_computer5
+#. module: hr_equipment
+#: model:hr.equipment,name:hr_equipment.hr_equipment_computer3
+#: model:hr.equipment,name:hr_equipment.hr_equipment_computer5
 msgid "Acer Laptop"
-msgstr "Acer Dizüstü Bilgisayar"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_needaction
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_needaction
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_needaction
-msgid "Action Needed"
-msgstr "Eylem Gerekiyor"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__active
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__active
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_active
 msgid "Active"
-msgstr "Aktif"
+msgstr "Etkin"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_ids
-msgid "Activities"
-msgstr "Aktiviteler"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_exception_decoration
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_exception_decoration
-msgid "Activity Exception Decoration"
-msgstr "Etkinlik İstisna Donatımı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_state
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_state
-msgid "Activity State"
-msgstr "Aktivite Durumu"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_type_icon
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_type_icon
-msgid "Activity Type Icon"
-msgstr "Aktivite Tipi Simgesi"
-
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.mail_activity_type_action_config_maintenance
-#: model:ir.ui.menu,name:maintenance.maintenance_menu_config_activity_type
-msgid "Activity Types"
-msgstr "Aktivite Türleri"
-
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_action
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_action_from_category_form
-msgid "Add a new equipment"
-msgstr "Yeni bir ekipman ekle"
-
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_category_action
-msgid "Add a new equipment category"
-msgstr "Yeni bir ekipman kategorisi ekle"
-
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action_cal
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action_from_equipment
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action_link
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_todo_request_action_from_dashboard
-#: model_terms:ir.actions.act_window,help:maintenance.maintenance_request_action_reports
-msgid "Add a new maintenance request"
-msgstr "Yeni bir bakım talebi ekle"
-
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_stage_action
-#: model_terms:ir.actions.act_window,help:maintenance.maintenance_dashboard_action
-msgid "Add a new stage in the maintenance request"
-msgstr "Bakım talebine yeni bir bakım aşaması ekle"
-
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.maintenance_team_action_settings
-msgid "Add a team in the maintenance request"
-msgstr "Bakım talebine yeni bir ekip ekle"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_id
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_id
 msgid "Alias"
 msgstr "Rumuz"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_contact
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_contact
 msgid "Alias Contact Security"
-msgstr "Rumuz Kontak Güvenliği"
+msgstr "Diğer ad iletişim güvenliği"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_name
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_alias_domain
+msgid "Alias Domain"
+msgstr "Rumuz Alanadı"
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_name
 msgid "Alias Name"
 msgstr "Rumuz Adı"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_domain
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_domain
 msgid "Alias domain"
-msgstr "Rumuz etki alanı"
+msgstr "Rumuz alanı"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_model_id
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_model_id
 msgid "Aliased Model"
 msgstr "Rumuzlama Modeli"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "All"
-msgstr "Hepsi"
-
-#. module: maintenance
-#: model:ir.model.constraint,message:maintenance.constraint_maintenance_equipment_serial_no
+#. module: hr_equipment
+#: sql_constraint:hr.equipment:0
 msgid "Another asset already exists with this serial number!"
-msgstr "Başka bir varlık bu seri numarası ile zaten var."
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__archive
-msgid "Archive"
-msgstr "Arşivle"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_config_settings_view_form
+msgid "Apply"
+msgstr "Başvuru"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_search
-msgid "Archived"
-msgstr "Arşivlenmiş"
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_equipment_id
+msgid "Asset"
+msgstr "Asset"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_tree
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_tree
-msgid "Assign To User"
-msgstr "Kullanıcıya Ata"
+#. module: hr_equipment
+#: model:ir.model,name:hr_equipment.model_hr_equipment_category
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_id_5764
+msgid "Asset Category"
+msgstr "Demirbaş Kategorisi"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_name
+msgid "Asset Name"
+msgstr "Demirbaş Adı"
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_tree
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_tree
+msgid "Assign To Employee"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Assigned"
-msgstr "Atanmış"
+msgstr "Atanan"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__assign_date
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_assign_date
 msgid "Assigned Date"
-msgstr "Atama Tarihi"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_user_id
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Assigned to"
 msgstr "Atanan"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_attachment_count
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_attachment_count
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_attachment_count
-msgid "Attachment Count"
-msgstr "Ek Sayısı"
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_department_id
+msgid "Assigned to Department"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__kanban_state__blocked
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+msgid "Assigned to Departments"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_employee_id
+msgid "Assigned to Employee"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+msgid "Assigned to Employees"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+msgid "Assigned to Employees and Departments"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+msgid "Available"
+msgstr "Uygun"
+
+#. module: hr_equipment
+#: selection:hr.equipment.request,kanban_state:0
 msgid "Blocked"
-msgstr "Bloklanmış"
+msgstr "Engellendi"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_config_settings_view_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
 msgid "Cancel"
-msgstr "İptal"
+msgstr "Vazgeç"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__category_id
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_category_id
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Category"
 msgstr "Kategorisi"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__name
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_search
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_name
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_search
 msgid "Category Name"
 msgstr "Kategori Adı"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__close_date
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_action_from_category_form
+msgid "Click to add a new Engine."
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_category_action
+msgid "Click to add a new equipment category."
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_action
+msgid "Click to add a new equipment."
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_request_action
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_request_action_link
+msgid "Click to add a new maintenance request."
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_stage_action
+msgid "Click to add a stage in the maintenance request."
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_close_date
 msgid "Close Date"
-msgstr "Kapanış Tarihi"
+msgstr "kapanış tarihi"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__color
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__color
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__color
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__color
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_color
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_color
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_color
 msgid "Color Index"
-msgstr "Renk İndeksi"
+msgstr "Renk Dizini"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__note
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_note
 msgid "Comments"
 msgstr "Yorumlar"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__company_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__company_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__company_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__company_id
-msgid "Company"
-msgstr "Şirket"
-
-#. module: maintenance
-#: model:maintenance.equipment.category,name:maintenance.equipment_computer
+#. module: hr_equipment
+#: model:hr.equipment.category,name:hr_equipment.hr_equipment_computer
 msgid "Computers"
 msgstr "Bigisayarlar"
 
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_configuration
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
+#. module: hr_equipment
+#: model:ir.ui.menu,name:hr_equipment.menu_equipment_configuration
 msgid "Configuration"
 msgstr "Yapılandırma"
 
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__maintenance_type__corrective
-msgid "Corrective"
-msgstr "Düzeltici"
+#. module: hr_equipment
+#: model:ir.actions.act_window,name:hr_equipment.action_hr_equipment_configuration
+msgid "Configure Equipments"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__cost
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_config_settings_view_form
+msgid "Configure Equipments Settings"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_cost
 msgid "Cost"
 msgstr "Maliyet"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-msgid "Created By"
-msgstr "Oluşturan"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__create_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__create_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__create_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__create_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__create_uid
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_create_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_create_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_create_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_create_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_create_uid
 msgid "Created by"
 msgstr "Oluşturan"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__owner_user_id
-msgid "Created by User"
-msgstr "Kullanıcı Tarafından Oluşturuldu"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__create_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__create_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__create_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__create_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__create_date
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_create_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_create_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_create_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_create_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_create_date
 msgid "Created on"
-msgstr "Oluşturulma"
+msgstr "Oluşturuldu"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__maintenance_open_count
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_maintenance_open_count
 msgid "Current Maintenance"
-msgstr "Mevcut Bakım"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_bounced_content
-msgid "Custom Bounced Message"
-msgstr "Custom Bounced Message"
-
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_m_dashboard
-msgid "Dashboard"
-msgstr "Panel"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__effective_date
-msgid ""
-"Date at which the equipment became effective. This date will be used to "
-"compute the Mean Time Between Failure."
 msgstr ""
-"Ekipmanın yürürlüğe girdiği tarih. Bu tarih, Arıza Arasındaki Ortalama "
-"Süreyi hesaplamak için kullanılacaktır."
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__next_action_date
-msgid "Date of the next preventive maintenance"
-msgstr "Bir sonraki önleyici bakım tarihi"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__request_date
-msgid "Date requested for the maintenance to happen"
-msgstr "Bakımın gerçekleşmesi için talep edilen tarih"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__schedule_date
-msgid ""
-"Date the maintenance team plans the maintenance.  It should not differ much "
-"from the Request Date. "
-msgstr ""
-"Bakım ekibinin bakımı planladığı tarih. İstek Tarihinden çok farklı "
-"olmamalıdır."
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__close_date
-msgid "Date the maintenance was finished. "
-msgstr "Bakımın tamamlanacağı tarih."
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__period
-msgid "Days between each preventive maintenance"
-msgstr "Her bir önleyici bakımlar arasındaki gün"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_defaults
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_defaults
 msgid "Default Values"
-msgstr "Varsayılan Değerler"
+msgstr "Ötanımlı Değerler"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_kanban
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_kanban
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_kanban
 msgid "Delete"
 msgstr "Sil"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__description
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
+#. module: hr_equipment
+#: selection:hr.equipment,equipment_assign_to:0
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_department_id
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_tree
+msgid "Department"
+msgstr "Departmen"
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_description
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
 msgid "Description"
-msgstr "Tanım"
+msgstr "Açıklama"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__display_name
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__display_name
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__display_name
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__display_name
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__display_name
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_display_name
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_display_name
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_display_name
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_display_name
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_display_name
 msgid "Display Name"
-msgstr "Görünüm Adı"
+msgstr "Adı Göster"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "Done"
-msgstr "Biten"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_kanban
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
-msgid "Dropdown menu"
-msgstr "Dropdown Menü"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__duration
-msgid "Duration"
-msgstr "Süre"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__duration
-msgid "Duration in hours."
-msgstr "Saat cinsinden süre."
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_kanban
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_kanban
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_kanban
 msgid "Edit..."
-msgstr "Düzenle ..."
+msgstr "Düzenleme ..."
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__effective_date
-msgid "Effective Date"
-msgstr "Geçerlilik Tarihi"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_form
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_form
 msgid "Email Alias"
 msgstr "E-posta Rumuzu"
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_id
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_id
 msgid ""
 "Email alias for this equipment category. New emails will automatically "
-"create a new equipment under this category."
+"create new maintenance request for this equipment category."
 msgstr ""
-"Bu ekipman kategorisi için eposta takma adı. Yeni epostalar bu ekipman "
-"kategorisi için otomatik olarak bakım talebi oluşturacaklar."
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__email_cc
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "Email cc"
-msgstr "Eposta cc"
+#. module: hr_equipment
+#: selection:hr.equipment,equipment_assign_to:0
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_employee_id
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_tree
+msgid "Employee"
+msgstr "Personel"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__equipment_count
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__equipment_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__equipment_ids
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.model,name:hr_equipment.model_hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_equipment_count
 msgid "Equipment"
-msgstr "Ekipman"
+msgstr ""
 
-#. module: maintenance
-#: model:mail.message.subtype,description:maintenance.mt_mat_assign
-#: model:mail.message.subtype,name:maintenance.mt_cat_mat_assign
-#: model:mail.message.subtype,name:maintenance.mt_mat_assign
+#. module: hr_equipment
+#: model:mail.message.subtype,description:hr_equipment.mt_mat_assign
+#: model:mail.message.subtype,name:hr_equipment.mt_cat_mat_assign
+#: model:mail.message.subtype,name:hr_equipment.mt_mat_assign
 msgid "Equipment Assigned"
-msgstr "Atanmış Ekipman"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_category_action
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_cat
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_form
+#. module: hr_equipment
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_category_action
+#: model:ir.ui.menu,name:hr_equipment.menu_equipment_cat
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_form
 msgid "Equipment Categories"
-msgstr "Ekipman Kategorileri"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__category_id
-msgid "Equipment Category"
-msgstr "Ekipman Kategorisi"
-
-#. module: maintenance
-#: model:res.groups,name:maintenance.group_equipment_manager
-msgid "Equipment Manager"
-msgstr "Ekipman Yöneticisi"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__name
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
 msgid "Equipment Name"
-msgstr "Ekipman Adı"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_action
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_action_from_category_form
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__equipment_ids
-#: model:ir.ui.menu,name:maintenance.menu_equipment_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
+#. module: hr_equipment
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_action
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_action_from_category_form
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_equipment_ids
+#: model:ir.ui.menu,name:hr_equipment.menu_equipment_title
+#: model:ir.ui.menu,name:hr_equipment.menu_hr_equipment_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
 msgid "Equipments"
 msgstr "Ekipmanlar"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__fold
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__fold
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_fold
 msgid "Folded in Maintenance Pipe"
-msgstr "Bakım Kanalında Katlanmış"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action_cal
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action_from_equipment
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_request_action_link
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_todo_request_action_from_dashboard
-#: model_terms:ir.actions.act_window,help:maintenance.maintenance_request_action_reports
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_fold
+msgid "Folded in Recruitment Pipe"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_request_action
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_request_action_link
 msgid ""
 "Follow the process of the request and communicate with the collaborator."
-msgstr "Gerekli işlemleri takip edin ve çalışanlarla iletişimde olun."
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_follower_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_follower_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_follower_ids
-msgid "Followers"
-msgstr "Takipçiler"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_partner_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_partner_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_partner_ids
-msgid "Followers (Partners)"
-msgstr "Tekipçiler (İş ortakları)"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__activity_type_icon
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__activity_type_icon
-msgid "Font awesome icon e.g. fa-tasks"
-msgstr "Harika font ikonları örn. fa-görevler"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-msgid "Future Activities"
-msgstr "Sonraki Aktiviteler"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Group by..."
-msgstr "Grupla ..."
+msgstr "Gruplandır ..."
 
-#. module: maintenance
-#: model:maintenance.equipment,name:maintenance.equipment_printer1
+#. module: hr_equipment
+#: model:hr.equipment,name:hr_equipment.hr_equipment_printer1
 msgid "HP Inkjet printer"
-msgstr "HP Inkjet yazıcı"
+msgstr ""
 
-#. module: maintenance
-#: model:maintenance.equipment,name:maintenance.equipment_computer11
-#: model:maintenance.equipment,name:maintenance.equipment_computer9
+#. module: hr_equipment
+#: model:hr.equipment,name:hr_equipment.hr_equipment_computer11
+#: model:hr.equipment,name:hr_equipment.hr_equipment_computer9
 msgid "HP Laptop"
-msgstr "HP Laptop"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__has_message
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__has_message
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__has_message
-msgid "Has Message"
-msgstr "Mesaj Var"
-
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__priority__3
+#. module: hr_equipment
+#: selection:hr.equipment.request,priority:0
 msgid "High"
 msgstr "Yüksek"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-msgid "High-priority"
-msgstr "Yüksek öncelik"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__id
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_id
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_id
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_id
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_id
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_id
 msgid "ID"
 msgstr "ID"
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_parent_thread_id
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_parent_thread_id
 msgid ""
-"ID of the parent record holding the alias (example: project holding the task"
-" creation alias)"
-msgstr ""
-"Rumuzu barındıran ata kaydın IDsi (örnek: görev oluşturma rumuzunu "
-"barındıran proje)"
+"ID of the parent record holding the alias (example: project holding the task "
+"creation alias)"
+msgstr "Takma tutan üst kayıt ID (örnek: proje görev oluşturma takma tutarak)"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_exception_icon
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_exception_icon
-msgid "Icon"
-msgstr "İkon"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__activity_exception_icon
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__activity_exception_icon
-msgid "Icon to indicate an exception activity."
-msgstr "Bir istisna faaliyetini gösteren simge."
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__message_needaction
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__message_unread
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__message_needaction
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__message_unread
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__message_needaction
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__message_unread
-msgid "If checked, new messages require your attention."
-msgstr "İşaretliyse, yeni mesajlar dikkatinize sunulacak."
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__message_has_error
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__message_has_error
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__message_has_error
-msgid "If checked, some messages have a delivery error."
-msgstr "İşaretliyse,bazı mesajlar gönderi hatası içermektedir."
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_bounced_content
-msgid ""
-"If set, this content will automatically be sent out to unauthorized users "
-"instead of the default message."
-msgstr ""
-"If set, this content will automatically be sent out to unauthorized users "
-"instead of the default message."
-
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__kanban_state__normal
-#: model:maintenance.stage,name:maintenance.stage_1
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
+#. module: hr_equipment
+#: selection:hr.equipment.request,kanban_state:0
+#: model:hr.equipment.stage,name:hr_equipment.stage_1
 msgid "In Progress"
-msgstr "Devam Eden"
+msgstr "DevamEden"
 
-#. module: maintenance
-#: model:maintenance.team,name:maintenance.equipment_team_maintenance
-msgid "Internal Maintenance"
-msgstr "İç Bakım"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
+msgid "Internal Note ......."
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "Internal Notes"
-msgstr "İç Notlar"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_is_follower
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_is_follower
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_is_follower
-msgid "Is Follower"
-msgstr "Takipçi mi"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__kanban_state
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_kanban_state
 msgid "Kanban State"
 msgstr "Kanban Durumu"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment____last_update
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category____last_update
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request____last_update
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage____last_update
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team____last_update
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment___last_update
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category___last_update
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings___last_update
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request___last_update
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage___last_update
 msgid "Last Modified on"
-msgstr "Son Güncelleme"
+msgstr "Son değiştirme tarihi"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__write_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__write_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__write_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__write_uid
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__write_uid
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_write_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_write_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_write_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_write_uid
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_write_uid
 msgid "Last Updated by"
 msgstr "Son Güncelleyen"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__write_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__write_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__write_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__write_date
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__write_date
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_write_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_write_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_write_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_write_date
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_write_date
 msgid "Last Updated on"
-msgstr "Son Güncelleme"
+msgstr "Son Güncellenen"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-msgid "Late Activities"
-msgstr "Geciken Aktiviteler"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__email_cc
-msgid "List of cc from incoming emails."
-msgstr "Gelen e-postalardaki cc listesi."
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__location
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_location
 msgid "Location"
 msgstr "Konum"
 
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_m_reports_losses
-msgid "Losses Analysis"
-msgstr "Zarar Analizi"
-
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__priority__1
+#. module: hr_equipment
+#: selection:hr.equipment.request,priority:0
 msgid "Low"
 msgstr "Düşük"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_main_attachment_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_main_attachment_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_main_attachment_id
-msgid "Main Attachment"
-msgstr "Ana Ek"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__maintenance_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__maintenance_ids
-#: model:ir.ui.menu,name:maintenance.menu_m_request
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_title
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_maintenance_count
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_maintenance_count
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_form
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
 msgid "Maintenance"
-msgstr "Bakım"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_m_request_calendar
-msgid "Maintenance Calendar"
-msgstr "Bakım Takvimi"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__maintenance_count
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__maintenance_count
-msgid "Maintenance Count"
-msgstr "Bakım Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__maintenance_duration
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "Maintenance Duration"
-msgstr "Bakım Süresi"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__maintenance_duration
-msgid "Maintenance Duration in hours."
-msgstr "Saat olarak Bakım Süresi"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_maintenance_equipment
-msgid "Maintenance Equipment"
-msgstr "Bakım Ekipmanı"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_maintenance_equipment_category
-msgid "Maintenance Equipment Category"
-msgstr "Bakım Ekipmanı Kategorisi"
-
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_maintenance_request
-#: model:mail.activity.type,name:maintenance.mail_act_maintenance_request
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
 msgid "Maintenance Request"
-msgstr "Bakım Talebi"
+msgstr ""
 
-#. module: maintenance
-#: model:mail.message.subtype,name:maintenance.mt_cat_req_created
+#. module: hr_equipment
+#: model:mail.message.subtype,name:hr_equipment.mt_cat_req_created
 msgid "Maintenance Request Created"
-msgstr "Bakım Talebi Oluşturuldu"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-msgid "Maintenance Request Search"
-msgstr "Bakım Talebi Arama"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_stage_view_tree
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_stage_view_tree
 msgid "Maintenance Request Stage"
-msgstr "Bakım Talebi Aşaması"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_stage_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_stage_view_search
 msgid "Maintenance Request Stages"
-msgstr "Bakım Talebi Aşamaları"
+msgstr ""
 
-#. module: maintenance
-#: model:mail.message.subtype,description:maintenance.mt_req_created
+#. module: hr_equipment
+#: model:mail.message.subtype,description:hr_equipment.mt_req_created
 msgid "Maintenance Request created"
-msgstr "Bakım Talebi oluşturuldu"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_request_action
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_request_action_cal
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_request_action_from_equipment
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_request_action_link
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_todo_request_action_from_dashboard
-#: model:ir.actions.act_window,name:maintenance.maintenance_request_action_reports
-#: model:ir.ui.menu,name:maintenance.maintenance_request_reporting
-#: model:ir.ui.menu,name:maintenance.menu_m_request_form
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
+#. module: hr_equipment
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_request_action
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_request_action_from_equipment
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_request_action_link
+#: model:ir.model,name:hr_equipment.model_hr_equipment_request
+#: model:ir.ui.menu,name:hr_equipment.menu_m_request_form
 msgid "Maintenance Requests"
-msgstr "Bakım Talepleri"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model,name:maintenance.model_maintenance_stage
+#. module: hr_equipment
+#: model:ir.model,name:hr_equipment.model_hr_equipment_stage
 msgid "Maintenance Stage"
-msgstr "Bakım Aşaması"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_stage_configuration
-msgid "Maintenance Stages"
-msgstr "Bakım Aşamaları"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
+msgid "Maintenance Subject"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__maintenance_team_id
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_tree
-msgid "Maintenance Team"
-msgstr "Bakım Ekibi"
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_maintenance_ids
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_maintenance_ids
+msgid "Maintenance ids"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.maintenance_dashboard_action
-#: model:ir.model,name:maintenance.model_maintenance_team
-#: model:ir.ui.menu,name:maintenance.menu_maintenance_teams
-msgid "Maintenance Teams"
-msgstr "Bakım Ekipleri"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__maintenance_type
-msgid "Maintenance Type"
-msgstr "Bakım Tipi"
-
-#. module: maintenance
-#: model:ir.actions.server,name:maintenance.maintenance_requests_cron_ir_actions_server
-#: model:ir.cron,cron_name:maintenance.maintenance_requests_cron
-#: model:ir.cron,name:maintenance.maintenance_requests_cron
-msgid "Maintenance: generate preventive maintenance requests"
-msgstr "Bakım: önleyici bakım talepleri oluşturun"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_has_error
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_has_error
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_has_error
-msgid "Message Delivery error"
-msgstr "Mesaj İletilme Hatası"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_ids
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_ids
-msgid "Messages"
-msgstr "Mesajlar"
-
-#. module: maintenance
-#: model:maintenance.team,name:maintenance.equipment_team_metrology
-msgid "Metrology"
-msgstr "Ölçüm Bilgisi"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__model
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_model
 msgid "Model"
 msgstr "Model"
 
-#. module: maintenance
-#: model:maintenance.equipment.category,name:maintenance.equipment_monitor
+#. module: hr_equipment
+#: model:hr.equipment.category,name:hr_equipment.hr_equipment_monitor
 msgid "Monitors"
 msgstr "Monitörler"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__my_activity_date_deadline
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__my_activity_date_deadline
-msgid "My Activity Deadline"
-msgstr "Aktivite Zaman Sınırım"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "My Equipments"
-msgstr "Ekipmanlarım"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-msgid "My Maintenances"
-msgstr "Bakımlarım"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+msgid "My Requests"
+msgstr "İsteklerim"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__name
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_tree
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_name
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_tree
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
 msgid "Name"
-msgstr "İsim"
+msgstr "Ad"
 
-#. module: maintenance
-#: model:maintenance.stage,name:maintenance.stage_0
+#. module: hr_equipment
+#: model:hr.equipment.stage,name:hr_equipment.stage_0
 msgid "New Request"
-msgstr "Yeni Talep"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_calendar_event_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_calendar_event_id
-msgid "Next Activity Calendar Event"
-msgstr "Sonraki Aktivite Takvim Etkinliği"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_date_deadline
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_date_deadline
-msgid "Next Activity Deadline"
-msgstr "Sonraki Faaliyet Zaman Sınırı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_summary
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_summary
-msgid "Next Activity Summary"
-msgstr "Sonraki Faaliyet Özeti"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_type_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_type_id
-msgid "Next Activity Type"
-msgstr "Sonraki Faaliyet Türü"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "Next Preventive Maintenance"
-msgstr "Sonraki Önleyici Bakım"
-
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__priority__2
+#. module: hr_equipment
+#: selection:hr.equipment.request,priority:0
 msgid "Normal"
 msgstr "Normal"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__note
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_note
 msgid "Note"
-msgstr "Bilgi"
+msgstr "Not"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_needaction_counter
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_needaction_counter
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_needaction_counter
-msgid "Number of Actions"
-msgstr "Eylemlerin Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__todo_request_count
-msgid "Number of Requests"
-msgstr "Talep Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__todo_request_count_block
-msgid "Number of Requests Blocked"
-msgstr "Engellenen İstek Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__todo_request_count_date
-msgid "Number of Requests Scheduled"
-msgstr "Planlanan İstek Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__todo_request_count_unscheduled
-msgid "Number of Requests Unscheduled"
-msgstr "Planlanmayan İstek Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__todo_request_count_high_priority
-msgid "Number of Requests in High Priority"
-msgstr "Yüksek Öncelikli İhtiyaç Sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_has_error_counter
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_has_error_counter
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_has_error_counter
-msgid "Number of errors"
-msgstr "Hata Sayıları"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__message_needaction_counter
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__message_needaction_counter
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__message_needaction_counter
-msgid "Number of messages which requires an action"
-msgstr "Eylem gerektiren mesaj sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__message_has_error_counter
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__message_has_error_counter
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__message_has_error_counter
-msgid "Number of messages with delivery error"
-msgstr "Teslimat hatası olan mesaj sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__message_unread_counter
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__message_unread_counter
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__message_unread_counter
-msgid "Number of unread messages"
-msgstr "Okunmamış mesaj sayısı"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_force_thread_id
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_force_thread_id
 msgid ""
 "Optional ID of a thread (record) to which all incoming messages will be "
 "attached, even if they did not reply to it. If set, this will disable the "
 "creation of new records completely."
 msgstr ""
-"Gelen bütün mesajlara eklenecek, yanıtlamasalar da, konunun (kaydın) seçmeli"
-" ID i. Ayarlanırsa, yeni kayıtların oluşumunu tamamen engelleyecektir."
+"Gelen bütün mesajlara eklenecek, yanıtlamasalar da, konunun (kaydın) seçmeli "
+"ID i. Ayarlanırsa, yeni kayıtların oluşumunu tamamen engelleyecektir."
 
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.menu_m_reports_oee
-msgid "Overall Equipment Effectiveness (OEE)"
-msgstr "Toplam Ekipman Verimliliği (OEE)"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__owner_user_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_user_id
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_tree
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_user_id
 msgid "Owner"
 msgstr "Sahibi"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_parent_model_id
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_parent_model_id
 msgid "Parent Model"
-msgstr "Üst Model"
+msgstr "Ana Model"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_parent_thread_id
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_parent_thread_id
 msgid "Parent Record Thread ID"
-msgstr "Üst Kayıt Konu ID"
+msgstr "Üst kayıt iş parçacığı kimliği"
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_parent_model_id
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_parent_model_id
 msgid ""
-"Parent model holding the alias. The model holding the alias reference is not"
-" necessarily the model given by alias_model_id (example: project "
+"Parent model holding the alias. The model holding the alias reference is not "
+"necessarily the model given by alias_model_id (example: project "
 "(parent_model) and task (model))"
 msgstr ""
-"Takma adın bulunduğu üst model. Takma referansın bulunduğu model zorunlu "
-"olarak alias_model_id tarafından verilen model değildir.  (örnek: project "
-"(parent_model) ve görev (model))"
 
-#. module: maintenance
-#: model:maintenance.equipment.category,name:maintenance.equipment_phone
+#. module: hr_equipment
+#: model:hr.equipment.category,name:hr_equipment.hr_equipment_phone
 msgid "Phones"
-msgstr "Telefonlar"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_contact
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_contact
+#, fuzzy
 msgid ""
 "Policy to post a message on the document using the mailgateway.\n"
 "- everyone: everyone can post\n"
 "- partners: only authenticated partners\n"
-"- followers: only followers of the related document or members of following channels\n"
+"- followers: only followers of the related document or members of following "
+"channels\n"
 msgstr ""
-"Mail gateway'i kullanarak gönderilecek mesajların kurallarını belirleyin\n"
-"- herkes: herkes e-posta alır\n"
-"- iş ortakları: sadece yetkili iş ortakları\n"
-"- takipçiler: sadece ilgili doküman veya konunun takipçileri\n"
+"Mail gateway'i kullanarak gönderilecek mesajların kurallarını belirleyin:\n"
+" Herkes : Herkes eposta alır.\n"
+" İş Ortakları : Sadece yetkili iş ortakları. \n"
+"Takipçiler : Sadece ilgili doküman veya konunun takipçileri\n"
 
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__maintenance_type__preventive
-msgid "Preventive"
-msgstr "Önleyici"
-
-#. module: maintenance
-#: code:addons/maintenance/models/maintenance.py:0
-#, python-format
-msgid "Preventive Maintenance - %s"
-msgstr "Önleyici Bakım - %s"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "Preventive Maintenance Frequency"
-msgstr "Önleyici Bakım Aralığı"
-
-#. module: maintenance
-#: model:maintenance.equipment.category,name:maintenance.equipment_printer
+#. module: hr_equipment
+#: model:hr.equipment.category,name:hr_equipment.hr_equipment_printer
 msgid "Printers"
-msgstr "Yazıcılar"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__priority
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_priority
 msgid "Priority"
 msgstr "Öncelik"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_form
 msgid "Product Information"
 msgstr "Ürün Bilgisi"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-msgid "Ready"
-msgstr "Hazır"
-
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__kanban_state__done
+#. module: hr_equipment
+#: selection:hr.equipment.request,kanban_state:0
 msgid "Ready for next stage"
 msgstr "Sonraki aşaması için hazır"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
-msgid "Record Colour"
-msgstr "Kayıt Rengi"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__alias_force_thread_id
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_alias_force_thread_id
 msgid "Record Thread ID"
 msgstr "Konu Kayıt ID"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "Reopen Request"
-msgstr "Talebi Yeniden Aç"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
+msgid "Repair Responsible"
+msgstr ""
 
-#. module: maintenance
-#: model:maintenance.stage,name:maintenance.stage_3
+#. module: hr_equipment
+#: model:hr.equipment.stage,name:hr_equipment.stage_3
 msgid "Repaired"
 msgstr "Onarıldı"
 
-#. module: maintenance
-#: model:ir.ui.menu,name:maintenance.maintenance_reporting
-#: model:ir.ui.menu,name:maintenance.menu_m_reports
-msgid "Reporting"
-msgstr "Raporlama"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__request_ids
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_kanban
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_kanban
 msgid "Request"
 msgstr "İstek"
 
-#. module: maintenance
-#: model:mail.message.subtype,name:maintenance.mt_req_created
+#. module: hr_equipment
+#: model:mail.message.subtype,name:hr_equipment.mt_req_created
 msgid "Request Created"
-msgstr "Talep Oluşturuldu"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__request_date
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_request_date
 msgid "Request Date"
 msgstr "Talep Tarihi"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__done
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__done
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_done
 msgid "Request Done"
-msgstr "Talep Yapıldı"
-
-#. module: maintenance
-#: code:addons/maintenance/models/maintenance.py:0
-#, python-format
-msgid "Request planned for <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">%s</a>"
 msgstr ""
-" <a href=\"#\" data-oe-model=\"%s\" data-oe-id=\"%s\">%s</a> için talep "
-"planlandı."
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "Requested By"
-msgstr "Talep Eden"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_config_settings_view_form
+msgid "Requests Alias"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_kanban
-msgid "Requested by :"
-msgstr "Talep Eden :"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
+msgid "Reset Request"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__todo_request_ids
-msgid "Requests"
-msgstr "Talepler"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__technician_user_id
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_category_user_id
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_search
 msgid "Responsible"
 msgstr "Sorumlu"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__activity_user_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__activity_user_id
-msgid "Responsible User"
-msgstr "Sorumlu Kullanıcı"
-
-#. module: maintenance
-#: model:maintenance.equipment,name:maintenance.equipment_monitor1
-#: model:maintenance.equipment,name:maintenance.equipment_monitor4
-#: model:maintenance.equipment,name:maintenance.equipment_monitor6
+#. module: hr_equipment
+#: model:hr.equipment,name:hr_equipment.hr_equipment_monitor1
+#: model:hr.equipment,name:hr_equipment.hr_equipment_monitor4
+#: model:hr.equipment,name:hr_equipment.hr_equipment_monitor6
 msgid "Samsung Monitor 15\""
-msgstr "Samsun Monitör 15\""
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "Scheduled"
-msgstr "Planlanan"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__schedule_date
-msgid "Scheduled Date"
-msgstr "Planlanan Tarih"
-
-#. module: maintenance
-#: model:maintenance.stage,name:maintenance.stage_4
+#. module: hr_equipment
+#: model:hr.equipment.stage,name:hr_equipment.stage_4
 msgid "Scrap"
-msgstr "Hurda"
+msgstr "Fire"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__scrap_date
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_scrap_date
 msgid "Scrap Date"
-msgstr "Hurda Tarihi"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_category_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Search"
 msgstr "Arama"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_stage__sequence
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
+msgid "Sender"
+msgstr "Gönderen"
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_stage_sequence
 msgid "Sequence"
 msgstr "Sıra"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__serial_no
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_serial_no
 msgid "Serial Number"
 msgstr "Seri Numarası"
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__archive
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_request_active
 msgid ""
-"Set archive to true to hide the maintenance request without deleting it."
-msgstr "Bakım isteğini silmeden gizlemek için arşivi true olarak ayarlayın."
+"Set active to false to hide the maintenance request without deleting it."
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-msgid "Show all records which has next action date is before today"
-msgstr "Bir sonraki eylem tarihi bugünden önce olan tüm kayıtları göster"
+#. module: hr_equipment
+#: model:ir.ui.menu,name:hr_equipment.menu_equipment_global_settings
+msgid "Settings"
+msgstr "Ayarlar"
 
-#. module: maintenance
-#: model:maintenance.equipment.category,name:maintenance.equipment_software
+#. module: hr_equipment
+#: model:hr.equipment.category,name:hr_equipment.hr_equipment_software
 msgid "Software"
 msgstr "Yazılım"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__stage_id
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_stage_id
 msgid "Stage"
 msgstr "Aşama"
 
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.hr_equipment_stage_action
+#. module: hr_equipment
+#: model:ir.actions.act_window,name:hr_equipment.hr_equipment_stage_action
+#: model:ir.ui.menu,name:hr_equipment.menu_equipment_stage_configuration
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
 msgid "Stages"
 msgstr "Aşamalar"
 
-#. module: maintenance
-#: model:mail.message.subtype,name:maintenance.mt_req_status
+#. module: hr_equipment
+#: model:mail.message.subtype,name:hr_equipment.mt_req_status
 msgid "Status Changed"
-msgstr "Durum Değişti"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__activity_state
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__activity_state
-msgid ""
-"Status based on activities\n"
-"Overdue: Due date is already passed\n"
-"Today: Activity date is today\n"
-"Planned: Future activities."
 msgstr ""
-"Etkinliklerdeki aşamalar\n"
-"Zamanı Geçmiş: Tarihi geçmiş \n"
-"Bugün: Etkinlik günü bugün\n"
-"Planlanan: Gelecek etkinlikler."
 
-#. module: maintenance
-#: model:mail.message.subtype,description:maintenance.mt_req_status
+#. module: hr_equipment
+#: model:mail.message.subtype,description:hr_equipment.mt_req_status
 msgid "Status changed"
 msgstr "Durumu değişti"
 
-#. module: maintenance
-#: model:maintenance.team,name:maintenance.equipment_team_subcontractor
-msgid "Subcontractor"
-msgstr "Alt Yükleniciler "
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_form
+msgid "Subject"
+msgstr "Konu"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__name
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_request_name
 msgid "Subjects"
-msgstr "Konular"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__maintenance_team_id
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_search
-msgid "Team"
-msgstr "Ekip"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__member_ids
-msgid "Team Members"
-msgstr "Satış Ekip Üyeleri"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_team__name
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_form
-msgid "Team Name"
-msgstr "Ekip Adı"
-
-#. module: maintenance
-#: model:ir.actions.act_window,name:maintenance.maintenance_team_action_settings
-msgid "Teams"
-msgstr "Ekipler"
-
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__technician_user_id
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__user_id
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-msgid "Technician"
-msgstr "Teknisyen"
-
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_model_id
-msgid ""
-"The model (Odoo Document Kind) to which this alias corresponds. Any incoming"
-" email that does not reply to an existing record will cause the creation of "
-"a new record of this model (e.g. a Project Task)"
 msgstr ""
-"Bu diğer ad için karşılık gelen model (Odoo belge gibi). Varolan kayda yanıt"
-" değil gelen herhangi bir e-posta-ecek neden bu modelin (örneğin bir proje "
+
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_user_id
+msgid "Technician"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_model_id
+msgid ""
+"The model (Odoo Document Kind) to which this alias corresponds. Any incoming "
+"email that does not reply to an existing record will cause the creation of a "
+"new record of this model (e.g. a Project Task)"
+msgstr ""
+"Bu diğer ad için karşılık gelen model (Odoo belge gibi). Varolan kayda yanıt "
+"değil gelen herhangi bir e-posta-ecek neden bu modelin (örneğin bir proje "
 "görevini) yeni kayıt oluşturma"
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_name
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_name
 msgid ""
 "The name of the email alias, e.g. 'jobs' if you want to catch emails for "
 "<jobs@example.odoo.com>"
@@ -1389,8 +826,8 @@ msgstr ""
 "Bir eposta için rumuz yazın. Bu daha sonra kolayca hatırlayacağınız bir "
 "tanım olacak."
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment_category__alias_user_id
+#. module: hr_equipment
+#: model:ir.model.fields,help:hr_equipment.field_hr_equipment_category_alias_user_id
 msgid ""
 "The owner of records created upon receiving emails on this alias. If this "
 "field is not set the system will attempt to find the right owner based on "
@@ -1402,145 +839,156 @@ msgstr ""
 "bulmaya çalışacaktır ya da o adres için hiç sistem kullanıcısı bulunamazsa "
 "Administratörü kullanacaktır."
 
-#. module: maintenance
-#: model:res.groups,comment:maintenance.group_equipment_manager
-msgid "The user will be able to manage equipments."
-msgstr "Kullanıcı, ekipmanları yönetebilecek."
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "To Do"
-msgstr "Yapılacak"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
-msgid "Today Activities"
-msgstr "Bu Gunkü Aktiviteler"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "Top Priorities"
-msgstr "Yüksek Önceliki"
-
-#. module: maintenance
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_action
-#: model_terms:ir.actions.act_window,help:maintenance.hr_equipment_action_from_category_form
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_action
 msgid ""
-"Track equipments and link it to an employee or department.\n"
-"                You will be able to manage allocations, issues and maintenance of your equipment."
+"This application helps you to track equipments used by employees.\n"
+"                Create some laptop, printer or phone and link each equipment "
+"to\n"
+"                an employee or departement. You will manage allocations, "
+"issues\n"
+"                and maintenance of equipment."
 msgstr ""
-"Ekipmanları takip edin ve bir çalışan veya departmana bağlayın.\n"
-"                 Ekipmanlarınızın tahsisini, sorunlarını ve bakımını yönetebileceksiniz."
 
-#. module: maintenance
-#: model:ir.model.fields,help:maintenance.field_maintenance_equipment__activity_exception_decoration
-#: model:ir.model.fields,help:maintenance.field_maintenance_request__activity_exception_decoration
-msgid "Type of the exception activity on record."
-msgstr "Kayıttaki istisna etkinliğinin türü."
+#. module: hr_equipment
+#: model:ir.actions.act_window,help:hr_equipment.hr_equipment_action_from_category_form
+msgid ""
+"This application helps you to track equipments used by employees.\n"
+"                Create some laptop, printer or phone and link each equipment "
+"to an employee or departement.\n"
+"                You will manage allocations, issues and maintenance of "
+"equipment."
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_config_settings_view_form
+msgid "Track Equipments"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_kanban
 msgid "Unassigned"
 msgstr "Atanmamış"
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Under Maintenance"
-msgstr "Bakımda"
+msgstr ""
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_unread
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_unread
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_unread
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_kanban
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Unread Messages"
 msgstr "Okunmamış Mesajlar"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__message_unread_counter
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment_category__message_unread_counter
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_request__message_unread_counter
-msgid "Unread Messages Counter"
-msgstr "Okunmamış Mesaj Sayacı"
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_config_settings_equipment_alias_prefix
+msgid "Use the following alias to report internal equipment issue"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_search
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_kanban
-msgid "Unscheduled"
-msgstr "Planlanmamış"
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_equipment_assign_to
+msgid "Used By"
+msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "Used in location"
-msgstr "Kullanılan Konum"
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
+msgid "Users"
+msgstr "Kullanıcılar"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__partner_id
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_search
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_partner_id
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_view_search
 msgid "Vendor"
 msgstr "Tedarikçi"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__partner_ref
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_partner_ref
 msgid "Vendor Reference"
-msgstr "Tedarikçi Referansı"
+msgstr "Satıcı Referansı"
 
-#. module: maintenance
-#: model:ir.model.fields.selection,name:maintenance.selection__maintenance_request__priority__0
+#. module: hr_equipment
+#: selection:hr.equipment.request,priority:0
 msgid "Very Low"
 msgstr "Çok Düşük"
 
-#. module: maintenance
-#: model:ir.model.fields,field_description:maintenance.field_maintenance_equipment__warranty_date
-msgid "Warranty Expiration Date"
-msgstr "Garanti Bitiş Tarihi"
+#. module: hr_equipment
+#: model:ir.model.fields,field_description:hr_equipment.field_hr_equipment_warranty
+msgid "Warranty"
+msgstr "Garanti"
 
-#. module: maintenance
-#: code:addons/maintenance/models/maintenance.py:0
+#. module: hr_equipment
+#: code:addons/hr_equipment/models/hr_equipment.py:71
 #, python-format
 msgid ""
-"You cannot delete an equipment category containing equipments or maintenance"
-" requests."
-msgstr ""
-"Ekipman içeren ya da bakım talebi olan bir ekipman kategorisini "
-"silemezsiniz."
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "days"
-msgstr "gün"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.maintenance_team_view_form
-msgid "e.g. Internal Maintenance"
+"You cannot delete an equipment category containing equipments or maintenance "
+"requests."
 msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "e.g. LED Monitor"
+#. module: hr_equipment
+#: model:ir.model,name:hr_equipment.model_hr_equipment_config_settings
+msgid "hr.equipment.config.settings"
 msgstr ""
 
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_category_view_form
-msgid "e.g. Monitors"
-msgstr ""
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_form
-msgid "e.g. Screen not working"
-msgstr ""
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_view_form
-msgid "hours"
-msgstr "Saatler"
-
-#. module: maintenance
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_graph
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_pivot
-#: model_terms:ir.ui.view,arch_db:maintenance.hr_equipment_request_view_tree
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_tree
 msgid "maintenance Request"
-msgstr "Bakım Talebi"
+msgstr ""
+
+#. module: hr_equipment
+#: model:ir.ui.view,arch_db:hr_equipment.hr_equipment_request_view_search
+msgid "maintenance Request Search"
+msgstr ""
+
+#~ msgid "Action Needed"
+#~ msgstr "Eylem Gerekiyor"
+
+#~ msgid "Date of the last message posted on the record."
+#~ msgstr "Kayıta işlenmiş son mesajın tarihi."
+
+#~ msgid "Followers"
+#~ msgstr "İzleyiciler"
+
+#~ msgid "Followers (Channels)"
+#~ msgstr "İzleyiciler (Kanallar)"
+
+#~ msgid "Followers (Partners)"
+#~ msgstr "İzleyiciler (İş ortakları)"
+
+#~ msgid "If checked new messages require your attention."
+#~ msgstr "Eğer işaretliyse yeni iletiler ilginizi gerektirir."
+
+#~ msgid "If checked, new messages require your attention."
+#~ msgstr "İşaretliyse, yeni mesajlar dikkatinizi gerektirir."
+
+#~ msgid "Is Follower"
+#~ msgstr "Takipçi mi"
+
+#~ msgid "Last Message Date"
+#~ msgstr "Son Mesaj Tarihi"
+
+#~ msgid "Messages"
+#~ msgstr "Mesajlar"
+
+#~ msgid "Messages and communication history"
+#~ msgstr "Mesajlar ve iletişim geçmişi"
+
+#~ msgid "Number of Actions"
+#~ msgstr "İşlem Sayısı"
+
+#~ msgid "Number of messages which requires an action"
+#~ msgstr "Eylem gerektiren mesaj sayısı"
+
+#~ msgid "Number of unread messages"
+#~ msgstr "Okunmamış mesaj sayısı"
+
+#~ msgid "Unread Messages Counter"
+#~ msgstr "Okunmamış Mesaj Sayacı"
+
+#~ msgid "Website Messages"
+#~ msgstr "Websitesi Mesajları"
+
+#~ msgid "Website communication history"
+#~ msgstr "Web Sitesi iletişim geçmişi"

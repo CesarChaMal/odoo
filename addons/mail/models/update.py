@@ -3,9 +3,8 @@
 
 import datetime
 import logging
-
-import requests
 import werkzeug.urls
+import urllib2
 
 from ast import literal_eval
 
@@ -13,14 +12,14 @@ from odoo import api, release, SUPERUSER_ID
 from odoo.exceptions import UserError
 from odoo.models import AbstractModel
 from odoo.tools.translate import _
-from odoo.tools import config, misc, ustr
+from odoo.tools import config
+from odoo.tools import misc
 
 _logger = logging.getLogger(__name__)
 
 
 class PublisherWarrantyContract(AbstractModel):
     _name = "publisher_warranty.contract"
-    _description = 'Publisher Warranty Contract'
 
     @api.model
     def _get_message(self):
@@ -71,14 +70,19 @@ class PublisherWarrantyContract(AbstractModel):
         Utility method to send a publisher warranty get logs messages.
         """
         msg = self._get_message()
-        arguments = {'arg0': ustr(msg), "action": "update"}
+        arguments = {'arg0': msg, "action": "update"}
+        arguments_raw = werkzeug.urls.url_encode(arguments)
 
         url = config.get("publisher_warranty_url")
 
-        r = requests.post(url, data=arguments, timeout=30)
-        r.raise_for_status()
-        return literal_eval(r.text)
+        uo = urllib2.urlopen(url, arguments_raw, timeout=30)
+        try:
+            submit_result = uo.read()
+            return literal_eval(submit_result)
+        finally:
+            uo.close()
 
+    @api.multi
     def update_notification(self, cron_mode=True):
         """
         Send a message to Odoo's publisher warranty server to check the
@@ -104,7 +108,7 @@ class PublisherWarrantyContract(AbstractModel):
                 poster = user
             for message in result["messages"]:
                 try:
-                    poster.message_post(body=message, subtype_xmlid='mail.mt_comment', partner_ids=[user.partner_id.id])
+                    poster.message_post(body=message, subtype='mt_comment', partner_ids=[user.partner_id.id])
                 except Exception:
                     pass
             if result.get('enterprise_info'):
@@ -113,9 +117,6 @@ class PublisherWarrantyContract(AbstractModel):
                 set_param('database.expiration_date', result['enterprise_info'].get('expiration_date'))
                 set_param('database.expiration_reason', result['enterprise_info'].get('expiration_reason', 'trial'))
                 set_param('database.enterprise_code', result['enterprise_info'].get('enterprise_code'))
-                set_param('database.already_linked_subscription_url', result['enterprise_info'].get('database_already_linked_subscription_url'))
-                set_param('database.already_linked_email', result['enterprise_info'].get('database_already_linked_email'))
-                set_param('database.already_linked_send_mail_url', result['enterprise_info'].get('database_already_linked_send_mail_url'))
 
         except Exception:
             if cron_mode:

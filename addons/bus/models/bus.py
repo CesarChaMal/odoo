@@ -8,10 +8,8 @@ import threading
 import time
 
 import odoo
-import odoo.service.server as servermod
 from odoo import api, fields, models, SUPERUSER_ID
 from odoo.tools.misc import DEFAULT_SERVER_DATETIME_FORMAT
-from odoo.tools import date_utils
 
 _logger = logging.getLogger(__name__)
 
@@ -22,7 +20,7 @@ TIMEOUT = 50
 # Bus
 #----------------------------------------------------------
 def json_dump(v):
-    return json.dumps(v, separators=(',', ':'), default=date_utils.json_default)
+    return json.dumps(v, separators=(',', ':'))
 
 def hashable(key):
     if isinstance(key, list):
@@ -30,60 +28,49 @@ def hashable(key):
     return key
 
 
-def channel_with_db(dbname, channel):
-    if isinstance(channel, models.Model):
-        return (dbname, channel._name, channel.id)
-    if isinstance(channel, str):
-        return (dbname, channel)
-    return channel
-
-
 class ImBus(models.Model):
 
     _name = 'bus.bus'
-    _description = 'Communication Bus'
 
+    create_date = fields.Datetime('Create date')
     channel = fields.Char('Channel')
     message = fields.Char('Message')
 
-    @api.autovacuum
-    def _gc_messages(self):
+    @api.model
+    def gc(self):
         timeout_ago = datetime.datetime.utcnow()-datetime.timedelta(seconds=TIMEOUT*2)
         domain = [('create_date', '<', timeout_ago.strftime(DEFAULT_SERVER_DATETIME_FORMAT))]
         return self.sudo().search(domain).unlink()
 
     @api.model
-    def _sendmany(self, notifications):
+    def sendmany(self, notifications):
         channels = set()
-        values = []
-        for target, notification_type, message in notifications:
-            channel = channel_with_db(self.env.cr.dbname, target)
+        for channel, message in notifications:
             channels.add(channel)
-            values.append({
-                'channel': json_dump(channel),
-                'message': json_dump({
-                    'type': notification_type,
-                    'payload': message,
-                })
-            })
-        self.sudo().create(values)
+            values = {
+                "channel": json_dump(channel),
+                "message": json_dump(message)
+            }
+            self.sudo().create(values)
+            if random.random() < 0.01:
+                self.gc()
         if channels:
             # We have to wait until the notifications are commited in database.
             # When calling `NOTIFY imbus`, some concurrent threads will be
             # awakened and will fetch the notification in the bus table. If the
             # transaction is not commited yet, there will be nothing to fetch,
             # and the longpolling will return no notification.
-            @self.env.cr.postcommit.add
             def notify():
                 with odoo.sql_db.db_connect('postgres').cursor() as cr:
                     cr.execute("notify imbus, %s", (json_dump(list(channels)),))
+            self._cr.after('commit', notify)
 
     @api.model
-    def _sendone(self, channel, notification_type, message):
-        self._sendmany([[channel, notification_type, message]])
+    def sendone(self, channel, message):
+        self.sendmany([[channel, message]])
 
     @api.model
-    def _poll(self, channels, last=0, options=None):
+    def poll(self, channels, last=0, options=None, force_status=False):
         if options is None:
             options = {}
         # first poll return the notification in the 'buffer'
@@ -92,7 +79,7 @@ class ImBus(models.Model):
             domain = [('create_date', '>', timeout_ago.strftime(DEFAULT_SERVER_DATETIME_FORMAT))]
         else:  # else returns the unread notifications
             domain = [('id', '>', last)]
-        channels = [json_dump(channel_with_db(self.env.cr.dbname, c)) for c in channels]
+        channels = [json_dump(c) for c in channels]
         domain.append(('channel', 'in', channels))
         notifications = self.sudo().search_read(domain)
         # list of notification to return
@@ -100,8 +87,18 @@ class ImBus(models.Model):
         for notif in notifications:
             result.append({
                 'id': notif['id'],
+                'channel': json.loads(notif['channel']),
                 'message': json.loads(notif['message']),
             })
+
+        if result or force_status:
+            partner_ids = options.get('bus_presence_partner_ids')
+            if partner_ids:
+                partners = self.env['res.partner'].browse(partner_ids)
+                result += [{
+                    'id': -1,
+                    'channel': (self._cr.dbname, 'bus.presence'),
+                    'message': {'id': r.id, 'im_status': r.im_status}} for r in partners]
         return result
 
 
@@ -113,10 +110,7 @@ class ImDispatch(object):
         self.channels = {}
         self.started = False
 
-    def poll(self, dbname, channels, last, options=None, timeout=None):
-        channels = [channel_with_db(dbname, channel) for channel in channels]
-        if timeout is None:
-            timeout = TIMEOUT
+    def poll(self, dbname, channels, last, options=None, timeout=TIMEOUT):
         if options is None:
             options = {}
         # Dont hang ctrl-c for a poll request, we need to bypass private
@@ -124,7 +118,7 @@ class ImDispatch(object):
         # it will handle a longpolling request
         if not odoo.evented:
             current = threading.current_thread()
-            current._daemonic = True
+            current._Thread__daemonic = True
             # rename the thread to avoid tests waiting for a longpolling
             current.setName("openerp.longpolling.request.%s" % current.ident)
 
@@ -133,7 +127,7 @@ class ImDispatch(object):
         # immediatly returns if past notifications exist
         with registry.cursor() as cr:
             env = api.Environment(cr, SUPERUSER_ID, {})
-            notifications = env['bus.bus']._poll(channels, last, options)
+            notifications = env['bus.bus'].poll(channels, last, options)
 
         # immediatly returns in peek mode
         if options.get('peek'):
@@ -147,21 +141,15 @@ class ImDispatch(object):
 
             event = self.Event()
             for channel in channels:
-                self.channels.setdefault(hashable(channel), set()).add(event)
+                self.channels.setdefault(hashable(channel), []).append(event)
             try:
                 event.wait(timeout=timeout)
                 with registry.cursor() as cr:
                     env = api.Environment(cr, SUPERUSER_ID, {})
-                    notifications = env['bus.bus']._poll(channels, last, options)
+                    notifications = env['bus.bus'].poll(channels, last, options, force_status=True)
             except Exception:
                 # timeout
                 pass
-            finally:
-                # gc pointers to event
-                for channel in channels:
-                    channel_events = self.channels.get(hashable(channel))
-                    if channel_events and event in channel_events:
-                        channel_events.remove(event)
         return notifications
 
     def loop(self):
@@ -182,18 +170,9 @@ class ImDispatch(object):
                     # dispatch to local threads/greenlets
                     events = set()
                     for channel in channels:
-                        events.update(self.channels.pop(hashable(channel), set()))
+                        events.update(self.channels.pop(hashable(channel), []))
                     for event in events:
                         event.set()
-
-    def wakeup_workers(self):
-        """
-        Wake up all http workers that are waiting for an event, useful
-        on server shutdown when they can't reveive anymore messages.
-        """
-        for events in self.channels.values():
-            for event in events:
-                event.set()
 
     def run(self):
         while True:
@@ -222,5 +201,3 @@ dispatch = None
 if not odoo.multi_process or odoo.evented:
     # We only use the event dispatcher in threaded and gevent mode
     dispatch = ImDispatch()
-    if servermod.server:
-        servermod.server.on_stop(dispatch.wakeup_workers)

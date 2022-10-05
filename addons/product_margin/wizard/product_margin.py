@@ -16,20 +16,21 @@ class ProductMargin(models.TransientModel):
         ('paid', 'Paid'),
         ('open_paid', 'Open and Paid'),
         ('draft_open_paid', 'Draft, Open and Paid'),
-    ], 'Invoice State', required=True, default="open_paid")
+    ], 'Invoice State', index=True, required=True, default="open_paid")
 
+    @api.multi
     def action_open_window(self):
         self.ensure_one()
-        context = dict(self.env.context, create=False, edit=False)
+        context = dict(self.env.context or {})
 
-        def ref(xml_id):
+        def ref(module, xml_id):
             proxy = self.env['ir.model.data']
-            return proxy._xmlid_lookup(xml_id)[2]
+            return proxy.get_object_reference(module, xml_id)
 
-        search_view_id = ref('product.product_search_form_view')
-        graph_view_id = ref('product_margin.view_product_margin_graph')
-        form_view_id = ref('product_margin.view_product_margin_form')
-        tree_view_id = ref('product_margin.view_product_margin_tree')
+        model, search_view_id = ref('product', 'product_search_form_view')
+        model, graph_view_id = ref('product_margin', 'view_product_margin_graph')
+        model, form_view_id = ref('product_margin', 'view_product_margin_form')
+        model, tree_view_id = ref('product_margin', 'view_product_margin_tree')
 
         context.update(invoice_state=self.invoice_state)
 
@@ -47,10 +48,11 @@ class ProductMargin(models.TransientModel):
         return {
             'name': _('Product Margins'),
             'context': context,
+            'view_type': 'form',
             "view_mode": 'tree,form,graph',
             'res_model': 'product.product',
             'type': 'ir.actions.act_window',
             'views': views,
             'view_id': False,
-            'search_view_id': [search_view_id],
+            'search_view_id': search_view_id,
         }

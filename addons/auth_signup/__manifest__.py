@@ -8,7 +8,7 @@ Allow users to sign up and reset their password
 ===============================================
     """,
     'version': '1.0',
-    'category': 'Hidden/Tools',
+    'category': 'Extra Tools',
     'auto_install': True,
     'depends': [
         'base_setup',
@@ -16,18 +16,10 @@ Allow users to sign up and reset their password
         'web',
     ],
     'data': [
-        'data/ir_config_parameter_data.xml',
-        'data/ir_cron_data.xml',
-        'data/mail_template_data.xml',
-        'views/res_config_settings_views.xml',
+        'data/auth_signup_data.xml',
+        'views/res_config_views.xml',
         'views/res_users_views.xml',
         'views/auth_signup_login_templates.xml',
-        ],
+    ],
     'bootstrap': True,
-    'assets': {
-        'web.assets_frontend': [
-            'auth_signup/static/**/*',
-        ],
-    },
-    'license': 'LGPL-3',
 }

@@ -1,4 +1,3 @@
-/* global MarkerClusterer, google */
 function initialize_map() {
     'use strict';
 
@@ -9,7 +8,7 @@ function initialize_map() {
         mapTypeId: google.maps.MapTypeId.ROADMAP
     });
 
-    // ENABLE ADDRESS GEOCODING
+    // ENABLE ADRESS GEOCODING
     var Geocoder = new google.maps.Geocoder();
 
     // INFO BUBBLES
@@ -41,7 +40,7 @@ function initialize_map() {
 
     // Create a bubble for a partner
     var set_marker = function(partner) {
-        // If no lat & long, geocode address
+        // If no lat & long, geocode adress
         // TODO: a server cronjob that will store these coordinates in database instead of resolving them on-the-fly
         if (!partner.latitude && !partner.longitude) {
             Geocoder.geocode({'address': partner.address}, function(results, status) {
@@ -74,7 +73,6 @@ function initialize_map() {
         }
     };
 
-    /* eslint-disable no-undef */
     // Create the markers and cluster them on the map
     if (odoo_partner_data){ /* odoo_partner_data special variable should have been defined in google_map.xml */
         for (var i = 0; i < odoo_partner_data.counter; i++) {
@@ -82,7 +80,6 @@ function initialize_map() {
         }
         var markerCluster = new MarkerClusterer(map, markers, options);
     }
-    /* eslint-enable no-undef */
 }
 
 // Initialize map once the DOM has been loaded

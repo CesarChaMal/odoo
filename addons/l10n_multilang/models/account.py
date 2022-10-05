@@ -22,15 +22,6 @@ class AccountAccount(models.Model):
 
     name = fields.Char(translate=True)
 
-class AccountGroupTemplate(models.Model):
-    _inherit = 'account.group.template'
-
-    name = fields.Char(translate=True)
-
-class AccountGroup(models.Model):
-    _inherit = 'account.group'
-
-    name = fields.Char(translate=True)
 
 class AccountTax(models.Model):
     _inherit = 'account.tax'
@@ -58,7 +49,7 @@ class AccountFiscalPosition(models.Model):
     _inherit = 'account.fiscal.position'
 
     name = fields.Char(translate=True)
-    note = fields.Html(translate=True)
+    note = fields.Text(translate=True)
 
 
 class AccountFiscalPositionTemplate(models.Model):
@@ -76,24 +67,5 @@ class AccountJournal(models.Model):
 
 class AccountAnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
-
-    name = fields.Char(translate=True)
-
-
-class AccountTaxReport(models.Model):
-    _inherit = 'account.tax.report'
-
-    name = fields.Char(translate=True)
-
-
-class AccountTaxReportLine(models.Model):
-    _inherit = 'account.tax.report.line'
-
-    name = fields.Char(translate=True)
-    tag_name = fields.Char(translate=True)
-
-
-class ResCountryState(models.Model):
-    _inherit = 'res.country.state'
 
     name = fields.Char(translate=True)

@@ -1,7 +1,7 @@
-# Part of Odoo. See LICENSE file for full copyright and licensing details.
-
+# -*- coding: utf-8 -*-
 import logging
 import pprint
+import werkzeug
 
 from odoo import http
 from odoo.http import request
@@ -9,11 +9,13 @@ from odoo.http import request
 _logger = logging.getLogger(__name__)
 
 
-class TransferController(http.Controller):
+class OgoneController(http.Controller):
     _accept_url = '/payment/transfer/feedback'
 
-    @http.route(_accept_url, type='http', auth='public', methods=['POST'], csrf=False)
+    @http.route([
+        '/payment/transfer/feedback',
+    ], type='http', auth='none', csrf=False)
     def transfer_form_feedback(self, **post):
-        _logger.info("handling redirection from Transfer with data:\n%s", pprint.pformat(post))
-        request.env['payment.transaction'].sudo()._handle_notification_data('transfer', post)
-        return request.redirect('/payment/status')
+        _logger.info('Beginning form_feedback with post data %s', pprint.pformat(post))  # debug
+        request.env['payment.transaction'].sudo().form_feedback(post, 'transfer')
+        return werkzeug.utils.redirect(post.pop('return_url', '/'))

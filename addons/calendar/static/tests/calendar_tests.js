@@ -1,7 +1,8 @@
-/** @odoo-module **/
+odoo.define('calendar.tests', function (require) {
+"use strict";
 
-import FormView from 'web.FormView';
-import testUtils from "web.test_utils";
+var FormView = require('web.FormView');
+var testUtils = require("web.test_utils");
 
 var createView = testUtils.createView;
 
@@ -32,10 +33,10 @@ QUnit.module('calendar', {
         };
     },
 }, function () {
-    QUnit.test("many2manyattendee widget: basic rendering", async function (assert) {
-        assert.expect(12);
+    QUnit.test("many2manyattendee widget: basic rendering", function (assert) {
+        assert.expect(9);
 
-        var form = await createView({
+        var form = createView({
             View: FormView,
             model: 'event',
             data: this.data,
@@ -50,37 +51,30 @@ QUnit.module('calendar', {
                         "the method should only be called on res.partner");
                     assert.deepEqual(args.args[0], [1, 2],
                         "the partner ids should be passed as argument");
-                    assert.deepEqual(args.args[1], [14],
+                    assert.strictEqual(args.args[1], 14,
                         "the event id should be passed as argument");
-                    return Promise.resolve([
-                        {id: 1, name: "Jesus", status: "accepted", color: 0},
-                        {id: 2, name: "Mahomet", status: "tentative", color: 0},
+                    return $.when([
+                        [1, "Jesus", "accepted", 0],
+                        [2, "Mahomet", "needsAction", 0],
                     ]);
                 }
                 return this._super.apply(this, arguments);
             },
         });
 
-        assert.hasClass(form.$('.o_field_widget[name="partner_ids"]'), 'o_field_many2manytags');
-        assert.containsN(form, '.o_field_widget[name="partner_ids"] .badge', 2,
+        assert.ok(form.$('.o_field_widget[name="partner_ids"]').hasClass('o_field_many2manytags'));
+        assert.strictEqual(form.$('.o_field_widget[name="partner_ids"] > span').length, 2,
             "there should be 2 tags");
-        assert.strictEqual(form.$('.o_field_widget[name="partner_ids"] .badge:first').text().trim(), "Jesus",
+        assert.strictEqual(form.$('.o_field_widget[name="partner_ids"] > span:first').text().trim(), "Jesus",
             "the tag should be correctly named");
-        assert.hasClass(form.$('.o_field_widget[name="partner_ids"] .badge:first img'),'o_attendee_border_accepted',
+        assert.ok(form.$('.o_field_widget[name="partner_ids"] > span:first .o_calendar_invitation').hasClass('accepted'),
             "Jesus should attend the meeting");
-        assert.strictEqual(form.$('.o_field_widget[name="partner_ids"] .badge[data-id="2"]').text().trim(), "Mahomet",
+        assert.strictEqual(form.$('.o_field_widget[name="partner_ids"] > span[data-id="2"]').text().trim(), "Mahomet",
             "the tag should be correctly named");
-        assert.hasClass(form.el.querySelector('.o_field_widget[name="partner_ids"] .badge[data-id="2"] img'), 'o_attendee_border_tentative',
+        assert.ok(form.$('.o_field_widget[name="partner_ids"] > span[data-id="2"] .o_calendar_invitation').hasClass('needsAction'),
             "Mohamet should still confirm his attendance to the meeting");
-        assert.hasClass(form.el.querySelector('.o_field_many2manytags'), 'avatar',
-            "should have avatar class");
-        assert.containsOnce(form, '.o_field_many2manytags.avatar.o_field_widget .badge:first img',
-            "should have img tag");
-        assert.hasAttrValue(form.$('.o_field_many2manytags.avatar.o_field_widget .badge:first img'),
-            'data-src',
-            '/web/image/partner/1/avatar_128',
-            "should have correct avatar image");
 
         form.destroy();
     });
+});
 });

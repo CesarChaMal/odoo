@@ -5,7 +5,6 @@ var AbstractField = require('web.AbstractField');
 var concurrency = require('web.concurrency');
 var core = require('web.core');
 var field_registry = require('web.field_registry');
-var session = require('web.session');
 
 var QWeb = core.qweb;
 var _t = core._t;
@@ -14,57 +13,37 @@ var FieldOrgChart = AbstractField.extend({
 
     events: {
         "click .o_employee_redirect": "_onEmployeeRedirect",
-        "click .o_employee_sub_redirect": "_onEmployeeSubRedirect",
-        "click .o_employee_more_managers": "_onEmployeeMoreManager"
     },
     /**
      * @constructor
      * @override
      */
-    init: function (parent, options) {
+    init: function () {
         this._super.apply(this, arguments);
         this.dm = new concurrency.DropMisordered();
-        this.employee = null;
     },
 
     //--------------------------------------------------------------------------
     // Private
     //--------------------------------------------------------------------------
+
     /**
      * Get the chart data through a rpc call.
      *
      * @private
      * @param {integer} employee_id
-     * @returns {Promise}
+     * @returns {Deferred}
      */
-    _getOrgData: function () {
+    _getOrgData: function (employee_id) {
         var self = this;
         return this.dm.add(this._rpc({
             route: '/hr/get_org_chart',
             params: {
-                employee_id: this.employee,
-                context: session.user_context,
+                employee_id: employee_id,
             },
         })).then(function (data) {
-            return data;
+            self.orgData = data;
         });
-    },
-    /**
-     * Get subordonates of an employee through a rpc call.
-     *
-     * @private
-     * @param {integer} employee_id
-     * @returns {Promise}
-     */
-    _getSubordinatesData: function (employee_id, type) {
-        return this.dm.add(this._rpc({
-            route: '/hr/get_subordinates',
-            params: {
-                employee_id: employee_id,
-                subordinates_type: type,
-                context: session.user_context,
-            },
-        }));
     },
     /**
      * @override
@@ -77,21 +56,10 @@ var FieldOrgChart = AbstractField.extend({
                 children: [],
             }));
         }
-        else if (!this.employee) {
-            // the widget is either dispayed in the context of a hr.employee form or a res.users form
-            this.employee = this.recordData.employee_ids !== undefined ? this.recordData.employee_ids.res_ids[0] : this.recordData.id;
-        }
 
         var self = this;
-        return this._getOrgData().then(function (orgData) {
-            if (_.isEmpty(orgData)) {
-                orgData = {
-                    managers: [],
-                    children: [],
-                }
-            }
-            orgData.view_employee_id = self.recordData.id;
-            self.$el.html(QWeb.render("hr_org_chart", orgData));
+        return this._getOrgData(this.recordData.id).then(function () {
+            self.$el.html(QWeb.render("hr_org_chart", self.orgData));
             self.$('[data-toggle="popover"]').each(function () {
                 $(this).popover({
                     html: true,
@@ -106,7 +74,7 @@ var FieldOrgChart = AbstractField.extend({
                             '.o_employee_redirect', _.bind(self._onEmployeeRedirect, self));
                         return $title;
                     },
-                    container: this,
+                    container: 'body',
                     placement: 'left',
                     trigger: 'focus',
                     content: function () {
@@ -122,7 +90,7 @@ var FieldOrgChart = AbstractField.extend({
                             '.o_employee_sub_redirect', _.bind(self._onEmployeeSubRedirect, self));
                         return $content;
                     },
-                    template: QWeb.render('hr_orgchart_emp_popover', {}),
+                    template: $(QWeb.render('hr_orgchart_emp_popover', {})),
                 });
             });
         });
@@ -132,28 +100,24 @@ var FieldOrgChart = AbstractField.extend({
     // Handlers
     //--------------------------------------------------------------------------
 
-    _onEmployeeMoreManager: function(event) {
-        event.preventDefault();
-        this.employee = parseInt($(event.currentTarget).data('employee-id'));
-        this._render();
-    },
     /**
      * Redirect to the employee form view.
      *
      * @private
      * @param {MouseEvent} event
-     * @returns {Promise} action loaded
+     * @returns {Deferred} action loaded
      */
     _onEmployeeRedirect: function (event) {
-        var self = this;
         event.preventDefault();
         var employee_id = parseInt($(event.currentTarget).data('employee-id'));
-        return this._rpc({
-            model: 'hr.employee',
-            method: 'get_formview_action',
-            args: [employee_id],
-        }).then(function(action) {
-            return self.do_action(action); 
+        return this.do_action({
+            type: 'ir.actions.act_window',
+            view_type: 'form',
+            view_mode: 'form',
+            views: [[false, 'form']],
+            target: 'current',
+            res_model: 'hr.employee',
+            res_id: employee_id,
         });
     },
     /**
@@ -161,34 +125,35 @@ var FieldOrgChart = AbstractField.extend({
      *
      * @private
      * @param {MouseEvent} event
-     * @returns {Promise} action loaded
+     * @returns {Deferred} action loaded
      */
     _onEmployeeSubRedirect: function (event) {
         event.preventDefault();
         var employee_id = parseInt($(event.currentTarget).data('employee-id'));
         var employee_name = $(event.currentTarget).data('employee-name');
         var type = $(event.currentTarget).data('type') || 'direct';
-        var self = this;
+        var domain = [['parent_id', '=', employee_id]];
+        var name = _.str.sprintf(_t("Direct Subordinates of %s"), employee_name);
+        if (type === 'total') {
+            domain = ['&', ['parent_id', 'child_of', employee_id], ['id', '!=', employee_id]];
+            name = _.str.sprintf(_t("Subordinates of %s"), employee_name);
+        } else if (type === 'indirect') {
+            domain = ['&', '&',
+                ['parent_id', 'child_of', employee_id],
+                ['parent_id', '!=', employee_id],
+                ['id', '!=', employee_id]
+            ];
+            name = _.str.sprintf(_t("Indirect Subordinates of %s"), employee_name);
+        }
         if (employee_id) {
-            this._getSubordinatesData(employee_id, type).then(function(data) {
-                var domain = [['id', 'in', data]];
-                return self._rpc({
-                    model: 'hr.employee',
-                    method: 'get_formview_action',
-                    args: [employee_id],
-                }).then(function(action) {
-                    action = _.extend(action, {
-                        'name': _t('Team'),
-                        'view_mode': 'kanban,list,form',
-                        'views':  [[false, 'kanban'], [false, 'list'], [false, 'form']],
-                        'domain': domain,
-                        'context': {
-                            'default_parent_id': employee_id,
-                        }
-                    });
-                    delete action['res_id'];
-                    return self.do_action(action); 
-                });
+            return this.do_action({
+                name: name,
+                type: 'ir.actions.act_window',
+                view_mode: 'kanban,list,form',
+                views: [[false, 'kanban'], [false, 'list'], [false, 'form']],
+                target: 'current',
+                res_model: 'hr.employee',
+                domain: domain,
             });
         }
     },

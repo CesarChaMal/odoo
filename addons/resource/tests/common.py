@@ -1,84 +1,74 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
+from odoo.fields import Datetime
 from odoo.tests.common import TransactionCase
 
 
 class TestResourceCommon(TransactionCase):
 
-    @classmethod
-    def _define_calendar(cls, name, attendances, tz):
-        return cls.env['resource.calendar'].create({
-            'name': name,
-            'tz': tz,
-            'attendance_ids': [
-                (0, 0, {
-                    'name': '%s_%d' % (name, index),
-                    'hour_from': att[0],
-                    'hour_to': att[1],
-                    'dayofweek': str(att[2]),
-                })
-                for index, att in enumerate(attendances)
-            ],
+    def setUp(self):
+        super(TestResourceCommon, self).setUp()
+        self.env.user.tz = 'UTC'
+
+        # Some demo data
+        self.date1 = Datetime.from_string('2013-02-12 09:08:07')  # weekday() returns 1, isoweekday() returns 2
+        self.date2 = Datetime.from_string('2013-02-15 10:11:12')  # weekday() returns 4, isoweekday() returns 5
+
+        # Resource data
+        # Calendar working days: 1 (8-16 -> 8hours), 4 (8-13, 16-23 -> 12hours)
+        self.calendar = self.env['resource.calendar'].create({
+            'name': 'TestCalendar',
+            'attendance_ids': [(5, 0, 0)]
+        })
+        self.att_1 = self.env['resource.calendar.attendance'].create({
+            'name': 'Att1',
+            'calendar_id': self.calendar.id,
+            'dayofweek': '1',
+            'hour_from': 8,
+            'hour_to': 16
+        })
+        self.att_2 = self.env['resource.calendar.attendance'].create({
+            'name': 'Att2',
+            'calendar_id': self.calendar.id,
+            'dayofweek': '4',
+            'hour_from': 8,
+            'hour_to': 13
+        })
+        self.att_3 = self.env['resource.calendar.attendance'].create({
+            'name': 'Att3',
+            'calendar_id': self.calendar.id,
+            'dayofweek': '4',
+            'hour_from': 16,
+            'hour_to': 23
         })
 
-    @classmethod
-    def _define_calendar_2_weeks(cls, name, attendances, tz):
-        return cls.env['resource.calendar'].create({
-            'name': name,
-            'tz': tz,
-            'two_weeks_calendar': True,
-            'attendance_ids': [
-                (0, 0, {
-                    'name': '%s_%d' % (name, index),
-                    'hour_from': att[0],
-                    'hour_to': att[1],
-                    'dayofweek': str(att[2]),
-                    'week_type': att[3],
-                    'display_type': att[4],
-                    'sequence': att[5],
-                })
-                for index, att in enumerate(attendances)
-            ],
-        })
+        self.resource1_id = self.env['resource.resource'].create(
+            {
+                'name': 'TestResource1',
+                'resource_type': 'user',
+                'time_efficiency': 150.0,
+                'calendar_id': self.calendar.id,
+            }
+        ).id
 
-    @classmethod
-    def setUpClass(cls):
-        super(TestResourceCommon, cls).setUpClass()
-
-        # UTC+1 winter, UTC+2 summer
-        cls.calendar_jean = cls._define_calendar('40 Hours', [(8, 16, i) for i in range(5)], 'Europe/Brussels')
-        # UTC+6
-        cls.calendar_patel = cls._define_calendar('38 Hours', sum([((9, 12, i), (13, 17, i)) for i in range(5)], ()), 'Etc/GMT-6')
-        # UTC-8 winter, UTC-7 summer
-        cls.calendar_john = cls._define_calendar('8+12 Hours', [(8, 16, 1), (8, 13, 4), (16, 23, 4)], 'America/Los_Angeles')
-        # UTC+1 winter, UTC+2 summer
-        cls.calendar_jules = cls._define_calendar_2_weeks('Week 1: 30 Hours - Week 2: 16 Hours', [
-            (0, 0, 0, '0', 'line_section', 0), (8, 16, 0, '0', False, 1), (9, 17, 1, '0', False, 2),
-            (0, 0, 0, '1', 'line_section', 10), (8, 16, 0, '1', False, 11), (7, 15, 2, '1', False, 12),
-            (8, 16, 3, '1', False, 13), (10, 16, 4, '1', False, 14)], 'Europe/Brussels')
-
-        cls.calendar_paul = cls._define_calendar('Morning and evening shifts', sum([((2, 7, i), (10, 16, i)) for i in range(5)], ()), 'Brazil/DeNoronha')
-
-        # Employee is linked to a resource.resource via resource.mixin
-        cls.jean = cls.env['resource.test'].create({
-            'name': 'Jean',
-            'resource_calendar_id': cls.calendar_jean.id,
-        })
-        cls.patel = cls.env['resource.test'].create({
-            'name': 'Patel',
-            'resource_calendar_id': cls.calendar_patel.id,
-        })
-        cls.john = cls.env['resource.test'].create({
-            'name': 'John',
-            'resource_calendar_id': cls.calendar_john.id,
-        })
-        cls.jules = cls.env['resource.test'].create({
-            'name': 'Jules',
-            'resource_calendar_id': cls.calendar_jules.id,
-        })
-
-        cls.paul = cls.env['resource.test'].create({
-            'name': 'Paul',
-            'resource_calendar_id': cls.calendar_paul.id,
-        })
+        # Leave1: 19/02/2013, from 9 to 12, is a day 1
+        self.leave1 = self.env['resource.calendar.leaves'].create({
+            'name': 'GenericLeave',
+            'calendar_id': self.calendar.id,
+            'date_from': Datetime.from_string('2013-02-19 09:00:00'),
+            'date_to': Datetime.from_string('2013-02-19 12:00:00')})
+        # Leave2: 22/02/2013, from 9 to 15, is a day 4
+        self.leave2 = self.env['resource.calendar.leaves'].create({
+            'name': 'ResourceLeave',
+            'calendar_id': self.calendar.id,
+            'resource_id': self.resource1_id,
+            'date_from': Datetime.from_string('2013-02-22 09:00:00'),
+            'date_to': Datetime.from_string('2013-02-22 15:00:00')})
+        # Leave3: 25/02/2013 (day0) -> 01/03/2013 (day4)
+        self.leave3 = self.env['resource.calendar.leaves'].create({
+            'name': 'ResourceLeave2',
+            'calendar_id': self.calendar.id,
+            'resource_id': self.resource1_id,
+            'date_from': Datetime.from_string('2013-02-25 13:00:00'),
+            'date_to': Datetime.from_string('2013-03-01 11:30:00')})

@@ -66,7 +66,7 @@ class OAuthLogin(Home):
                 scope=provider['scope'],
                 state=json.dumps(state),
             )
-            provider['auth_link'] = "%s?%s" % (provider['auth_endpoint'], werkzeug.urls.url_encode(params))
+            provider['auth_link'] = "%s?%s" % (provider['auth_endpoint'], werkzeug.url_encode(params))
         return providers
 
     def get_state(self, provider):
@@ -76,7 +76,7 @@ class OAuthLogin(Home):
         state = dict(
             d=request.session.db,
             p=provider['id'],
-            r=werkzeug.urls.url_quote_plus(redirect),
+            r=werkzeug.url_quote_plus(redirect),
         )
         token = request.params.get('token')
         if token:
@@ -88,7 +88,7 @@ class OAuthLogin(Home):
         ensure_db()
         if request.httprequest.method == 'GET' and request.session.uid and request.params.get('redirect'):
             # Redirect if already logged in and redirect param is present
-            return request.redirect(request.params.get('redirect'))
+            return http.redirect_with_hash(request.params.get('redirect'))
         providers = self.list_providers()
 
         response = super(OAuthLogin, self).web_login(*args, **kw)
@@ -109,10 +109,19 @@ class OAuthLogin(Home):
 
         return response
 
-    def get_auth_signup_qcontext(self):
-        result = super(OAuthLogin, self).get_auth_signup_qcontext()
-        result["providers"] = self.list_providers()
-        return result
+    @http.route()
+    def web_auth_signup(self, *args, **kw):
+        providers = self.list_providers()
+        response = super(OAuthLogin, self).web_auth_signup(*args, **kw)
+        response.qcontext.update(providers=providers)
+        return response
+
+    @http.route()
+    def web_auth_reset_password(self, *args, **kw):
+        providers = self.list_providers()
+        response = super(OAuthLogin, self).web_auth_reset_password(*args, **kw)
+        response.qcontext.update(providers=providers)
+        return response
 
 
 class OAuthController(http.Controller):
@@ -122,8 +131,6 @@ class OAuthController(http.Controller):
     def signin(self, **kw):
         state = json.loads(kw['state'])
         dbname = state['d']
-        if not http.db_filter([dbname]):
-            return BadRequest()
         provider = state['p']
         context = state.get('c', {})
         registry = registry_get(dbname)
@@ -134,7 +141,7 @@ class OAuthController(http.Controller):
                 cr.commit()
                 action = state.get('a')
                 menu = state.get('m')
-                redirect = werkzeug.urls.url_unquote_plus(state['r']) if state.get('r') else False
+                redirect = werkzeug.url_unquote_plus(state['r']) if state.get('r') else False
                 url = '/web'
                 if redirect:
                     url = redirect
@@ -155,7 +162,7 @@ class OAuthController(http.Controller):
                 # oauth credentials not valid, user could be on a temporary session
                 _logger.info('OAuth2: access denied, redirect to main page in case a valid session exists, without setting cookies')
                 url = "/web/login?oauth_error=3"
-                redirect = request.redirect(url, 303)
+                redirect = werkzeug.utils.redirect(url, 303)
                 redirect.autocorrect_location_header = False
                 return redirect
             except Exception as e:
@@ -172,8 +179,6 @@ class OAuthController(http.Controller):
         if not dbname:
             dbname = db_monodb()
         if not dbname:
-            return BadRequest()
-        if not http.db_filter([dbname]):
             return BadRequest()
 
         registry = registry_get(dbname)

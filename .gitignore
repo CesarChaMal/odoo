@@ -4,11 +4,9 @@ _build/
 # dotfiles
 .*
 !.gitignore
-!.github
 !.mailmap
 # compiled python files
 *.py[co]
-__pycache__/
 # setup.py egg_info
 *.egg-info
 # emacs backup files
@@ -25,16 +23,6 @@ odoo/addons/base/maintenance
 install/win32/*.bat
 install/win32/meta.py
 
-# needed only when building for win32
-setup/win32/static/less/
-setup/win32/static/wkhtmltopdf/
-setup/win32/static/postgresql*.exe
-
-# js tooling
-node_modules
-package-lock.json
-package.json
-
 # various virtualenv
 /bin/
 /build/
@@ -44,6 +32,3 @@ package.json
 /man/
 /share/
 /src/
-
-# avoid adding it after generation from tsconfig command
-tsconfig.json

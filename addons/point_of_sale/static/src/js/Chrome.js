@@ -1,542 +1,925 @@
-odoo.define('point_of_sale.Chrome', function(require) {
-    'use strict';
+odoo.define('point_of_sale.chrome', function (require) {
+"use strict";
 
-    const { loadCSS } = require('web.ajax');
-    const { useListener } = require('web.custom_hooks');
-    const { BarcodeEvents } = require('barcodes.BarcodeEvents');
-    const BarcodeParser = require('barcodes.BarcodeParser');
-    const PosComponent = require('point_of_sale.PosComponent');
-    const NumberBuffer = require('point_of_sale.NumberBuffer');
-    const PopupControllerMixin = require('point_of_sale.PopupControllerMixin');
-    const Registries = require('point_of_sale.Registries');
-    const IndependentToOrderScreen = require('point_of_sale.IndependentToOrderScreen');
-    const { identifyError } = require('point_of_sale.utils');
-    const { odooExceptionTitleMap } = require("@web/core/errors/error_dialogs");
-    const { ConnectionLostError, ConnectionAbortedError, RPCError } = require('@web/core/network/rpc_service');
-    const { useBus } = require("@web/core/utils/hooks");
-    const reactivity = require("@point_of_sale/js/reactivity");
+var PosBaseWidget = require('point_of_sale.BaseWidget');
+var gui = require('point_of_sale.gui');
+var keyboard = require('point_of_sale.keyboard');
+var models = require('point_of_sale.models');
+var core = require('web.core');
+var ajax = require('web.ajax');
+var CrashManager = require('web.CrashManager');
+var BarcodeEvents = require('barcodes.BarcodeEvents').BarcodeEvents;
 
-    const { debounce, useExternalListener, useRef, useState } = owl;
 
-    /**
-     * Chrome is the root component of the PoS App.
-     */
-    class Chrome extends PopupControllerMixin(PosComponent) {
-        constructor() {
-            super(...arguments);
-            useExternalListener(window, 'beforeunload', this._onBeforeUnload);
-            useListener('show-main-screen', this.__showScreen);
-            useListener('toggle-debug-widget', debounce(this._toggleDebugWidget, 100));
-            useListener('toggle-mobile-searchbar', this._toggleMobileSearchBar);
-            useListener('show-temp-screen', this.__showTempScreen);
-            useListener('close-temp-screen', this.__closeTempScreen);
-            useListener('close-pos', this._closePos);
-            useListener('loading-skip-callback', () => this.env.proxy.stop_searching());
-            useListener('play-sound', this._onPlaySound);
-            useListener('set-sync-status', this._onSetSyncStatus);
-            useListener('show-notification', this._onShowNotification);
-            useListener('close-notification', this._onCloseNotification);
-            useListener('connect-to-proxy', this.connect_to_proxy);
-            useBus(this.env.posbus, 'start-cash-control', this.openCashControl);
-            NumberBuffer.activate();
+var _t = core._t;
+var _lt = core._lt;
+var QWeb = core.qweb;
 
-            this.state = useState({
-                uiState: 'LOADING', // 'LOADING' | 'READY' | 'CLOSING'
-                debugWidgetIsShown: true,
-                mobileSearchBarIsShown: false,
-                hasBigScrollBars: false,
-                sound: { src: null },
-                notification: {
-                    isShown: false,
-                    message: '',
-                    duration: 2000,
+/* -------- The Order Selector -------- */
+
+// Allows the cashier to create / delete and
+// switch between orders.
+
+var OrderSelectorWidget = PosBaseWidget.extend({
+    template: 'OrderSelectorWidget',
+    init: function(parent, options) {
+        this._super(parent, options);
+        this.pos.get('orders').bind('add remove change',this.renderElement,this);
+        this.pos.bind('change:selectedOrder',this.renderElement,this);
+    },
+    get_order_by_uid: function(uid) {
+        var orders = this.pos.get_order_list();
+        for (var i = 0; i < orders.length; i++) {
+            if (orders[i].uid === uid) {
+                return orders[i];
+            }
+        }
+        return undefined;
+    },
+    order_click_handler: function(event,$el) {
+        var order = this.get_order_by_uid($el.data('uid'));
+        if (order) {
+            this.pos.set_order(order);
+        }
+    },
+    neworder_click_handler: function(event, $el) {
+        this.pos.add_new_order();
+    },
+    deleteorder_click_handler: function(event, $el) {
+        var self  = this;
+        var order = this.pos.get_order(); 
+        if (!order) {
+            return;
+        } else if ( !order.is_empty() ){
+            this.gui.show_popup('confirm',{
+                'title': _t('Destroy Current Order ?'),
+                'body': _t('You will lose any data associated with the current order'),
+                confirm: function(){
+                    self.pos.delete_current_order();
                 },
-                loadingSkipButtonIsShown: false,
             });
+        } else {
+            this.pos.delete_current_order();
+        }
+    },
+    renderElement: function(){
+        var self = this;
+        this._super();
+        this.$('.order-button.select-order').click(function(event){
+            self.order_click_handler(event,$(this));
+        });
+        this.$('.neworder-button').click(function(event){
+            self.neworder_click_handler(event,$(this));
+        });
+        this.$('.deleteorder-button').click(function(event){
+            self.deleteorder_click_handler(event,$(this));
+        });
+    },
+});
 
-            this.mainScreen = useState({ name: null, component: null });
-            this.mainScreenProps = {};
+/* ------- The User Name Widget ------- */
 
-            this.tempScreen = useState({ isShown: false, name: null, component: null });
-            this.tempScreenProps = {};
+// Displays the current cashier's name and allows
+// to switch between cashiers.
 
-            this.progressbar = useRef('progressbar');
+var UsernameWidget = PosBaseWidget.extend({
+    template: 'UsernameWidget',
+    init: function(parent, options){
+        options = options || {};
+        this._super(parent,options);
+    },
+    renderElement: function(){
+        var self = this;
+        this._super();
+
+        this.$el.click(function(){
+            self.click_username();
+        });
+    },
+    click_username: function(){
+        var self = this;
+        this.gui.select_user({
+            'security':     true,
+            'current_user': this.pos.get_cashier(),
+            'title':      _t('Change Cashier'),
+        }).then(function(user){
+            self.pos.set_cashier(user);
+            self.renderElement();
+        });
+    },
+    get_name: function(){
+        var user = this.pos.cashier || this.pos.user;
+        if(user){
+            return user.name;
+        }else{
+            return "";
+        }
+    },
+});
+
+/* -------- The Header Button --------- */
+
+// Used to quickly add buttons with simple
+// labels and actions to the point of sale 
+// header.
+
+var HeaderButtonWidget = PosBaseWidget.extend({
+    template: 'HeaderButtonWidget',
+    init: function(parent, options){
+        options = options || {};
+        this._super(parent, options);
+        this.action = options.action;
+        this.label   = options.label;
+    },
+    renderElement: function(){
+        var self = this;
+        this._super();
+        if(this.action){
+            this.$el.click(function(){
+                self.action();
+            });
+        }
+    },
+    show: function(){ this.$el.removeClass('oe_hidden'); },
+    hide: function(){ this.$el.addClass('oe_hidden'); },
+});
+
+/* --------- The Debug Widget --------- */
+
+// The debug widget lets the user control 
+// and monitor the hardware and software status
+// without the use of the proxy, or to access
+// the raw locally stored db values, useful
+// for debugging
+
+var DebugWidget = PosBaseWidget.extend({
+    template: "DebugWidget",
+    eans:{
+        admin_badge:  '0410100000006',
+        client_badge: '0420200000004',
+        invalid_ean:  '1232456',
+        soda_33cl:    '5449000000996',
+        oranges_kg:   '2100002031410',
+        lemon_price:  '2301000001560',
+        unknown_product: '9900000000004',
+    },
+    events:[
+        'open_cashbox',
+        'print_receipt',
+        'scale_read',
+    ],
+    init: function(parent,options){
+        this._super(parent,options);
+        var self = this;
+        
+        // for dragging the debug widget around
+        this.dragging  = false;
+        this.dragpos = {x:0, y:0};
+
+        function eventpos(event){
+            if(event.touches && event.touches[0]){
+                return {x: event.touches[0].screenX, y: event.touches[0].screenY};
+            }else{
+                return {x: event.screenX, y: event.screenY};
+            }
+        }
+
+        this.dragend_handler = function(event){
+            self.dragging = false;
+        };
+        this.dragstart_handler = function(event){
+            self.dragging = true;
+            self.dragpos = eventpos(event);
+        };
+        this.dragmove_handler = function(event){
+            if(self.dragging){
+                var top = this.offsetTop;
+                var left = this.offsetLeft;
+                var pos  = eventpos(event);
+                var dx   = pos.x - self.dragpos.x; 
+                var dy   = pos.y - self.dragpos.y; 
+
+                self.dragpos = pos;
+
+                this.style.right = 'auto';
+                this.style.bottom = 'auto';
+                this.style.left = left + dx + 'px';
+                this.style.top  = top  + dy + 'px';
+            }
+            event.preventDefault();
+            event.stopPropagation();
+        };
+    },
+    show: function() {
+        this.$el.css({opacity:0});
+        this.$el.removeClass('oe_hidden');
+        this.$el.animate({opacity:1},250,'swing');
+    },
+    hide: function() {
+        var self = this;
+        this.$el.animate({opacity:0,},250,'swing',function(){
+            self.$el.addClass('oe_hidden');
+        });
+    },
+    start: function(){
+        var self = this;
+        
+        if (this.pos.debug) {
+            this.show();
+        }
+
+        this.el.addEventListener('mouseleave', this.dragend_handler);
+        this.el.addEventListener('mouseup',    this.dragend_handler);
+        this.el.addEventListener('touchend',   this.dragend_handler);
+        this.el.addEventListener('touchcancel',this.dragend_handler);
+        this.el.addEventListener('mousedown',  this.dragstart_handler);
+        this.el.addEventListener('touchstart', this.dragstart_handler);
+        this.el.addEventListener('mousemove',  this.dragmove_handler);
+        this.el.addEventListener('touchmove',  this.dragmove_handler);
+
+        this.$('.toggle').click(function(){
+            self.hide();
+        });
+        this.$('.button.set_weight').click(function(){
+            var kg = Number(self.$('input.weight').val());
+            if(!isNaN(kg)){
+                self.pos.proxy.debug_set_weight(kg);
+            }
+        });
+        this.$('.button.reset_weight').click(function(){
+            self.$('input.weight').val('');
+            self.pos.proxy.debug_reset_weight();
+        });
+        this.$('.button.custom_ean').click(function(){
+            var ean = self.pos.barcode_reader.barcode_parser.sanitize_ean(self.$('input.ean').val() || '0');
+            self.$('input.ean').val(ean);
+            self.pos.barcode_reader.scan(ean);
+        });
+        this.$('.button.barcode').click(function(){
+            self.pos.barcode_reader.scan(self.$('input.ean').val());
+        });
+        this.$('.button.delete_orders').click(function(){
+            self.gui.show_popup('confirm',{
+                'title': _t('Delete Paid Orders ?'),
+                'body':  _t('This operation will permanently destroy all paid orders from the local storage. You will lose all the data. This operation cannot be undone.'),
+                confirm: function(){
+                    self.pos.db.remove_all_orders();
+                    self.pos.set({synch: { state:'connected', pending: 0 }});
+                },
+            });
+        });
+        this.$('.button.delete_unpaid_orders').click(function(){
+            self.gui.show_popup('confirm',{
+                'title': _t('Delete Unpaid Orders ?'),
+                'body':  _t('This operation will destroy all unpaid orders in the browser. You will lose all the unsaved data and exit the point of sale. This operation cannot be undone.'),
+                confirm: function(){
+                    self.pos.db.remove_all_unpaid_orders();
+                    window.location = '/';
+                },
+            });
+        });
+
+        this.$('.button.export_unpaid_orders').click(function(){
+            self.gui.prepare_download_link(
+                self.pos.export_unpaid_orders(),
+                _t("unpaid orders") + ' ' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.json',
+                ".export_unpaid_orders", ".download_unpaid_orders"
+            );
+        });
+
+        this.$('.button.export_paid_orders').click(function() {
+            self.gui.prepare_download_link(
+                self.pos.export_paid_orders(),
+                _t("paid orders") + ' ' + moment().format('YYYY-MM-DD-HH-mm-ss') + '.json',
+                ".export_paid_orders", ".download_paid_orders"
+            );
+        });
+
+        this.$('.button.display_refresh').click(function () {
+            self.pos.proxy.message('display_refresh', {});
+        });
+
+        this.$('.button.import_orders input').on('change', function(event) {
+            var file = event.target.files[0];
+
+            if (file) {
+                var reader = new FileReader();
+                
+                reader.onload = function(event) {
+                    var report = self.pos.import_orders(event.target.result);
+                    self.gui.show_popup('orderimport',{report:report});
+                };
+                
+                reader.readAsText(file);
+            }
+        });
+
+        _.each(this.events, function(name){
+            self.pos.proxy.add_notification(name,function(){
+                self.$('.event.'+name).stop().clearQueue().css({'background-color':'#6CD11D'}); 
+                self.$('.event.'+name).animate({'background-color':'#1E1E1E'},2000);
+            });
+        });
+    },
+});
+
+/* --------- The Status Widget -------- */
+
+// Base class for widgets that want to display
+// status in the point of sale header.
+
+var StatusWidget = PosBaseWidget.extend({
+    status: ['connected','connecting','disconnected','warning','error'],
+
+    set_status: function(status,msg){
+        for(var i = 0; i < this.status.length; i++){
+            this.$('.js_'+this.status[i]).addClass('oe_hidden');
+        }
+        this.$('.js_'+status).removeClass('oe_hidden');
+        
+        if(msg){
+            this.$('.js_msg').removeClass('oe_hidden').html(msg);
+        }else{
+            this.$('.js_msg').addClass('oe_hidden').html('');
+        }
+    },
+});
+
+/* ------- Synch. Notifications ------- */
+
+// Displays if there are orders that could
+// not be submitted, and how many. 
+
+var SynchNotificationWidget = StatusWidget.extend({
+    template: 'SynchNotificationWidget',
+    start: function(){
+        var self = this;
+        this.pos.bind('change:synch', function(pos,synch){
+            self.set_status(synch.state, synch.pending);
+        });
+        this.$el.click(function(){
+            self.pos.push_order(null,{'show_error':true});
+        });
+    },
+});
+
+/* --------- The Proxy Status --------- */
+
+// Displays the status of the hardware proxy
+// (connected, disconnected, errors ... )
+
+var ProxyStatusWidget = StatusWidget.extend({
+    template: 'ProxyStatusWidget',
+    set_smart_status: function(status){
+        if(status.status === 'connected'){
+            var warning = false;
+            var msg = '';
+            if(this.pos.config.iface_scan_via_proxy){
+                var scanner = status.drivers.scanner ? status.drivers.scanner.status : false;
+                if( scanner != 'connected' && scanner != 'connecting'){
+                    warning = true;
+                    msg += _t('Scanner');
+                }
+            }
+            if( this.pos.config.iface_print_via_proxy || 
+                this.pos.config.iface_cashdrawer ){
+                var printer = status.drivers.escpos ? status.drivers.escpos.status : false;
+                if( printer != 'connected' && printer != 'connecting'){
+                    warning = true;
+                    msg = msg ? msg + ' & ' : msg;
+                    msg += _t('Printer');
+                }
+            }
+            if( this.pos.config.iface_electronic_scale ){
+                var scale = status.drivers.scale ? status.drivers.scale.status : false;
+                if( scale != 'connected' && scale != 'connecting' ){
+                    warning = true;
+                    msg = msg ? msg + ' & ' : msg;
+                    msg += _t('Scale');
+                }
+            }
+
+            msg = msg ? msg + ' ' + _t('Offline') : msg;
+            this.set_status(warning ? 'warning' : 'connected', msg);
+        }else{
+            this.set_status(status.status,'');
+        }
+    },
+    start: function(){
+        var self = this;
+        
+        this.set_smart_status(this.pos.proxy.get('status'));
+
+        this.pos.proxy.on('change:status',this,function(eh,status){ //FIXME remove duplicate changes 
+            self.set_smart_status(status.newValue);
+        });
+
+        this.$el.click(function(){
+            self.pos.connect_to_proxy();
+        });
+    },
+});
+
+
+/* --------- The Sale Details --------- */
+
+// Generates a report to print the sales of the
+// day on a ticket
+
+var SaleDetailsButton = PosBaseWidget.extend({
+    template: 'SaleDetailsButton',
+    start: function(){
+        var self = this;
+        this.$el.click(function(){
+            self.pos.proxy.print_sale_details();
+        });
+    },
+});
+
+/* User interface for distant control over the Client display on the posbox */
+// The boolean posbox_supports_display (in devices.js) will allow interaction to the posbox on true, prevents it otherwise
+// We don't want the incompatible posbox to be flooded with 404 errors on arrival of our many requests as it triggers losses of connections altogether
+var ClientScreenWidget = PosBaseWidget.extend({
+    template: 'ClientScreenWidget',
+
+    change_status_display: function(status) {
+        var msg = ''
+        if (status === 'success') {
+            this.$('.js_warning').addClass('oe_hidden');
+            this.$('.js_disconnected').addClass('oe_hidden');
+            this.$('.js_connected').removeClass('oe_hidden');
+        } else if (status === 'warning') {
+            this.$('.js_disconnected').addClass('oe_hidden');
+            this.$('.js_connected').addClass('oe_hidden');
+            this.$('.js_warning').removeClass('oe_hidden');
+            msg = _t('Connected, Not Owned');
+        } else {
+            this.$('.js_warning').addClass('oe_hidden');
+            this.$('.js_connected').addClass('oe_hidden');
+            this.$('.js_disconnected').removeClass('oe_hidden');
+            msg = _t('Disconnected')
+            if (status === 'not_found') {
+                msg = _t('Client Screen Unsupported. Please upgrade the PosBox')
+            }
+        }
+
+        this.$('.oe_customer_display_text').text(msg);
+    },
+
+    status_loop: function() {
+        var self = this;
+        function loop() {
+            if (self.pos.proxy.posbox_supports_display) {
+                var deffered = self.pos.proxy.test_ownership_of_client_screen();
+                if (deffered) {
+                    deffered.then(
+                        function(data) {
+                            if (typeof data === 'string') {
+                                data = JSON.parse(data);
+                            }
+                            if (data.status === 'OWNER') {
+                                self.change_status_display('success');
+                            } else {
+                                self.change_status_display('warning');
+                              }
+                        },
+                        
+                        function(err) {
+                            if (typeof err == "undefined") {
+                                self.change_status_display('failure');
+                            } else {
+                                self.change_status_display('not_found');
+                                self.pos.proxy.posbox_supports_display = false;
+                            }
+                        })
+    
+                    .always(function () {
+                        setTimeout(loop,3000);
+                    });
+                }
+            }   
+        }
+        loop();
+    },
+
+    start: function(){
+        if (this.pos.config.iface_customer_facing_display) {
+                this.show();
+                var self = this;
+                this.$el.click(function(){
+                    self.pos.render_html_for_customer_facing_display().then(function(rendered_html) {
+                        self.pos.proxy.take_ownership_over_client_screen(rendered_html).then(
+       
+                        function(data) {
+                            if (typeof data === 'string') {
+                                data = JSON.parse(data);
+                            }
+                            if (data.status === 'success') {
+                               self.change_status_display('success');
+                            } else {
+                               self.change_status_display('warning');
+                            }
+                            if (!self.pos.proxy.posbox_supports_display) {
+                                self.pos.proxy.posbox_supports_display = true;
+                                self.status_loop();
+                            }
+                        }, 
+        
+                        function(err) {
+                            if (typeof err == "undefined") {
+                                self.change_status_display('failure');
+                            } else {
+                                self.change_status_display('not_found');
+                            }
+                        });
+                    });
+
+                });
+                this.status_loop();
+        } else {
+            this.hide();
+        }
+    },
+});
+
+
+/*--------------------------------------*\
+ |             THE CHROME               |
+\*======================================*/
+
+// The Chrome is the main widget that contains 
+// all other widgets in the PointOfSale.
+//
+// It is the first object instanciated and the
+// starting point of the point of sale code.
+//
+// It is mainly composed of :
+// - a header, containing the list of orders
+// - a leftpane, containing the list of bought 
+//   products (orderlines) 
+// - a rightpane, containing the screens 
+//   (see pos_screens.js)
+// - popups
+// - an onscreen keyboard
+// - .gui which controls the switching between 
+//   screens and the showing/closing of popups
+
+var Chrome = PosBaseWidget.extend({
+    template: 'Chrome',
+    init: function() { 
+        var self = this;
+        this._super(arguments[0],{});
+
+        this.started  = new $.Deferred(); // resolves when DOM is online
+        this.ready    = new $.Deferred(); // resolves when the whole GUI has been loaded
+
+        this.pos = new models.PosModel(this.getSession(), {chrome:this});
+        this.gui = new gui.Gui({pos: this.pos, chrome: this});
+        this.chrome = this; // So that chrome's childs have chrome set automatically
+        this.pos.gui = this.gui;
+
+        this.logo_click_time  = 0;
+        this.logo_click_count = 0;
 
             this.previous_touch_y_coordinate = -1;
 
-            this.env.pos = reactivity.useState(this.env.pos);
-        }
+        this.widget = {};   // contains references to subwidgets instances
 
-        // OVERLOADED METHODS //
+        this.cleanup_dom();
 
-        mounted() {
-            // remove default webclient handlers that induce click delay
-            $(document).off();
-            $(window).off();
-            $('html').off();
-            $('body').off();
-            // The above lines removed the bindings, but we really need them for the barcode
-            BarcodeEvents.start();
-        }
-        willUnmount() {
-            BarcodeEvents.stop();
-        }
-        destroy() {
-            super.destroy(...arguments);
-            this.env.pos.destroy();
-        }
-        catchError(error) {
-            console.error(error);
-        }
+        this.pos.ready.done(function(){
+            self.build_chrome();
+            self.build_widgets();
+            self.disable_rubberbanding();
+            self.disable_backpace_back();
+            self.ready.resolve();
+            self.loading_hide();
+            self.replace_crashmanager();
+            self.pos.push_order();
+        }).fail(function(err){   // error when loading models data from the backend
+            self.loading_error(err);
+        });
+    },
 
-        // GETTERS //
+    cleanup_dom:  function() {
+        // remove default webclient handlers that induce click delay
+        $(document).off();
+        $(window).off();
+        $('html').off();
+        $('body').off();
+        this.$el.parent().off();
+        // The above lines removed the bindings, but we really need them for the barcode
+        BarcodeEvents.start();
+    },
 
-        get clientScreenButtonIsShown() {
-            return this.env.pos.config.iface_customer_facing_display;
-        }
+    build_chrome: function() { 
+        var self = this;
+        FastClick.attach(document.body);
 
-        /**
-         * Used to give the `state.mobileSearchBarIsShown` value to main screen props
-         */
-        get mainScreenPropsFielded() {
-            return Object.assign({}, this.mainScreenProps, {
-                mobileSearchBarIsShown: this.state.mobileSearchBarIsShown,
-            });
-        }
-
-        /**
-         * Startup screen can be based on pos config so the startup screen
-         * is only determined after pos data is completely loaded.
-         *
-         * NOTE: Wait for pos data to be completed before calling this getter.
-         */
-        get startScreen() {
-            if (this.state.uiState !== 'READY') {
-                console.warn(
-                    `Accessing startScreen of Chrome component before 'state.uiState' to be 'READY' is not recommended.`
-                );
+        if ($.browser.chrome) {
+            var chrome_version = $.browser.version.split('.')[0];
+            if (parseInt(chrome_version, 10) >= 50) {
+                ajax.loadCSS('/point_of_sale/static/src/css/chrome50.css');
             }
-            return { name: 'ProductScreen' };
         }
 
-        // CONTROL METHODS //
+        this.renderElement();
 
-        /**
-         * Call this function after the Chrome component is mounted.
-         * This will load pos and assign it to the environment.
-         */
-        async start() {
-            try {
-                await this.env.pos.load_server_data();
-                await this.setupBarcodeParser();
-                if(this.env.pos.config.use_proxy){
-                    await this.connect_to_proxy();
+        this.$('.pos-logo').click(function(){
+            self.click_logo();
+        });
+
+        if(this.pos.config.iface_big_scrollbars){
+            this.$el.addClass('big-scrollbars');
+        }
+    },
+
+    // displays a system error with the error-traceback
+    // popup.
+    show_error: function(error) {
+        this.gui.show_popup('error-traceback',{
+            'title': error.message,
+            'body':  error.message + '\n' + error.data.debug + '\n',
+        });
+    },
+
+    // replaces the error handling of the existing crashmanager which
+    // uses jquery dialog to display the error, to use the pos popup
+    // instead
+    replace_crashmanager: function() {
+        var self = this;
+        CrashManager.include({
+            show_error: function(error) {
+                if (self.gui) {
+                    self.show_error(error);
+                } else {
+                    this._super(error);
                 }
-                // Load the saved `env.pos.toRefundLines` from localStorage when
-                // the PosGlobalState is ready.
-                Object.assign(this.env.pos.toRefundLines, this.env.pos.db.load('TO_REFUND_LINES') || {});
-                this._buildChrome();
-                this._closeOtherTabs();
-                this.env.pos.selectedCategoryId = this.env.pos.config.iface_start_categ_id
-                    ? this.env.pos.config.iface_start_categ_id[0]
-                    : 0;
-                this.state.uiState = 'READY';
-                this._showStartScreen();
-                if (_.isEmpty(this.env.pos.db.product_by_category_id)) {
-                    this._loadDemoData();
-                }
-                setTimeout(() => this._runBackgroundTasks());
-            } catch (error) {
-                let title = 'Unknown Error',
-                    body;
+            },
+        });
+    },
 
-                if (error.message && [100, 200, 404, -32098].includes(error.message.code)) {
-                    // this is the signature of rpc error
-                    if (error.message.code === -32098) {
-                        title = 'Network Failure (XmlHttpRequestError)';
-                        body =
-                            'The Point of Sale could not be loaded due to a network problem.\n' +
-                            'Please check your internet connection.';
-                    } else if (error.message.code === 200) {
-                        title = error.message.data.message || this.env._t('Server Error');
-                        body =
-                            error.message.data.debug ||
-                            this.env._t(
-                                'The server encountered an error while receiving your order.'
-                            );
-                    }
-                } else if (error instanceof Error) {
-                    title = error.message;
-                    body = error.stack;
-                }
-
-                await this.showPopup('ErrorTracebackPopup', {
-                    title,
-                    body,
-                    exitButtonIsShown: true,
-                });
-            }
-        }
-
-        _runBackgroundTasks() {
-            // push order in the background, no need to await
-            this.env.pos.push_orders();
-            // Allow using the app even if not all the images are loaded.
-            // Basically, preload the images in the background.
-            this._preloadImages();
-            if (this.env.pos.config.limited_partners_loading && this.env.pos.config.partner_load_background) {
-                this.env.pos.loadPartnersBackground();
-            }
-            if (this.env.pos.config.limited_products_loading && this.env.pos.config.product_load_background) {
-                this.env.pos.loadProductsBackground().then(() => this.render());
-            }
-        }
-
-        setupBarcodeParser() {
-            const barcode_parser = new BarcodeParser({ nomenclature_id: this.env.pos.config.barcode_nomenclature_id });
-            this.env.barcode_reader.set_barcode_parser(barcode_parser);
-            return barcode_parser.is_loaded();
-        }
-
-        connect_to_proxy() {
-            return new Promise(function (resolve, reject) {
-                this.env.barcode_reader.disconnect_from_proxy();
-                this.state.loadingSkipButtonIsShown = true;
-                this.env.proxy.autoconnect({
-                    force_ip: this.env.pos.config.proxy_ip || undefined,
-                    progress: function(prog){},
-                }).then(
-                    function () {
-                        if (this.env.pos.config.iface_scan_via_proxy) {
-                            this.env.barcode_reader.connect_to_proxy();
-                        }
-                        resolve();
-                    },
-                    function (statusText, url) {
-                        // this should reject so that it can be captured when we wait for pos.ready
-                        // in the chrome component.
-                        // then, if it got really rejected, we can show the error.
-                        if (statusText == 'error' && window.location.protocol == 'https:') {
-                            reject({
-                                title: this.env._t('HTTPS connection to IoT Box failed'),
-                                body: _.str.sprintf(
-                                    this.env._t('Make sure you are using IoT Box v18.12 or higher. Navigate to %s to accept the certificate of your IoT Box.'),
-                                    url
-                                ),
-                                popup: 'alert',
-                            });
-                        } else {
-                            resolve();
-                        }
-                    }
-                );
-            });
-        }
-
-        openCashControl() {
-            if (this.shouldShowCashControl()) {
-                this.showPopup('CashOpeningPopup', { notEscapable: true });
-            }
-        }
-
-        shouldShowCashControl() {
-            return this.env.pos.config.cash_control && this.env.pos.pos_session.state == 'opening_control';
-        }
-
-        // EVENT HANDLERS //
-
-        _showStartScreen() {
-            const { name, props } = this.startScreen;
-            this.showScreen(name, props);
-        }
-        _getSavedScreen(order) {
-            return order.get_screen_data();
-        }
-        __showTempScreen(event) {
-            const { name, props, resolve } = event.detail;
-            this.tempScreen.isShown = true;
-            this.tempScreen.name = name;
-            this.tempScreen.component = this.constructor.components[name];
-            this.tempScreenProps = Object.assign({}, props, { resolve });
-        }
-        __closeTempScreen() {
-            this.tempScreen.isShown = false;
-        }
-        __showScreen({ detail: { name, props = {} } }) {
-            const component = this.constructor.components[name];
-            // 1. Set the information of the screen to display.
-            this.mainScreen.name = name;
-            this.mainScreen.component = component;
-            this.mainScreenProps = props;
-
-            // 2. Save the screen to the order.
-            //  - This screen is shown when the order is selected.
-            if (!(component.prototype instanceof IndependentToOrderScreen) && name !== "ReprintReceiptScreen") {
-                this._setScreenData(name, props);
-            }
-        }
-        /**
-         * Set the latest screen to the current order. This is done so that
-         * when the order is selected again, the ui returns to the latest screen
-         * saved in the order.
-         *
-         * @param {string} name Screen name
-         * @param {Object} props props for the Screen component
-         */
-        _setScreenData(name, props) {
-            const order = this.env.pos.get_order();
-            if (order) {
-                order.set_screen_data({ name, props });
-            }
-        }
-        async _closePos() {
-            // If pos is not properly loaded, we just go back to /web without
-            // doing anything in the order data.
-            if (!this.env.pos || this.env.pos.db.get_orders().length === 0) {
-                window.location = '/web#action=point_of_sale.action_client_pos_menu';
-            }
-
-            if (this.env.pos.db.get_orders().length) {
-                // If there are orders in the db left unsynced, we try to sync.
-                // If sync successful, close without asking.
-                // Otherwise, ask again saying that some orders are not yet synced.
-                try {
-                    await this.env.pos.push_orders();
-                    window.location = '/web#action=point_of_sale.action_client_pos_menu';
-                } catch (error) {
-                    console.warn(error);
-                    const reason = this.env.pos.failed
-                        ? this.env._t(
-                              'Some orders could not be submitted to ' +
-                                  'the server due to configuration errors. ' +
-                                  'You can exit the Point of Sale, but do ' +
-                                  'not close the session before the issue ' +
-                                  'has been resolved.'
-                          )
-                        : this.env._t(
-                              'Some orders could not be submitted to ' +
-                                  'the server due to internet connection issues. ' +
-                                  'You can exit the Point of Sale, but do ' +
-                                  'not close the session before the issue ' +
-                                  'has been resolved.'
-                          );
-                    const { confirmed } = await this.showPopup('ConfirmPopup', {
-                        title: this.env._t('Offline Orders'),
-                        body: reason,
-                    });
-                    if (confirmed) {
-                        this.state.uiState = 'CLOSING';
-                        this.state.loadingSkipButtonIsShown = false;
-                        window.location = '/web#action=point_of_sale.action_client_pos_menu';
-                    }
-                }
-            }
-        }
-        _toggleDebugWidget() {
-            this.state.debugWidgetIsShown = !this.state.debugWidgetIsShown;
-        }
-        _toggleMobileSearchBar({ detail: isSearchBarEnabled }) {
-            if (isSearchBarEnabled !== null) {
-                this.state.mobileSearchBarIsShown = isSearchBarEnabled;
+    click_logo: function() {
+        if (this.pos.debug) {
+            this.widget.debug.show();
+        } else {
+            var self  = this;
+            var time  = (new Date()).getTime();
+            var delay = 500;
+            if (this.logo_click_time + 500 < time) {
+                this.logo_click_time  = time;
+                this.logo_click_count = 1;
             } else {
-                this.state.mobileSearchBarIsShown = !this.state.mobileSearchBarIsShown;
-            }
-        }
-        _onPlaySound({ detail: name }) {
-            let src;
-            if (name === 'error') {
-                src = "/point_of_sale/static/src/sounds/error.wav";
-            } else if (name === 'bell') {
-                src = "/point_of_sale/static/src/sounds/bell.wav";
-            }
-            this.state.sound.src = src;
-        }
-        _onSetSyncStatus({ detail: { status, pending }}) {
-            this.env.pos.synch.status = status;
-            this.env.pos.synch.pending = pending;
-        }
-        _onShowNotification({ detail: { message, duration } }) {
-            this.state.notification.isShown = true;
-            this.state.notification.message = message;
-            this.state.notification.duration = duration;
-        }
-        _onCloseNotification() {
-            this.state.notification.isShown = false;
-            this.state.notification.message = '';
-        }
-        /**
-         * Save `env.pos.toRefundLines` in localStorage on beforeunload - closing the
-         * browser, reloading or going to other page.
-         */
-        _onBeforeUnload() {
-            this.env.pos.db.save('TO_REFUND_LINES', this.env.pos.toRefundLines);
-        }
-
-        get isTicketScreenShown() {
-            return this.mainScreen.name === 'TicketScreen';
-        }
-
-        // MISC METHODS //
-
-        async _loadDemoData() {
-            const { confirmed } = await this.showPopup('ConfirmPopup', {
-                title: this.env._t('You do not have any products'),
-                body: this.env._t(
-                    'Would you like to load demo data?'
-                ),
-                confirmText: this.env._t('Yes'),
-                cancelText: this.env._t('No')
-            });
-            if (confirmed) {
-                await this.rpc({
-                    'route': '/pos/load_onboarding_data',
-                });
-                const result = await this.rpc({
-                    method: 'get_onboarding_data',
-                    model: 'pos.session',
-                    args: [[odoo.pos_session_id]]
-                });
-                this.env.pos.db.add_categories(result['categories']);
-                this.env.pos._loadProductProduct(result['products']);
-            }
-        }
-
-        _preloadImages() {
-            for (let product of this.env.pos.db.get_product_by_category(0)) {
-                const image = new Image();
-                image.src = `/web/image?model=product.product&field=image_128&id=${product.id}&write_date=${product.write_date}&unique=1`;
-            }
-            for (let category of Object.values(this.env.pos.db.category_by_id)) {
-                if (category.id == 0) continue;
-                const image = new Image();
-                image.src = `/web/image?model=pos.category&field=image_128&id=${category.id}&write_date=${category.write_date}&unique=1`;
-            }
-            const staticImages = ['backspace.png', 'bc-arrow-big.png'];
-            for (let imageName of staticImages) {
-                const image = new Image();
-                image.src = `/point_of_sale/static/src/img/${imageName}`;
-            }
-        }
-
-        _buildChrome() {
-            if ($.browser.chrome) {
-                var chrome_version = $.browser.version.split('.')[0];
-                if (parseInt(chrome_version, 10) >= 50) {
-                    loadCSS('/point_of_sale/static/src/css/chrome50.css');
+                this.logo_click_time  = time;
+                this.logo_click_count += 1;
+                if (this.logo_click_count >= 6) {
+                    this.logo_click_count = 0;
+                    this.gui.sudo().then(function(){
+                        self.widget.debug.show();
+                    });
                 }
             }
+        }
+    },
 
-            if (this.env.pos.config.iface_big_scrollbars) {
-                this.state.hasBigScrollBars = true;
+        _scrollable: function(element, scrolling_down){
+            var $element = $(element);
+            var scrollable = true;
+
+            if (! scrolling_down && $element.scrollTop() <= 0) {
+                scrollable = false;
+            } else if (scrolling_down && $element.scrollTop() + $element.height() >= element.scrollHeight) {
+                scrollable = false;
             }
 
-            this._disableBackspaceBack();
-        }
-        // prevent backspace from performing a 'back' navigation
-        _disableBackspaceBack() {
-            $(document).on('keydown', function (e) {
-                if (e.which === 8 && !$(e.target).is('input, textarea')) {
-                    e.preventDefault();
-                }
-            });
-        }
-        _closeOtherTabs() {
-            localStorage['message'] = '';
-            localStorage['message'] = JSON.stringify({
-                message: 'close_tabs',
-                session: this.env.pos.pos_session.id,
+            return scrollable;
+        },
+
+    disable_rubberbanding: function(){
+            var self = this;
+
+            document.body.addEventListener('touchstart', function(event){
+                self.previous_touch_y_coordinate = event.touches[0].clientY;
             });
 
-            window.addEventListener(
-                'storage',
-                (event) => {
-                    if (event.key === 'message' && event.newValue) {
-                        const msg = JSON.parse(event.newValue);
-                        if (
-                            msg.message === 'close_tabs' &&
-                            msg.session == this.env.pos.pos_session.id
-                        ) {
-                            console.info(
-                                'POS / Session opened in another window. EXITING POS'
-                            );
-                            this._closePos();
-                        }
+        // prevent the pos body from being scrollable. 
+        document.body.addEventListener('touchmove',function(event){
+            var node = event.target;
+                var current_touch_y_coordinate = event.touches[0].clientY;
+                var scrolling_down;
+
+                if (current_touch_y_coordinate < self.previous_touch_y_coordinate) {
+                    scrolling_down = true;
+                } else {
+                    scrolling_down = false;
+                }
+
+            while(node){
+                if(node.classList && node.classList.contains('touch-scrollable') && self._scrollable(node, scrolling_down)){
+                    return;
+                }
+                node = node.parentNode;
+            }
+            event.preventDefault();
+        });
+    },
+
+    // prevent backspace from performing a 'back' navigation
+    disable_backpace_back: function() {
+       $(document).on("keydown", function (e) {
+           if (e.which === 8 && !$(e.target).is("input, textarea")) {
+               e.preventDefault();
+           }
+       });
+    },
+
+    loading_error: function(err){
+        var self = this;
+
+        var title = err.message;
+        var body  = err.stack;
+
+        if(err.message === 'XmlHttpRequestError '){
+            title = 'Network Failure (XmlHttpRequestError)';
+            body  = 'The Point of Sale could not be loaded due to a network problem.\n Please check your internet connection.';
+        }else if(err.message === 'OpenERP Server Error'){
+            title = err.data.message;
+            body  = err.data.debug;
+        }
+
+        if( typeof body !== 'string' ){
+            body = 'Traceback not available.';
+        }
+
+        var popup = $(QWeb.render('ErrorTracebackPopupWidget',{
+            widget: { options: {title: title , body: body }},
+        }));
+
+        popup.find('.button').click(function(){
+            self.gui.close();
+        });
+
+        popup.css({ zindex: 9001 });
+
+        popup.appendTo(this.$el);
+    },
+    loading_progress: function(fac){
+        this.$('.loader .loader-feedback').removeClass('oe_hidden');
+        this.$('.loader .progress').removeClass('oe_hidden').css({'width': ''+Math.floor(fac*100)+'%'});
+    },
+    loading_message: function(msg,progress){
+        this.$('.loader .loader-feedback').removeClass('oe_hidden');
+        this.$('.loader .message').text(msg);
+        if (typeof progress !== 'undefined') {
+            this.loading_progress(progress);
+        } else {
+            this.$('.loader .progress').addClass('oe_hidden');
+        }
+    },
+    loading_skip: function(callback){
+        if(callback){
+            this.$('.loader .loader-feedback').removeClass('oe_hidden');
+            this.$('.loader .button.skip').removeClass('oe_hidden');
+            this.$('.loader .button.skip').off('click');
+            this.$('.loader .button.skip').click(callback);
+        }else{
+            this.$('.loader .button.skip').addClass('oe_hidden');
+        }
+    },
+    loading_hide: function(){
+        var self = this;
+        this.$('.loader').animate({opacity:0},1500,'swing',function(){self.$('.loader').addClass('oe_hidden');});
+    },
+    loading_show: function(){
+        this.$('.loader').removeClass('oe_hidden').animate({opacity:1},150,'swing');
+    },
+    widgets: [
+        {
+            'name':   'order_selector',
+            'widget': OrderSelectorWidget,
+            'replace':  '.placeholder-OrderSelectorWidget',
+        },{
+            'name':   'sale_details',
+            'widget': SaleDetailsButton,
+            'append':  '.pos-rightheader',
+            'condition': function(){ return this.pos.config.use_proxy; },
+        },{
+            'name':   'proxy_status',
+            'widget': ProxyStatusWidget,
+            'append':  '.pos-rightheader',
+            'condition': function(){ return this.pos.config.use_proxy; },
+        },{
+            'name': 'screen_status',
+            'widget': ClientScreenWidget,
+            'append': '.pos-rightheader',
+            'condition': function(){ return this.pos.config.use_proxy; },
+        },{
+            'name':   'notification',
+            'widget': SynchNotificationWidget,
+            'append':  '.pos-rightheader',
+        },{
+            'name':   'close_button',
+            'widget': HeaderButtonWidget,
+            'append':  '.pos-rightheader',
+            'args': {
+                label: _lt('Close'),
+                action: function(){ 
+                    var self = this;
+                    if (!this.confirmed) {
+                        this.$el.addClass('confirm');
+                        this.$el.text(_t('Confirm'));
+                        this.confirmed = setTimeout(function(){
+                            self.$el.removeClass('confirm');
+                            self.$el.text(_t('Close'));
+                            self.confirmed = false;
+                        },2000);
+                    } else {
+                        clearTimeout(this.confirmed);
+                        this.gui.close();
                     }
                 },
-                false
-            );
-        }
-        showCashMoveButton() {
-            return this.env.pos && this.env.pos.config && this.env.pos.config.cash_control;
-        }
-
-        // UNEXPECTED ERROR HANDLING //
-
-        /**
-         * This method is used to handle unexpected errors. It is registered to
-         * the `error_handlers` service when this component is properly mounted.
-         * See `onMounted` hook of the `ChromeAdapter` component.
-         * @param {*} env
-         * @param {UncaughtClientError | UncaughtPromiseError} error
-         * @param {*} originalError
-         * @returns {boolean}
-         */
-        errorHandler(env, error, originalError) {
-            if (!env.pos) return false;
-            const errorToHandle = identifyError(originalError);
-            // Assume that the unhandled falsey rejections can be ignored.
-            if (errorToHandle) {
-                this._errorHandler(error, errorToHandle);
             }
-            return true;
-        }
+        },{
+            'name':   'username',
+            'widget': UsernameWidget,
+            'replace':  '.placeholder-UsernameWidget',
+        },{
+            'name':  'keyboard',
+            'widget': keyboard.OnscreenKeyboardWidget,
+            'replace': '.placeholder-OnscreenKeyboardWidget',
+        },{
+            'name':  'debug',
+            'widget': DebugWidget,
+            'append': '.pos-content',
+        },
+    ],
 
-        _errorHandler(error, errorToHandle) {
-            if (errorToHandle instanceof RPCError) {
-                const { message, data } = errorToHandle;
-                if (odooExceptionTitleMap.has(errorToHandle.exceptionName)) {
-                    const title = odooExceptionTitleMap.get(errorToHandle.exceptionName).toString();
-                    this.showPopup('ErrorPopup', { title, body: data.message });
+    // This method instantiates all the screens, widgets, etc. 
+    build_widgets: function() {
+        var classe;
+
+        for (var i = 0; i < this.widgets.length; i++) {
+            var def = this.widgets[i];
+            if ( !def.condition || def.condition.call(this) ) {
+                var args = typeof def.args === 'function' ? def.args(this) : def.args;
+                var w = new def.widget(this, args || {});
+                if (def.replace) {
+                    w.replace(this.$(def.replace));
+                } else if (def.append) {
+                    w.appendTo(this.$(def.append));
+                } else if (def.prepend) {
+                    w.prependTo(this.$(def.prepend));
                 } else {
-                    this.showPopup('ErrorTracebackPopup', {
-                        title: message,
-                        body: data.message + '\n' + data.debug + '\n',
-                    });
+                    w.appendTo(this.$el);
                 }
-            } else if (errorToHandle instanceof ConnectionLostError) {
-                this.showPopup('OfflineErrorPopup', {
-                    title: this.env._t('Connection is lost'),
-                    body: this.env._t('Check the internet connection then try again.'),
-                });
-            } else if (errorToHandle instanceof ConnectionAbortedError) {
-                this.showPopup('OfflineErrorPopup', {
-                    title: this.env._t('Connection is aborted'),
-                    body: this.env._t('Check the internet connection then try again.'),
-                });
-            } else if (errorToHandle instanceof Error) {
-                // If `errorToHandle` is a normal Error (such as TypeError),
-                // the annotated traceback can be found from `error`.
-                this.showPopup('ErrorTracebackPopup', {
-                    // Hopefully the message is translated.
-                    title: `${errorToHandle.name}: ${errorToHandle.message}`,
-                    body: error.traceback,
-                });
-            } else {
-                // Hey developer. It's your fault that the error reach here.
-                // Please, throw an Error object in order to get stack trace of the error.
-                // At least we can find the file that throws the error when you look
-                // at the console.
-                this.showPopup('ErrorPopup', {
-                    title: this.env._t('Unknown Error'),
-                    body: this.env._t('Unable to show information about this error.'),
-                });
-                console.error('Unknown error. Unable to show information about this error.', errorToHandle);
+                this.widget[def.name] = w;
             }
         }
+
+        this.screens = {};
+        for (i = 0; i < this.gui.screen_classes.length; i++) {
+            classe = this.gui.screen_classes[i];
+            if (!classe.condition || classe.condition.call(this)) {
+                var screen = new classe.widget(this,{});
+                    screen.appendTo(this.$('.screens'));
+                this.screens[classe.name] = screen;
+                this.gui.add_screen(classe.name, screen);
+            }
+        }
+
+        this.popups = {};
+        for (i = 0; i < this.gui.popup_classes.length; i++) {
+            classe = this.gui.popup_classes[i];
+            if (!classe.condition || classe.condition.call(this)) {
+                var popup = new classe.widget(this,{});
+                    popup.appendTo(this.$('.popups'));
+                this.popups[classe.name] = popup;
+                this.gui.add_popup(classe.name, popup);
+            }
+        }
+
+        this.gui.set_startup_screen('products');
+        this.gui.set_default_screen('products');
+
+    },
+
+    destroy: function() {
+        this.pos.destroy();
+        this._super();
     }
-    Chrome.template = 'Chrome';
-
-    Registries.Component.add(Chrome);
-
-    return Chrome;
 });
+
+return {
+    Chrome: Chrome,
+    DebugWidget: DebugWidget,
+    HeaderButtonWidget: HeaderButtonWidget,
+    OrderSelectorWidget: OrderSelectorWidget,
+    ProxyStatusWidget: ProxyStatusWidget,
+    SaleDetailsButton: SaleDetailsButton,
+    ClientScreenWidget: ClientScreenWidget,
+    StatusWidget: StatusWidget,
+    SynchNotificationWidget: SynchNotificationWidget,
+    UsernameWidget: UsernameWidget,
+};
+});
+

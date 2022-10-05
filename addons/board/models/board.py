@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 # Part of Odoo. See LICENSE file for full copyright and licensing details.
 
-from odoo import api, fields, models
+from odoo import api, models
 
 
 class Board(models.AbstractModel):
@@ -9,14 +9,8 @@ class Board(models.AbstractModel):
     _description = "Board"
     _auto = False
 
-    # This is necessary for when the web client opens a dashboard. Technically
-    # speaking, the dashboard is a form view, and opening it makes the client
-    # initialize a dummy record by invoking onchange(). And the latter requires
-    # an 'id' field to work properly...
-    id = fields.Id()
-
-    @api.model_create_multi
-    def create(self, vals_list):
+    @api.model
+    def create(self, vals):
         return self
 
     @api.model
@@ -47,11 +41,13 @@ class Board(models.AbstractModel):
                 if child.tag == 'action' and child.get('invisible'):
                     node.remove(child)
                 else:
-                    remove_unauthorized_children(child)
+                    child = remove_unauthorized_children(child)
             return node
 
-        archnode = etree.fromstring(arch)
-        # add the js_class 'board' on the fly to force the webclient to
-        # instantiate a BoardView instead of FormView
-        archnode.set('js_class', 'board')
-        return etree.tostring(remove_unauthorized_children(archnode), pretty_print=True, encoding='unicode')
+        def encode(s):
+            if isinstance(s, unicode):
+                return s.encode('utf8')
+            return s
+
+        archnode = etree.fromstring(encode(arch))
+        return etree.tostring(remove_unauthorized_children(archnode), pretty_print=True)

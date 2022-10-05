@@ -18,6 +18,7 @@ KanbanRecord.include({
                 type: 'ir.actions.act_window',
                 res_model: 'gamification.badge',
                 view_mode: 'form',
+                view_type: 'form,kanban,tree',
                 views: [[false, 'form']],
                 res_id: this.record.badge_id.raw_value
             };

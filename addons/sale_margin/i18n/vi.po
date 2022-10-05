@@ -1,57 +1,65 @@
+# #-#-#-#-#  vi.po (Odoo 9.0)  #-#-#-#-#
 # Translation of Odoo Server.
 # This file contains the translation of the following modules:
-# 	* sale_margin
-# 
+# * sale_margin
+#
 # Translators:
-# Martin Trigaux, 2020
-# thanhnguyen.icsc <thanhnguyen.icsc@gmail.com>, 2020
-# Duy BQ <duybq86@gmail.com>, 2020
-# Trinh Tran Thi Phuong <trinhttp@trobz.com>, 2020
-# Trần Hà <tranthuha13590@gmail.com>, 2021
-# 
+# Linh NGuyen <tanlinh2000@yahoo.com>, 2016
+# #-#-#-#-#  vi.po (Odoo 9.0)  #-#-#-#-#
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * sale_margin
+#
+# Translators:
+#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: Odoo Server saas~14.4\n"
+"Project-Id-Version: Odoo 9.0\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2021-07-12 07:50+0000\n"
-"PO-Revision-Date: 2016-08-05 13:09+0000\n"
-"Last-Translator: Trần Hà <tranthuha13590@gmail.com>, 2021\n"
-"Language-Team: Vietnamese (https://www.transifex.com/odoo/teams/41243/vi/)\n"
+"POT-Creation-Date: 2016-08-18 14:07+0000\n"
+"PO-Revision-Date: 2015-09-08 08:02+0000\n"
+"Last-Translator: Martin Trigaux\n"
+"Language-Team: Vietnamese (http://www.transifex.com/odoo/odoo-9/language/"
+"vi/)\n"
+"Language: vi\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: \n"
-"Language: vi\n"
+"#-#-#-#-#  vi.po (Odoo 9.0)  #-#-#-#-#\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+"#-#-#-#-#  vi.po (Odoo 9.0)  #-#-#-#-#\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 
 #. module: sale_margin
-#: model:ir.model.fields,field_description:sale_margin.field_sale_order_line__purchase_price
+#: model:ir.model.fields,field_description:sale_margin.field_sale_order_line_purchase_price
 msgid "Cost"
-msgstr "Giá vốn"
+msgstr "Chi phí"
 
 #. module: sale_margin
-#: model:ir.model.fields,field_description:sale_margin.field_sale_order__margin
-#: model:ir.model.fields,field_description:sale_margin.field_sale_order_line__margin
-#: model:ir.model.fields,field_description:sale_margin.field_sale_report__margin
+#: model:ir.model.fields,help:sale_margin.field_sale_order_margin
+msgid ""
+"It gives profitability by calculating the difference between the Unit Price "
+"and the cost."
+msgstr "Tính lợi nhuận bằng cách so sánh sự khác giữ đơn giá và chi phí"
+
+#. module: sale_margin
+#: model:ir.model.fields,field_description:sale_margin.field_sale_order_line_margin
+#: model:ir.model.fields,field_description:sale_margin.field_sale_order_margin
+#: model:ir.model.fields,field_description:sale_margin.field_sale_report_margin
 msgid "Margin"
 msgstr "Lợi nhuận biên"
 
 #. module: sale_margin
-#: model:ir.model.fields,field_description:sale_margin.field_sale_order__margin_percent
-#: model:ir.model.fields,field_description:sale_margin.field_sale_order_line__margin_percent
-msgid "Margin (%)"
-msgstr "Margin (%)"
-
-#. module: sale_margin
-#: model:ir.model,name:sale_margin.model_sale_report
-msgid "Sales Analysis Report"
-msgstr "Báo cáo phân tích hoạt động kinh doanh"
-
-#. module: sale_margin
 #: model:ir.model,name:sale_margin.model_sale_order
 msgid "Sales Order"
-msgstr "Đơn bán hàng"
+msgstr "Đơn hàng"
 
 #. module: sale_margin
 #: model:ir.model,name:sale_margin.model_sale_order_line
 msgid "Sales Order Line"
-msgstr "Chi tiết đơn hàng"
+msgstr "Chi tiết Đơn hàng Bán"
+
+#. module: sale_margin
+#: model:ir.model,name:sale_margin.model_sale_report
+msgid "Sales Orders Statistics"
+msgstr "Thống kê đơn hàng"
